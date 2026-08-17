@@ -6,27 +6,28 @@
  * changing the mark. The PNG is written directly rather than pulling in an image
  * library for three small files.
  *
- * The mark matches public/favicon.svg: a gold crescent and a spark, on the same
- * night sky the app itself is painted on.
+ * The mark matches public/favicon.svg: a red crescent and a spark, on the same
+ * cream paper the app itself is printed on.
  */
 import { deflateSync } from 'node:zlib'
 import { writeFileSync } from 'node:fs'
 
 const OUT = new URL('../public/', import.meta.url)
 
-/** The night, top to bottom. */
+/** The paper, top to bottom — the same cream the app is printed on. */
 const BACKDROP = [
-  { stop: 0, rgb: [27, 19, 56] },
-  { stop: 1, rgb: [18, 12, 34] },
+  { stop: 0, rgb: [250, 244, 230] },
+  { stop: 1, rgb: [243, 235, 216] },
 ]
 
-/** The aurorae, matching the two washes in index.css. */
+/** A faint warmth in two corners, so the square is not flat. */
 const GLOWS = [
-  { x: 0.18, y: 0.08, r: 0.7, rgb: [92, 56, 150] },
-  { x: 0.86, y: 0.92, r: 0.62, rgb: [120, 62, 46] },
+  { x: 0.18, y: 0.08, r: 0.7, rgb: [255, 250, 238] },
+  { x: 0.86, y: 0.92, r: 0.62, rgb: [237, 226, 202] },
 ]
 
-const GOLD = [227, 184, 98]
+/** The mark itself: the deep red the app uses for its accents. */
+const MARK = [156, 43, 43]
 
 /** Crescent: one disc with a second, offset disc bitten out of it. */
 const MOON = { x: 0.47, y: 0.5, r: 0.29 }
@@ -114,7 +115,7 @@ function render(size) {
       const crescent = Math.max(circle(u, v, MOON), -circle(u, v, BITE))
       const spark = Math.min(roundRect(u, v, SPARK_H), roundRect(u, v, SPARK_V))
       const cover = clamp01(-Math.min(crescent, spark) / edge)
-      if (cover > 0) rgb = rgb.map((c, i) => lerp(c, GOLD[i], cover))
+      if (cover > 0) rgb = rgb.map((c, i) => lerp(c, MARK[i], cover))
 
       pixels[y * size + x] = rgb.map((c) => Math.round(clamp01(c / 255) * 255))
     }

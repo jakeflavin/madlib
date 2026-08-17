@@ -6,9 +6,9 @@ export const wanderingTeahouse: Tale = {
   kicker: 'A tale of spirits and second helpings',
   blurb:
     'It appears at the crossroads for one night a year. The rule is simple: everyone gets fed, and nobody asks what anybody is.',
-  sigil: '🏮',
   minutes: 7,
-  hues: ['#d4614a', '#4a2c5e'],
+  tags: ['spirits', 'magic', 'friendship'],
+  accent: '#8a3c6b',
   slots: [
     { id: 'hero', kind: 'name', label: "The new cook's name" },
     { id: 'village', kind: 'place', label: 'The nearest village' },

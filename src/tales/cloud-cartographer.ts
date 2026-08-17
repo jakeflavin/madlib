@@ -6,9 +6,9 @@ export const cloudCartographer: Tale = {
   kicker: 'A tale of sky islands and bad maps',
   blurb:
     'The sky islands are drifting apart, the charts are all wrong, and the only person who noticed is nineteen and nobody important.',
-  sigil: '🗺️',
   minutes: 6,
-  hues: ['#e0a84c', '#3a6ea8'],
+  tags: ['sky', 'adventure', 'friendship'],
+  accent: '#a8791f',
   slots: [
     { id: 'hero', kind: 'name', label: "The mapmaker's name" },
     { id: 'island', kind: 'place', label: 'The home island' },

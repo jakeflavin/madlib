@@ -1,25 +1,26 @@
 import { useEffect, useState } from 'react'
-import { Forge } from './components/Forge'
 import { Library } from './components/Library'
-import { Motes } from './components/Motes'
 import { Reader } from './components/Reader'
 import { Shelf } from './components/Shelf'
+import { Writer } from './components/Writer'
+import { carryWords } from './lib/carry'
 import { loadDrafts, loadLibrary, saveDraft, saveLibrary } from './lib/library'
 import { fromShareHash } from './lib/share'
 import { TALES, findTale } from './tales'
-import type { SavedTale, Tale } from './types'
+import type { SavedTale, Tag, Tale } from './types'
 
-type View = 'shelf' | 'forge' | 'reader' | 'library'
+type View = 'contents' | 'writer' | 'reader' | 'library'
 
 export default function App() {
-  const [view, setView] = useState<View>('shelf')
+  const [view, setView] = useState<View>('contents')
   const [tale, setTale] = useState<Tale | null>(null)
   const [words, setWords] = useState<Record<string, string>>({})
+  const [tag, setTag] = useState<Tag | null>(null)
   const [drafts, setDrafts] = useState(loadDrafts)
   const [library, setLibrary] = useState(loadLibrary)
   const [savedId, setSavedId] = useState<string | null>(null)
 
-  // A shared link opens straight into the reader with somebody else's words.
+  // A shared link opens straight into the story with somebody else's words.
   useEffect(() => {
     const shared = fromShareHash(window.location.hash)
     if (!shared) return
@@ -33,28 +34,32 @@ export default function App() {
     setView('reader')
   }, [])
 
+  const remember = (taleId: string, next: Record<string, string>) => {
+    setWords(next)
+    saveDraft(taleId, next)
+    setDrafts((all) => ({ ...all, [taleId]: next }))
+  }
+
   const openTale = (next: Tale) => {
     setTale(next)
     setWords(drafts[next.id] ?? {})
     setSavedId(null)
-    setView('forge')
+    setView('writer')
+  }
+
+  /** Switching stories mid-fill keeps the answers that fit the new tale. */
+  const switchTale = (next: Tale) => {
+    if (!tale) return openTale(next)
+
+    const carried = { ...(drafts[next.id] ?? {}), ...carryWords(tale, next, words) }
+    setTale(next)
+    setSavedId(null)
+    remember(next.id, carried)
   }
 
   const writeWord = (slotId: string, value: string) => {
     if (!tale) return
-    setWords((current) => {
-      const next = { ...current, [slotId]: value }
-      saveDraft(tale.id, next)
-      setDrafts((all) => ({ ...all, [tale.id]: next }))
-      return next
-    })
-  }
-
-  const fillAll = (next: Record<string, string>) => {
-    if (!tale) return
-    setWords(next)
-    saveDraft(tale.id, next)
-    setDrafts((all) => ({ ...all, [tale.id]: next }))
+    remember(tale.id, { ...words, [slotId]: value })
   }
 
   const commitLibrary = (next: SavedTale[]) => {
@@ -82,33 +87,38 @@ export default function App() {
     setSavedId(entry.id)
   }
 
-  const goShelf = () => {
+  const goContents = () => {
     if (window.location.hash) history.replaceState(null, '', window.location.pathname)
-    setView('shelf')
+    setView('contents')
   }
 
   return (
     <div className="app">
-      <Motes />
-
-      {view === 'shelf' && (
+      {view === 'contents' && (
         <Shelf
           tales={TALES}
           drafts={drafts}
           library={library}
+          tag={tag}
+          onTag={setTag}
           onOpen={openTale}
           onOpenLibrary={() => setView('library')}
         />
       )}
 
-      {view === 'forge' && tale && (
-        <Forge
+      {view === 'writer' && tale && (
+        <Writer
           tale={tale}
+          tales={TALES}
           words={words}
           onChange={writeWord}
-          onFillAll={fillAll}
-          onFinish={() => setView('reader')}
-          onBack={goShelf}
+          onReplaceAll={(next) => remember(tale.id, next)}
+          onSwitchTale={switchTale}
+          onRead={() => {
+            window.scrollTo({ top: 0 })
+            setView('reader')
+          }}
+          onBack={goContents}
         />
       )}
 
@@ -117,9 +127,12 @@ export default function App() {
           tale={tale}
           words={words}
           onEditWord={writeWord}
+          onEditWords={() => {
+            window.scrollTo({ top: 0 })
+            setView('writer')
+          }}
           onSave={saveToLibrary}
           saved={savedId !== null}
-          onBack={goShelf}
         />
       )}
 
@@ -135,7 +148,7 @@ export default function App() {
             setView('reader')
           }}
           onDelete={(id) => commitLibrary(library.filter((entry) => entry.id !== id))}
-          onBack={goShelf}
+          onBack={goContents}
         />
       )}
     </div>

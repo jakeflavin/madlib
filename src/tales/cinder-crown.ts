@@ -6,9 +6,9 @@ export const cinderCrown: Tale = {
   kicker: 'A princess tale with soot on its hem',
   blurb:
     'A scullery maid, a crown that chooses badly, and a ball that everyone will be talking about for the wrong reasons.',
-  sigil: '👑',
   minutes: 6,
-  hues: ['#c05a8a', '#3b2a6b'],
+  tags: ['royalty', 'magic', 'friendship'],
+  accent: '#9c2b4d',
   slots: [
     { id: 'hero', kind: 'name', label: "The maid's name" },
     { id: 'kingdom', kind: 'place', label: 'The kingdom' },

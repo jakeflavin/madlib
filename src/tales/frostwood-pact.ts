@@ -6,9 +6,9 @@ export const frostwoodPact: Tale = {
   kicker: 'A tale of winter and sisters',
   blurb:
     'The forest has been asleep for nine years. Two sisters go in to wake it, and only one of them wants to.',
-  sigil: '❄️',
   minutes: 6,
-  hues: ['#6fa8c9', '#2a2f6b'],
+  tags: ['winter', 'family', 'magic'],
+  accent: '#3d6b8c',
   slots: [
     { id: 'elder', kind: 'name', label: 'The older sister' },
     { id: 'younger', kind: 'name', label: 'The younger sister' },

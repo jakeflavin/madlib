@@ -1,4 +1,4 @@
-/** The kind of word a blank asks for. Drives the label, the icon and the suggestion bank. */
+/** The kind of word a blank asks for. Drives the label, the suggestion bank and the die. */
 export type SlotKind =
   | 'name'
   | 'noun'
@@ -19,6 +19,19 @@ export type SlotKind =
   | 'sound'
   | 'magic-word'
 
+/** What a tale is about. Readers filter the contents page by these. */
+export type Tag =
+  | 'dragons'
+  | 'royalty'
+  | 'magic'
+  | 'sea'
+  | 'winter'
+  | 'sky'
+  | 'spirits'
+  | 'friendship'
+  | 'family'
+  | 'adventure'
+
 /** One blank in a tale. The same slot may appear many times in the prose. */
 export interface Slot {
   id: string
@@ -38,15 +51,14 @@ export interface Chapter {
 export interface Tale {
   id: string
   title: string
-  /** The small line above the title on the card, e.g. "A dragon's tale". */
+  /** The small line above the title, e.g. "A dragon's tale". */
   kicker: string
   blurb: string
-  /** Single emoji used as the tale's sigil on its card and cover. */
-  sigil: string
-  /** Rough reading time in minutes, shown on the card. */
+  tags: Tag[]
+  /** Rough reading time in minutes, shown on the contents page. */
   minutes: number
-  /** Two colours that tint this tale's cover and reading page. */
-  hues: [string, string]
+  /** The tale's accent — used for its rule, numeral and highlighted words. */
+  accent: string
   slots: Slot[]
   chapters: Chapter[]
 }

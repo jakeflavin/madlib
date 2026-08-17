@@ -6,9 +6,9 @@ export const lanternBelow: Tale = {
   kicker: 'A tale of tides and trades',
   blurb:
     'Down where the light gives up, a drowned city keeps its bargains. One diver goes down to break one.',
-  sigil: '🐚',
   minutes: 6,
-  hues: ['#2e8fa8', '#123a63'],
+  tags: ['sea', 'family', 'adventure'],
+  accent: '#1f7a86',
   slots: [
     { id: 'hero', kind: 'name', label: "The diver's name" },
     { id: 'port', kind: 'place', label: 'The harbour town' },

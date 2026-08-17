@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#1b1338"/>
-      <stop offset="1" stop-color="#120c22"/>
+      <stop offset="0" stop-color="#faf4e6"/>
+      <stop offset="1" stop-color="#f3ebd8"/>
     </linearGradient>
     <radialGradient id="aurora" cx="18%" cy="8%" r="70%">
-      <stop offset="0" stop-color="#5c3896"/>
-      <stop offset="1" stop-color="#5c3896" stop-opacity="0"/>
+      <stop offset="0" stop-color="#fffaee"/>
+      <stop offset="1" stop-color="#fffaee" stop-opacity="0"/>
     </radialGradient>
     <radialGradient id="ember" cx="86%" cy="92%" r="62%">
-      <stop offset="0" stop-color="#783e2e"/>
-      <stop offset="1" stop-color="#783e2e" stop-opacity="0"/>
+      <stop offset="0" stop-color="#ede2ca"/>
+      <stop offset="1" stop-color="#ede2ca" stop-opacity="0"/>
     </radialGradient>
     <!-- The crescent: a disc with a second, offset disc bitten out of it.
          Geometry matches scripts/make-icons.mjs so tab and home screen agree. -->
@@ -23,7 +23,7 @@
   <rect width="64" height="64" fill="url(#sky)"/>
   <rect width="64" height="64" fill="url(#aurora)"/>
   <rect width="64" height="64" fill="url(#ember)"/>
-  <rect width="64" height="64" fill="#e3b862" mask="url(#bite)"/>
-  <rect x="39.68" y="45.92" width="14.72" height="2.176" rx="1.088" fill="#e3b862"/>
-  <rect x="45.952" y="39.68" width="2.176" height="14.72" rx="1.088" fill="#e3b862"/>
+  <rect width="64" height="64" fill="#9c2b2b" mask="url(#bite)"/>
+  <rect x="39.68" y="45.92" width="14.72" height="2.176" rx="1.088" fill="#9c2b2b"/>
+  <rect x="45.952" y="39.68" width="2.176" height="14.72" rx="1.088" fill="#9c2b2b"/>
 </svg>

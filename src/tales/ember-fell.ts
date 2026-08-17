@@ -6,9 +6,9 @@ export const emberFell: Tale = {
   kicker: 'A tale of wings and stubbornness',
   blurb:
     'Every village needs a dragon slayer. Ember Fell got an apprentice with a bucket, a bad plan and a very large problem in the ravine.',
-  sigil: '🐉',
   minutes: 6,
-  hues: ['#d9772f', '#7b2d4e'],
+  tags: ['dragons', 'friendship', 'adventure'],
+  accent: '#b6552a',
   slots: [
     { id: 'hero', kind: 'name', label: "Your hero's name" },
     {

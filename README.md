@@ -12,12 +12,15 @@ thing aloud.
 - **Six long tales**, five chapters apiece, written for this app rather than
   padded out of a paragraph. Every tale defines its own prompts, so the blanks
   fit the story instead of a generic noun/verb/adjective list.
-- **Two ways to fill them in** — one prompt at a time with a hint, tappable
-  example words and a die to roll; or every blank at once in a single list.
-- **Roll the rest** fills whatever's left from a hand-written suggestion bank.
-- **A storybook reader** — parchment pages, illuminated drop caps, and every word
-  you supplied lit in gold. Tap any gold word mid-story to change your mind
-  about it; it updates everywhere it appears.
+- **Browse by what you fancy** — the contents page filters on tags like dragons,
+  winter, sea or spirits.
+- **Fill in every blank on one page**, each with its own hint and a die to roll a
+  suggestion. **Switch stories from the same page** and your answers come with
+  you, matched across by kind.
+- **Roll the empty ones** fills whatever's left from a hand-written word bank.
+- **Then read it** as one continuous story — no pagination — set like a printed
+  book, with every word you supplied picked out in the tale's own colour. Tap one
+  mid-story to change your mind; it updates everywhere it appears.
 - **Read aloud** via the browser's own voice, **print**, **copy**, and a **share
   link** that carries the whole finished tale in the URL — no server involved.
 - **A library** of the tales you've bound, plus drafts that survive a refresh.
