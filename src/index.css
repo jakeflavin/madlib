@@ -1,0 +1,936 @@
+/* ---------------------------------------------------------------------------
+   Fable — an illuminated storybook that happens to be a mad-lib.
+   The whole app lives at night: deep indigo, drifting embers, gold foil. The
+   only place that ever goes light is the page you actually read from, which is
+   parchment, because that is what a story is supposed to look like.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --night: #120c22;
+  --night-2: #1b1338;
+  --night-3: #251a46;
+  --parchment: #f4e8cd;
+  --parchment-edge: #e3d0a6;
+  --ink: #33261a;
+  --ink-soft: #6b5947;
+  --gold: #e3b862;
+  --gold-deep: #a8792c;
+  --moon: #efe7ff;
+  --moon-dim: #b6abd4;
+
+  --display: 'Cinzel Decorative', Georgia, serif;
+  --story: 'EB Garamond', Georgia, 'Times New Roman', serif;
+  --ui: 'Alegreya Sans', system-ui, -apple-system, sans-serif;
+
+  --page-radius: 6px;
+  --shadow-deep: 0 24px 60px rgb(5 2 15 / 55%);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: var(--ui);
+  color: var(--moon);
+  background-color: var(--night);
+  /* Two soft aurorae and a low horizon glow — the sky the tales are told under. */
+  background-image:
+    radial-gradient(ellipse 70% 45% at 15% 0%, rgb(120 70 190 / 42%), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 88% 8%, rgb(200 110 80 / 26%), transparent 70%),
+    radial-gradient(ellipse 120% 60% at 50% 108%, rgb(60 40 120 / 55%), transparent 70%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* A faint scatter of stars, drawn once and pinned behind everything. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(1.4px 1.4px at 12% 18%, rgb(255 255 255 / 65%), transparent),
+    radial-gradient(1.2px 1.2px at 68% 12%, rgb(255 240 210 / 55%), transparent),
+    radial-gradient(1.6px 1.6px at 82% 44%, rgb(255 255 255 / 45%), transparent),
+    radial-gradient(1.1px 1.1px at 34% 62%, rgb(220 230 255 / 55%), transparent),
+    radial-gradient(1.3px 1.3px at 8% 78%, rgb(255 255 255 / 40%), transparent),
+    radial-gradient(1.5px 1.5px at 52% 30%, rgb(255 245 220 / 50%), transparent),
+    radial-gradient(1.2px 1.2px at 92% 76%, rgb(255 255 255 / 45%), transparent),
+    radial-gradient(1.1px 1.1px at 24% 40%, rgb(255 255 255 / 35%), transparent);
+}
+
+.app {
+  position: relative;
+  z-index: 1;
+  min-height: 100dvh;
+  padding: max(28px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+    max(32px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+}
+
+/* --- drifting embers ----------------------------------------------------- */
+
+.motes {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.mote {
+  position: absolute;
+  bottom: -10px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px 1px rgb(227 184 98 / 60%);
+  animation-name: rise;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes rise {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(var(--drift), -105dvh, 0) scale(0.4);
+  }
+}
+
+/* --- shared type --------------------------------------------------------- */
+
+.eyebrow {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.85;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--display);
+  font-weight: 700;
+  margin: 0;
+}
+
+/* --- buttons ------------------------------------------------------------- */
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex: none;
+  border: 1px solid rgb(227 184 98 / 28%);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 4%);
+  color: var(--gold);
+  backdrop-filter: blur(6px);
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.icon-btn:hover:not(:disabled) {
+  background: rgb(227 184 98 / 16%);
+  border-color: rgb(227 184 98 / 55%);
+  transform: translateY(-1px);
+}
+
+.icon-btn:disabled {
+  opacity: 0.28;
+  cursor: default;
+}
+
+.icon-btn.small {
+  width: 34px;
+  height: 34px;
+}
+
+.icon-btn.ghost {
+  border-color: transparent;
+  background: none;
+  cursor: default;
+}
+
+.icon-btn.danger:hover {
+  background: rgb(220 90 90 / 18%);
+  border-color: rgb(220 90 90 / 50%);
+  color: #f0a3a3;
+}
+
+.gold-btn,
+.ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.gold-btn {
+  border: 1px solid var(--gold-deep);
+  background: linear-gradient(160deg, #f0cd85, var(--gold) 45%, var(--gold-deep));
+  color: #2a1c05;
+  box-shadow: 0 10px 26px rgb(168 121 44 / 35%);
+}
+
+.gold-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgb(168 121 44 / 45%);
+}
+
+.gold-btn:disabled {
+  background: rgb(255 255 255 / 8%);
+  border-color: rgb(255 255 255 / 14%);
+  color: var(--moon-dim);
+  box-shadow: none;
+  cursor: default;
+}
+
+.ghost-btn {
+  border: 1px solid rgb(227 184 98 / 30%);
+  background: rgb(255 255 255 / 4%);
+  color: var(--gold);
+}
+
+.ghost-btn:hover:not(:disabled) {
+  background: rgb(227 184 98 / 12%);
+  transform: translateY(-1px);
+}
+
+.ghost-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* --- the shelf ----------------------------------------------------------- */
+
+.shelf {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.shelf-head {
+  text-align: center;
+  padding: 32px 0 44px;
+}
+
+.wordmark {
+  margin: 10px 0 0;
+  font-size: clamp(52px, 13vw, 96px);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  background: linear-gradient(175deg, #fff4d8 5%, var(--gold) 45%, #8f6320 95%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 6px 18px rgb(227 184 98 / 25%));
+}
+
+.shelf-lede {
+  max-width: 46ch;
+  margin: 18px auto 24px;
+  font-family: var(--story);
+  font-size: clamp(17px, 2.4vw, 20px);
+  line-height: 1.6;
+  color: var(--moon-dim);
+}
+
+.tale-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
+  gap: 22px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tale-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding: 26px 24px 22px;
+  text-align: left;
+  border: 1px solid rgb(227 184 98 / 26%);
+  border-radius: 10px 16px 16px 10px;
+  /* A book seen face-on: tinted board, gold rule, darker spine down the left. */
+  background:
+    linear-gradient(90deg, rgb(0 0 0 / 34%) 0 10px, transparent 10px),
+    linear-gradient(155deg, var(--hue-a) -30%, var(--night-3) 55%, var(--night-2));
+  box-shadow: var(--shadow-deep);
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.8, 0.3, 1),
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.tale-card::after {
+  content: '';
+  position: absolute;
+  inset: 8px 8px 8px 18px;
+  border: 1px solid rgb(227 184 98 / 22%);
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+.tale-card:hover {
+  transform: translateY(-6px) rotate(-0.4deg);
+  border-color: rgb(227 184 98 / 60%);
+  box-shadow: 0 30px 70px rgb(5 2 15 / 65%);
+}
+
+.tale-sigil {
+  font-size: 34px;
+  line-height: 1;
+  margin-left: 4px;
+  filter: drop-shadow(0 4px 10px rgb(0 0 0 / 45%));
+}
+
+.tale-kicker {
+  margin-left: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.8;
+}
+
+.tale-title {
+  margin-left: 4px;
+  font-family: var(--display);
+  font-size: 23px;
+  line-height: 1.2;
+  color: #fdf3e0;
+}
+
+.tale-blurb {
+  margin-left: 4px;
+  font-family: var(--story);
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--moon-dim);
+}
+
+.tale-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 10px 0 0 4px;
+  padding-top: 12px;
+  border-top: 1px solid rgb(227 184 98 / 18%);
+  width: calc(100% - 4px);
+  font-size: 12.5px;
+  color: var(--moon-dim);
+}
+
+.tale-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tale-draft {
+  margin-left: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+/* --- the forge (answering the blanks) ------------------------------------ */
+
+.forge,
+.library {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.forge-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 4px 0 22px;
+}
+
+.forge-title {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+}
+
+.forge-title h2 {
+  margin-top: 4px;
+  font-size: clamp(20px, 4.5vw, 27px);
+  line-height: 1.15;
+  color: #fdf3e0;
+}
+
+.progress {
+  height: 5px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 8%);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold), #fff0cd);
+  box-shadow: 0 0 14px rgb(227 184 98 / 55%);
+}
+
+.progress-label {
+  margin: 8px 0 26px;
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--moon-dim);
+}
+
+.prompt-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.prompt-card {
+  padding: 32px 28px;
+  border: 1px solid rgb(227 184 98 / 30%);
+  border-radius: 14px;
+  background:
+    radial-gradient(120% 90% at 50% -10%, rgb(227 184 98 / 12%), transparent 60%),
+    linear-gradient(180deg, rgb(255 255 255 / 6%), rgb(255 255 255 / 2%));
+  box-shadow: var(--shadow-deep);
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+.slot-kind {
+  display: inline-block;
+  padding: 4px 12px;
+  border: 1px solid rgb(227 184 98 / 35%);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.prompt-label {
+  margin: 18px 0 0;
+  font-size: clamp(26px, 6vw, 36px);
+  line-height: 1.15;
+  color: #fdf3e0;
+}
+
+.prompt-hint {
+  margin: 12px 0 0;
+  font-family: var(--story);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--moon-dim);
+}
+
+.prompt-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.prompt-input input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 4px;
+  border: none;
+  border-bottom: 2px solid rgb(227 184 98 / 40%);
+  background: none;
+  font-family: var(--story);
+  font-size: 26px;
+  color: #fff6e2;
+  text-align: center;
+  transition: border-color 0.2s ease;
+}
+
+.prompt-input input::placeholder {
+  color: rgb(182 171 212 / 45%);
+  font-style: italic;
+}
+
+.prompt-input input:focus {
+  outline: none;
+  border-bottom-color: var(--gold);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.chip {
+  padding: 6px 14px;
+  border: 1px dashed rgb(227 184 98 / 32%);
+  border-radius: 999px;
+  background: none;
+  font-family: var(--story);
+  font-size: 15px;
+  color: var(--moon-dim);
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+.chip:hover {
+  color: #fff6e2;
+  border-color: var(--gold);
+  border-style: solid;
+  background: rgb(227 184 98 / 10%);
+}
+
+.prompt-note {
+  margin: 22px 0 0;
+  font-size: 13px;
+  color: var(--moon-dim);
+  opacity: 0.8;
+}
+
+.prompt-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.prompt-count {
+  min-width: 74px;
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  color: var(--moon-dim);
+}
+
+.slot-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.slot-list label {
+  display: block;
+}
+
+.slot-list-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 7px;
+  font-family: var(--story);
+  font-size: 16px;
+  color: var(--moon-dim);
+}
+
+.slot-list-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.slot-list-input input {
+  flex: 1;
+  min-width: 0;
+  padding: 11px 14px;
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 10px;
+  background: rgb(255 255 255 / 5%);
+  font-family: var(--story);
+  font-size: 18px;
+  color: #fff6e2;
+}
+
+.slot-list-input input:focus {
+  outline: none;
+  border-color: var(--gold);
+  background: rgb(227 184 98 / 8%);
+}
+
+.forge-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-top: 34px;
+  padding-top: 22px;
+  border-top: 1px solid rgb(227 184 98 / 16%);
+}
+
+/* --- the reader ---------------------------------------------------------- */
+
+.reader {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* A chapter runs longer than a screen, so the two sets of controls stay pinned
+   to the top and bottom of the view rather than scrolling away with the page. */
+.reader-head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0 20px;
+  background: linear-gradient(180deg, var(--night) 55%, rgb(18 12 34 / 0%));
+}
+
+.reader-title {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--display);
+  font-size: 15px;
+  color: var(--gold);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reader-tools {
+  display: flex;
+  gap: 6px;
+}
+
+.page-stage {
+  perspective: 1600px;
+}
+
+.page {
+  min-height: 60dvh;
+  padding: clamp(28px, 6vw, 60px) clamp(24px, 6vw, 62px);
+  border-radius: var(--page-radius);
+  /* Aged paper: a warm base, two faint stains, and a fibrous speckle. */
+  background-color: var(--parchment);
+  background-image:
+    radial-gradient(ellipse at 12% 8%, rgb(200 160 90 / 16%), transparent 45%),
+    radial-gradient(ellipse at 88% 92%, rgb(170 120 60 / 14%), transparent 45%),
+    repeating-linear-gradient(94deg, rgb(120 90 50 / 3%) 0 2px, transparent 2px 5px);
+  border: 1px solid var(--parchment-edge);
+  box-shadow:
+    inset 0 0 60px rgb(150 110 60 / 18%),
+    var(--shadow-deep);
+  color: var(--ink);
+  transform-style: preserve-3d;
+}
+
+.chapter-title {
+  margin-bottom: 26px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgb(168 121 44 / 30%);
+  font-size: clamp(21px, 4vw, 28px);
+  color: #4a3418;
+  text-align: center;
+}
+
+.prose {
+  font-family: var(--story);
+  font-size: clamp(18px, 2.3vw, 21px);
+  line-height: 1.72;
+}
+
+.prose p {
+  margin: 0 0 1.15em;
+}
+
+.prose em {
+  font-style: italic;
+}
+
+.prose strong {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.prose .drop-cap::first-letter {
+  float: left;
+  margin: 0.04em 0.09em 0 0;
+  font-family: var(--display);
+  font-size: 3.5em;
+  line-height: 0.82;
+  color: var(--gold-deep);
+  text-shadow: 1px 1px 0 rgb(255 255 255 / 60%);
+}
+
+/* Every word the reader supplied, lit up in the prose and editable in place. */
+.word {
+  padding: 0 1px;
+  border: none;
+  border-bottom: 1.5px dotted rgb(168 121 44 / 55%);
+  background: linear-gradient(180deg, transparent 62%, rgb(227 184 98 / 42%) 62%);
+  font: inherit;
+  font-weight: 600;
+  color: #7a4f10;
+  border-radius: 2px;
+  transition: background 0.18s ease;
+}
+
+.word:hover {
+  background: rgb(227 184 98 / 55%);
+}
+
+.word-edit {
+  min-width: 4ch;
+  padding: 0 4px;
+  border: none;
+  border-bottom: 2px solid var(--gold-deep);
+  background: rgb(255 255 255 / 60%);
+  font: inherit;
+  font-weight: 600;
+  color: #7a4f10;
+}
+
+.word-edit:focus {
+  outline: none;
+}
+
+.cover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 56dvh;
+  text-align: center;
+}
+
+.cover-sigil {
+  font-size: 68px;
+  line-height: 1;
+}
+
+.cover .eyebrow {
+  color: var(--gold-deep);
+  opacity: 1;
+}
+
+.cover-title {
+  max-width: 15ch;
+  font-size: clamp(32px, 8vw, 52px);
+  line-height: 1.1;
+  color: #4a3418;
+}
+
+.cover-byline {
+  margin: 8px 0 0;
+  font-family: var(--story);
+  font-size: 19px;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.cover-byline strong {
+  font-style: normal;
+  color: #7a4f10;
+}
+
+.cover-note {
+  margin: 22px 0 0;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  opacity: 0.75;
+}
+
+.reader-foot {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 22px 0;
+  background: linear-gradient(0deg, var(--night) 55%, rgb(18 12 34 / 0%));
+}
+
+.page-count {
+  min-width: 132px;
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--moon-dim);
+}
+
+/* --- the library --------------------------------------------------------- */
+
+.saved-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.saved-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid rgb(227 184 98 / 22%);
+  border-radius: 12px;
+  background: rgb(255 255 255 / 4%);
+}
+
+.saved-sigil {
+  font-size: 26px;
+}
+
+.saved-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.saved-body strong {
+  font-family: var(--display);
+  font-size: 17px;
+  color: #fdf3e0;
+}
+
+.saved-body span {
+  font-size: 13px;
+  color: var(--moon-dim);
+}
+
+.empty {
+  margin-top: 40px;
+  text-align: center;
+  font-family: var(--story);
+  font-size: 19px;
+  font-style: italic;
+  color: var(--moon-dim);
+}
+
+/* --- print --------------------------------------------------------------- */
+
+@media print {
+  body {
+    background: #fff;
+  }
+
+  body::before,
+  .motes,
+  .reader-head,
+  .reader-foot {
+    display: none !important;
+  }
+
+  .page {
+    box-shadow: none;
+    border: none;
+    background: #fff;
+    min-height: 0;
+  }
+
+  .word {
+    background: none;
+    border-bottom: 1px solid #000;
+    color: #000;
+  }
+}
+
+/* --- motion & small screens ---------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .motes {
+    display: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@media (width <= 520px) {
+  /* The kicker is flavour, and a two-line kicker above a two-line title crowds
+     the header on a phone — tighten it rather than wrap it twice. */
+  .forge-head .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+
+  .forge-foot {
+    flex-direction: column-reverse;
+  }
+
+  .forge-foot > * {
+    width: 100%;
+  }
+
+  .reader-tools {
+    gap: 2px;
+  }
+
+  .icon-btn {
+    width: 38px;
+    height: 38px;
+  }
+}
