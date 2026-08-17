@@ -132,6 +132,7 @@ export default function App() {
             setView('writer')
           }}
           onSave={saveToLibrary}
+          onHome={goContents}
           saved={savedId !== null}
         />
       )}

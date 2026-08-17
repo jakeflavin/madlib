@@ -8,7 +8,7 @@ export const cinderCrown: Tale = {
     'A scullery maid, a crown that chooses badly, and a ball that everyone will be talking about for the wrong reasons.',
   minutes: 6,
   tags: ['royalty', 'magic', 'friendship'],
-  accent: '#9c2b4d',
+  accent: '#E58BFF',
   slots: [
     { id: 'hero', kind: 'name', label: "The maid's name" },
     { id: 'kingdom', kind: 'place', label: 'The kingdom' },

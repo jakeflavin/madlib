@@ -8,7 +8,7 @@ export const lanternBelow: Tale = {
     'Down where the light gives up, a drowned city keeps its bargains. One diver goes down to break one.',
   minutes: 6,
   tags: ['sea', 'family', 'adventure'],
-  accent: '#1f7a86',
+  accent: '#4FE3C1',
   slots: [
     { id: 'hero', kind: 'name', label: "The diver's name" },
     { id: 'port', kind: 'place', label: 'The harbour town' },

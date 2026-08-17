@@ -8,7 +8,7 @@ export const emberFell: Tale = {
     'Every village needs a dragon slayer. Ember Fell got an apprentice with a bucket, a bad plan and a very large problem in the ravine.',
   minutes: 6,
   tags: ['dragons', 'friendship', 'adventure'],
-  accent: '#b6552a',
+  accent: '#FF8A4C',
   slots: [
     { id: 'hero', kind: 'name', label: "Your hero's name" },
     {

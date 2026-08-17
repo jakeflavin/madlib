@@ -8,7 +8,7 @@ export const cloudCartographer: Tale = {
     'The sky islands are drifting apart, the charts are all wrong, and the only person who noticed is nineteen and nobody important.',
   minutes: 6,
   tags: ['sky', 'adventure', 'friendship'],
-  accent: '#a8791f',
+  accent: '#FFD166',
   slots: [
     { id: 'hero', kind: 'name', label: "The mapmaker's name" },
     { id: 'island', kind: 'place', label: 'The home island' },

@@ -1,4 +1,6 @@
-import { ArrowLeft, BookOpen, Trash2 } from 'lucide-react'
+import { ArrowLeft, Trash2 } from 'lucide-react'
+import { Tile } from './Tile'
+import { TopBar } from './TopBar'
 import { findTale } from '../tales'
 import type { SavedTale } from '../types'
 
@@ -10,64 +12,54 @@ interface LibraryProps {
 }
 
 const formatDate = (at: number) =>
-  new Date(at).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' })
+  new Date(at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })
 
 export function Library({ tales, onRead, onDelete, onBack }: LibraryProps) {
   return (
     <div className="library">
-      <header className="page-head">
-        <button type="button" className="text-btn" onClick={onBack}>
+      <TopBar onHome={onBack}>
+        <button type="button" className="btn-ghost" onClick={onBack}>
           <ArrowLeft size={15} aria-hidden="true" />
-          Contents
+          All stories
         </button>
-      </header>
+      </TopBar>
 
-      <div className="writer-intro">
-        <p className="eyebrow">Bound and kept</p>
-        <h1 className="page-title">Your library</h1>
-      </div>
+      <section className="page-hero">
+        <div className="hero-glow" aria-hidden="true" />
+        <div className="page-hero-inner">
+          <p className="hero-eyebrow">Bound and kept</p>
+          <h1 className="page-title">Saved stories</h1>
+        </div>
+      </section>
 
       {tales.length === 0 ? (
-        <p className="empty">Nothing kept yet. Finish a tale and press the ribbon to save it.</p>
+        <p className="empty">Nothing kept yet. Finish a story and press the ribbon to save it.</p>
       ) : (
-        <ul className="saved-list">
+        <div className="saved-grid">
           {tales.map((saved) => {
             const tale = findTale(saved.taleId)
+            if (!tale) return null
+
             return (
-              <li
-                key={saved.id}
-                className="saved-card"
-                style={{ '--accent': tale?.accent ?? '#8a7a66' } as React.CSSProperties}
-              >
-                <div className="saved-body">
-                  <strong>{saved.title}</strong>
-                  <span>
-                    {tale?.kicker ?? 'A lost tale'} · kept {formatDate(saved.savedAt)}
-                  </span>
-                </div>
+              <div key={saved.id} className="saved-item">
+                <Tile
+                  tale={{ ...tale, title: saved.title }}
+                  note={`Saved ${formatDate(saved.savedAt)}`}
+                  onOpen={() => onRead(saved)}
+                />
                 <button
                   type="button"
-                  className="tool"
-                  onClick={() => onRead(saved)}
-                  disabled={!tale}
-                  aria-label={`Read ${saved.title}`}
-                  title="Read"
-                >
-                  <BookOpen size={17} aria-hidden="true" />
-                </button>
-                <button
-                  type="button"
-                  className="tool danger"
+                  className="btn-icon saved-delete"
                   onClick={() => onDelete(saved.id)}
                   aria-label={`Delete ${saved.title}`}
                   title="Delete"
                 >
-                  <Trash2 size={17} aria-hidden="true" />
+                  <Trash2 size={16} aria-hidden="true" />
                 </button>
-              </li>
+              </div>
             )
           })}
-        </ul>
+        </div>
       )}
     </div>
   )

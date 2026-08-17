@@ -6,28 +6,28 @@
  * changing the mark. The PNG is written directly rather than pulling in an image
  * library for three small files.
  *
- * The mark matches public/favicon.svg: a red crescent and a spark, on the same
- * cream paper the app itself is printed on.
+ * The mark matches public/favicon.svg: a cyan crescent and a spark on the same
+ * near-black navy the app is built on (see DESIGN.md).
  */
 import { deflateSync } from 'node:zlib'
 import { writeFileSync } from 'node:fs'
 
 const OUT = new URL('../public/', import.meta.url)
 
-/** The paper, top to bottom — the same cream the app is printed on. */
+/** The night, top to bottom — #040714 lifted very slightly at the top. */
 const BACKDROP = [
-  { stop: 0, rgb: [250, 244, 230] },
-  { stop: 1, rgb: [243, 235, 216] },
+  { stop: 0, rgb: [9, 14, 32] },
+  { stop: 1, rgb: [4, 7, 20] },
 ]
 
-/** A faint warmth in two corners, so the square is not flat. */
+/** The brand-blue glow, the same wash the heroes use. */
 const GLOWS = [
-  { x: 0.18, y: 0.08, r: 0.7, rgb: [255, 250, 238] },
-  { x: 0.86, y: 0.92, r: 0.62, rgb: [237, 226, 202] },
+  { x: 0.22, y: 0.14, r: 0.72, rgb: [0, 64, 229] },
+  { x: 0.84, y: 0.9, r: 0.6, rgb: [10, 30, 70] },
 ]
 
-/** The mark itself: the deep red the app uses for its accents. */
-const MARK = [156, 43, 43]
+/** The mark itself: the cyan the app uses for every primary action. */
+const MARK = [51, 221, 255]
 
 /** Crescent: one disc with a second, offset disc bitten out of it. */
 const MOON = { x: 0.47, y: 0.5, r: 0.29 }

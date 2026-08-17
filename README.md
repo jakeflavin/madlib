@@ -1,6 +1,6 @@
 # Fable
 
-Fantasy mad libs, told as an illuminated storybook.
+Fantasy mad libs, in the design language of Disney+.
 
 Six original tales — dragons, drowned cities, sky islands, a teahouse that only
 appears one night a year — each around a five-to-seven minute read, each with
@@ -18,9 +18,10 @@ thing aloud.
   suggestion. **Switch stories from the same page** and your answers come with
   you, matched across by kind.
 - **Roll the empty ones** fills whatever's left from a hand-written word bank.
-- **Then read it** as one continuous story — no pagination — set like a printed
-  book, with every word you supplied picked out in the tale's own colour. Tap one
-  mid-story to change your mind; it updates everywhere it appears.
+- **Then read it** as one continuous story — no pagination — on a raised panel at
+  a comfortable measure, with every word you supplied picked out in the story's
+  own colour. Tap one mid-story to change your mind; it updates everywhere it
+  appears. The top bar tracks how far through you are.
 - **Read aloud** via the browser's own voice, **print**, **copy**, and a **share
   link** that carries the whole finished tale in the URL — no server involved.
 - **A library** of the tales you've bound, plus drafts that survive a refresh.
@@ -40,6 +41,12 @@ npm run dev
 | `npm run typecheck` | `tsc -b --noEmit`                     |
 | `npm run lint`      | oxlint                                |
 | `npm run icons`     | Regenerate the PNG app icons          |
+
+## Design
+
+[DESIGN.md](DESIGN.md) is the source of truth for the look: colour, type, spacing,
+components and motion, with the values measured from `disneyplus.com` rather than
+guessed. Change the guide before changing the app.
 
 ## Adding a tale
 

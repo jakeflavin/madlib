@@ -1,4 +1,6 @@
 import { BookMarked } from 'lucide-react'
+import { Tile } from './Tile'
+import { TopBar } from './TopBar'
 import type { SavedTale, Tag, Tale } from '../types'
 
 interface ShelfProps {
@@ -25,48 +27,80 @@ const TAG_LABELS: Record<Tag, string> = {
 }
 
 export function Shelf({ tales, drafts, library, tag, onTag, onOpen, onOpenLibrary }: ShelfProps) {
-  // Only offer filters that actually lead somewhere.
   const tags = [...new Set(tales.flatMap((tale) => tale.tags))].sort((a, b) =>
     TAG_LABELS[a].localeCompare(TAG_LABELS[b]),
   )
   const shown = tag ? tales.filter((tale) => tale.tags.includes(tag)) : tales
 
-  return (
-    <div className="shelf">
-      <header className="masthead">
-        <div className="masthead-top">
-          <h1 className="wordmark">Fable</h1>
-          {library.length > 0 && (
-            <button type="button" className="quiet-btn" onClick={onOpenLibrary}>
-              <BookMarked size={15} aria-hidden="true" />
-              Saved stories ({library.length})
-            </button>
-          )}
-        </div>
-        <p className="lede">
-          Long fantasy tales with their best words missing. Fill in the blanks, then read the whole
-          ridiculous thing aloud.
-        </p>
-      </header>
+  const answeredIn = (tale: Tale) => {
+    const draft = drafts[tale.id]
+    return draft ? tale.slots.filter((slot) => draft[slot.id]?.trim()).length : 0
+  }
 
-      {/* The pills only read as a control if something says what they do and the
-          result of pressing one is visible, so the count sits opposite them. */}
-      <section className="browse" aria-labelledby="browse-heading">
-        <div className="browse-head">
-          <h2 id="browse-heading" className="browse-title">
-            Choose a story
-          </h2>
-          <p className="browse-count">
-            {tag
-              ? `${shown.length} of ${tales.length} — ${TAG_LABELS[tag].toLowerCase()}`
-              : `${tales.length} stories`}
+  const started = tales.filter((tale) => {
+    const answered = answeredIn(tale)
+    return answered > 0 && answered < tale.slots.length
+  })
+
+  // The hero features whatever is in progress, else the first story.
+  const featured = started[0] ?? tales[0]
+
+  return (
+    <div className="browse">
+      <TopBar onHome={() => onTag(null)}>
+        {library.length > 0 && (
+          <button type="button" className="btn-secondary" onClick={onOpenLibrary}>
+            <BookMarked size={15} aria-hidden="true" />
+            Saved ({library.length})
+          </button>
+        )}
+      </TopBar>
+
+      <section className="hero" style={{ '--accent': featured.accent } as React.CSSProperties}>
+        <div className="hero-glow" aria-hidden="true" />
+        <div className="hero-inner">
+          <p className="hero-eyebrow">{featured.kicker}</p>
+          <h1 className="hero-title">{featured.title}</h1>
+          <p className="hero-blurb">{featured.blurb}</p>
+          <div className="hero-actions">
+            <button type="button" className="btn-primary" onClick={() => onOpen(featured)}>
+              {answeredIn(featured) > 0 ? 'Keep going' : 'Start this story'}
+            </button>
+            <p className="hero-meta">
+              {featured.minutes} min read · {featured.slots.length} blanks
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {started.length > 0 && (
+        <section className="row">
+          <h2 className="row-title">Continue where you left off</h2>
+          <div className="row-track">
+            {started.map((tale) => (
+              <Tile
+                key={tale.id}
+                tale={tale}
+                note={`${answeredIn(tale)}/${tale.slots.length} blanks filled`}
+                onOpen={() => onOpen(tale)}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section className="row">
+        <div className="row-head">
+          <h2 className="row-title">{tag ? TAG_LABELS[tag] : 'All stories'}</h2>
+          <p className="row-count">
+            {shown.length} of {tales.length}
           </p>
         </div>
 
-        <div className="filters" role="group" aria-label="Filter stories by theme">
+        <div className="chips" role="group" aria-label="Filter stories by theme">
           <button
             type="button"
-            className="filter"
+            className="chip"
             aria-pressed={tag === null}
             onClick={() => onTag(null)}
           >
@@ -76,7 +110,7 @@ export function Shelf({ tales, drafts, library, tag, onTag, onOpen, onOpenLibrar
             <button
               key={item}
               type="button"
-              className="filter"
+              className="chip"
               aria-pressed={tag === item}
               onClick={() => onTag(tag === item ? null : item)}
             >
@@ -85,38 +119,25 @@ export function Shelf({ tales, drafts, library, tag, onTag, onOpen, onOpenLibrar
           ))}
         </div>
 
-        <ul className="tale-list">
+        <div className="row-track">
           {shown.map((tale) => {
-            const draft = drafts[tale.id]
-            const answered = draft ? tale.slots.filter((slot) => draft[slot.id]?.trim()).length : 0
-
+            const answered = answeredIn(tale)
             return (
-              <li key={tale.id}>
-                <button
-                  type="button"
-                  className="tale-card"
-                  onClick={() => onOpen(tale)}
-                  style={{ '--accent': tale.accent } as React.CSSProperties}
-                >
-                  <span className="tale-kicker">{tale.kicker}</span>
-                  <span className="tale-title">{tale.title}</span>
-                  <span className="tale-blurb">{tale.blurb}</span>
-                  <span className="tale-meta">
-                    <span>{tale.minutes} min read</span>
-                    <span>{tale.slots.length} blanks</span>
-                    {answered > 0 && (
-                      <span className="tale-draft">
-                        {answered === tale.slots.length
-                          ? 'Ready to read'
-                          : `${answered}/${tale.slots.length} filled`}
-                      </span>
-                    )}
-                  </span>
-                </button>
-              </li>
+              <Tile
+                key={tale.id}
+                tale={tale}
+                note={
+                  answered === tale.slots.length
+                    ? 'Ready to read'
+                    : answered > 0
+                      ? `${answered}/${tale.slots.length} blanks filled`
+                      : `${tale.minutes} min read`
+                }
+                onOpen={() => onOpen(tale)}
+              />
             )
           })}
-        </ul>
+        </div>
       </section>
     </div>
   )

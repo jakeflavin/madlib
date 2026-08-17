@@ -1,4 +1,5 @@
 import { ArrowLeft } from 'lucide-react'
+import { TopBar } from './TopBar'
 import { kindLabel } from '../lib/template'
 import { suggestWord } from '../lib/suggestions'
 import type { Slot, Tale } from '../types'
@@ -48,53 +49,37 @@ export function Writer({
 
   return (
     <div className="writer" style={{ '--accent': tale.accent } as React.CSSProperties}>
-      <header className="page-head">
-        <button type="button" className="text-btn" onClick={onBack}>
+      <TopBar onHome={onBack}>
+        <button type="button" className="btn-ghost" onClick={onBack}>
           <ArrowLeft size={15} aria-hidden="true" />
           All stories
         </button>
+      </TopBar>
 
-        {/* Sits up in the chrome rather than under the title, where it only read
-            as a duplicate of the heading. */}
-        <div className="picker">
-          <select
-            value={tale.id}
-            aria-label="Choose a different story"
-            onChange={(event) => {
-              const next = tales.find((item) => item.id === event.target.value)
-              if (next) onSwitchTale(next)
-            }}
-          >
-            {tales.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.title}
-              </option>
-            ))}
-          </select>
+      <section className="page-hero">
+        <div className="hero-glow" aria-hidden="true" />
+        <div className="page-hero-inner">
+          <p className="hero-eyebrow">{tale.kicker}</p>
+          <h1 className="page-title">{tale.title}</h1>
+
+          <label className="picker">
+            <span className="picker-label">Story</span>
+            <select
+              value={tale.id}
+              onChange={(event) => {
+                const next = tales.find((item) => item.id === event.target.value)
+                if (next) onSwitchTale(next)
+              }}
+            >
+              {tales.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.title}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
-      </header>
-
-      <p className="eyebrow">{tale.kicker}</p>
-      <h1 className="page-title">{tale.title}</h1>
-
-      <div className="writer-status">
-        <div
-          className="progress"
-          role="progressbar"
-          aria-valuenow={filled}
-          aria-valuemin={0}
-          aria-valuemax={tale.slots.length}
-          aria-label="Blanks filled"
-        >
-          <div
-            className="progress-fill"
-            style={{ width: `${(filled / tale.slots.length) * 100}%` }}
-          />
-        </div>
-        <p className="progress-label">
-          {filled}/{tale.slots.length}
-        </p>
-      </div>
+      </section>
 
       <ul className="field-list">
         {tale.slots.map((slot) => {
@@ -128,21 +113,46 @@ export function Writer({
         })}
       </ul>
 
-      <div className="writer-actions">
-        <button type="button" className="quiet-btn" onClick={fillEmpty} disabled={complete}>
-          Suggest the rest
-        </button>
-        <button
-          type="button"
-          className="quiet-btn"
-          onClick={() => onReplaceAll({})}
-          disabled={filled === 0}
-        >
-          Clear
-        </button>
-        <button type="button" className="primary-btn" onClick={onRead} disabled={!complete}>
-          {complete ? 'Read the story' : `${tale.slots.length - filled} to go`}
-        </button>
+      {/* The action bar rides with you: on a 28-field form the button that
+          matters should never be a scroll away. */}
+      <div className="action-bar">
+        <div className="action-bar-inner">
+          <div className="action-progress">
+            <div
+              className="progress"
+              role="progressbar"
+              aria-valuenow={filled}
+              aria-valuemin={0}
+              aria-valuemax={tale.slots.length}
+              aria-label="Blanks filled"
+            >
+              <div
+                className="progress-fill"
+                style={{ width: `${(filled / tale.slots.length) * 100}%` }}
+              />
+            </div>
+            <p className="progress-label">
+              {filled}/{tale.slots.length}
+            </p>
+          </div>
+
+          <div className="action-buttons">
+            <button
+              type="button"
+              className="btn-ghost"
+              onClick={() => onReplaceAll({})}
+              disabled={filled === 0}
+            >
+              Clear
+            </button>
+            <button type="button" className="btn-secondary" onClick={fillEmpty} disabled={complete}>
+              Suggest the rest
+            </button>
+            <button type="button" className="btn-primary" onClick={onRead} disabled={!complete}>
+              {complete ? 'Read the story' : `${tale.slots.length - filled} to go`}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   )

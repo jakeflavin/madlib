@@ -1,5 +1,6 @@
 import { BookMarked, Check, Copy, Link2, Pause, PencilLine, Printer, Volume2 } from 'lucide-react'
 import { useState } from 'react'
+import { TopBar } from './TopBar'
 import { useReadingProgress } from '../hooks/useReadingProgress'
 import { useSpeech } from '../hooks/useSpeech'
 import { shareUrl } from '../lib/share'
@@ -12,10 +13,19 @@ interface ReaderProps {
   onEditWord: (slotId: string, value: string) => void
   onEditWords: () => void
   onSave: () => void
+  onHome: () => void
   saved: boolean
 }
 
-export function Reader({ tale, words, onEditWord, onEditWords, onSave, saved }: ReaderProps) {
+export function Reader({
+  tale,
+  words,
+  onEditWord,
+  onEditWords,
+  onSave,
+  onHome,
+  saved,
+}: ReaderProps) {
   const [editing, setEditing] = useState<string | null>(null)
   const [copied, setCopied] = useState<'text' | 'link' | null>(null)
   const speech = useSpeech()
@@ -43,92 +53,90 @@ export function Reader({ tale, words, onEditWord, onEditWords, onSave, saved }: 
 
   return (
     <div className="reader" style={{ '--accent': tale.accent } as React.CSSProperties}>
-      <div className="toolbar" style={{ '--read': `${progress}%` } as React.CSSProperties}>
-        <button type="button" className="text-btn" onClick={onEditWords}>
+      <TopBar onHome={onHome} progress={progress}>
+        <button type="button" className="btn-ghost" onClick={onEditWords}>
           <PencilLine size={15} aria-hidden="true" />
           Edit words
         </button>
-        <div className="toolbar-tools">
-          {speech.supported && (
-            <button
-              type="button"
-              className="tool"
-              onClick={readAloud}
-              aria-label={speech.speaking ? 'Stop reading aloud' : 'Read aloud'}
-              title={speech.speaking ? 'Stop reading aloud' : 'Read aloud'}
-            >
-              {speech.speaking ? (
-                <Pause size={17} aria-hidden="true" />
-              ) : (
-                <Volume2 size={17} aria-hidden="true" />
-              )}
-            </button>
+        {speech.supported && (
+          <button
+            type="button"
+            className="btn-icon"
+            onClick={readAloud}
+            aria-label={speech.speaking ? 'Stop reading aloud' : 'Read aloud'}
+            title={speech.speaking ? 'Stop reading aloud' : 'Read aloud'}
+          >
+            {speech.speaking ? (
+              <Pause size={17} aria-hidden="true" />
+            ) : (
+              <Volume2 size={17} aria-hidden="true" />
+            )}
+          </button>
+        )}
+        <button
+          type="button"
+          className="btn-icon"
+          onClick={copyText}
+          aria-label="Copy the story"
+          title="Copy the story"
+        >
+          {copied === 'text' ? (
+            <Check size={17} aria-hidden="true" />
+          ) : (
+            <Copy size={17} aria-hidden="true" />
           )}
-          <button
-            type="button"
-            className="tool"
-            onClick={copyText}
-            aria-label="Copy the story"
-            title="Copy the story"
-          >
-            {copied === 'text' ? (
-              <Check size={17} aria-hidden="true" />
-            ) : (
-              <Copy size={17} aria-hidden="true" />
-            )}
-          </button>
-          <button
-            type="button"
-            className="tool"
-            onClick={copyLink}
-            aria-label="Copy a share link"
-            title="Copy a share link"
-          >
-            {copied === 'link' ? (
-              <Check size={17} aria-hidden="true" />
-            ) : (
-              <Link2 size={17} aria-hidden="true" />
-            )}
-          </button>
-          <button
-            type="button"
-            className="tool"
-            onClick={() => window.print()}
-            aria-label="Print"
-            title="Print"
-          >
-            <Printer size={17} aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            className="tool"
-            onClick={onSave}
-            aria-label={saved ? 'Remove from your library' : 'Save to your library'}
-            title={saved ? 'Saved' : 'Save to your library'}
-            aria-pressed={saved}
-          >
-            <BookMarked size={17} aria-hidden="true" fill={saved ? 'currentColor' : 'none'} />
-          </button>
-        </div>
-      </div>
+        </button>
+        <button
+          type="button"
+          className="btn-icon"
+          onClick={copyLink}
+          aria-label="Copy a share link"
+          title="Copy a share link"
+        >
+          {copied === 'link' ? (
+            <Check size={17} aria-hidden="true" />
+          ) : (
+            <Link2 size={17} aria-hidden="true" />
+          )}
+        </button>
+        <button
+          type="button"
+          className="btn-icon"
+          onClick={() => window.print()}
+          aria-label="Print"
+          title="Print"
+        >
+          <Printer size={17} aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          className="btn-icon"
+          onClick={onSave}
+          aria-label={saved ? 'Remove from your library' : 'Save to your library'}
+          title={saved ? 'Saved' : 'Save to your library'}
+          aria-pressed={saved}
+        >
+          <BookMarked size={17} aria-hidden="true" fill={saved ? 'currentColor' : 'none'} />
+        </button>
+      </TopBar>
 
-      <article className="story">
-        <header className="story-head">
-          <p className="eyebrow">{tale.kicker}</p>
+      <section className="page-hero">
+        <div className="hero-glow" aria-hidden="true" />
+        <div className="page-hero-inner">
+          <p className="hero-eyebrow">{tale.kicker}</p>
           <h1 className="story-title">{tale.title}</h1>
           <p className="story-byline">
             told with the words of <strong>{words[tale.slots[0].id] || 'an anonymous soul'}</strong>
           </p>
-        </header>
+        </div>
+      </section>
 
+      <article className="story">
         {tale.chapters.map((chapter, chapterIndex) => (
           <section key={chapter.title} className="chapter">
             <h2 className="chapter-title">{chapter.title}</h2>
             {chapter.body.split('\n\n').map((paragraph, paragraphIndex) => (
-              <p
-                key={paragraphIndex}
-                className={chapterIndex === 0 && paragraphIndex === 0 ? 'drop-cap' : undefined}
-              >
+              <p key={paragraphIndex}>
                 {renderBody(paragraph, words, tale.slots).map((segment, segmentIndex) => {
                   const key = `${chapterIndex}:${paragraphIndex}:${segmentIndex}`
                   const inner =
