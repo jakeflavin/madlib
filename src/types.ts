@@ -48,6 +48,9 @@ export interface Chapter {
   body: string
 }
 
+/** The line-art mark that stands in for key art on a story's plate. */
+export type Emblem = 'flame' | 'crown' | 'snowflake' | 'wave' | 'cloud' | 'lantern'
+
 export interface Tale {
   id: string
   title: string
@@ -57,8 +60,9 @@ export interface Tale {
   tags: Tag[]
   /** Rough reading time in minutes, shown on the contents page. */
   minutes: number
-  /** The tale's accent — used for its rule, numeral and highlighted words. */
+  /** The story's accent — used for its plate, emblem and highlighted words. */
   accent: string
+  emblem: Emblem
   slots: Slot[]
   chapters: Chapter[]
 }

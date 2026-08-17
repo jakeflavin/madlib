@@ -9,6 +9,7 @@ export const lanternBelow: Tale = {
   minutes: 6,
   tags: ['sea', 'family', 'adventure'],
   accent: '#4FE3C1',
+  emblem: 'wave',
   slots: [
     { id: 'hero', kind: 'name', label: "The diver's name" },
     { id: 'port', kind: 'place', label: 'The harbour town' },

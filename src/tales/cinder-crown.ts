@@ -9,6 +9,7 @@ export const cinderCrown: Tale = {
   minutes: 6,
   tags: ['royalty', 'magic', 'friendship'],
   accent: '#E58BFF',
+  emblem: 'crown',
   slots: [
     { id: 'hero', kind: 'name', label: "The maid's name" },
     { id: 'kingdom', kind: 'place', label: 'The kingdom' },

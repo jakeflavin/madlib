@@ -1,9 +1,12 @@
 # Fable — design guide
 
-Fable follows the design language of **Disney+**: a cinematic dark-navy product
-where artwork does the talking, chrome gets out of the way, type is a single
-friendly geometric sans, and everything interactive is a pill or a rounded tile
-that responds to you.
+Fable takes its **chrome** from Disney+ — near-black navy, pill buttons, rounded
+plates in scrolling rows, restrained motion — and its **interior** from a Disney
+storybook: flat printed surfaces, gold rules, drawn emblems, illuminated
+openings and a display serif for the stories themselves.
+
+The two halves have one rule between them. The interface is sans and cyan; the
+stories are serif and gold. Nothing is lit by a gradient.
 
 This document is the source of truth. If a change to the app contradicts it,
 either the change is wrong or this file needs updating first.
@@ -65,12 +68,27 @@ type behaviour, motion. It is not a Disney product and must never suggest it is:
 --accent        per story; set on a container as a CSS variable
 ```
 
-The **glow** is the signature: `radial-gradient` washes of `--blue` and the
-story's accent bled into the background at 15–35% opacity, never a flat panel.
+```
+--gold          #E3C08A   rules, frames, the wordmark on hover
+--gold-dim      rgba(227,192,138,.42)  every hairline that isn't chrome
+```
+
+**Gradients are all but banned.** An earlier pass lit every surface with
+radial washes and the app read as a slop of blur. Colour now arrives as flat
+fills, 1px rules and line art. The only gradients left in the stylesheet draw
+the chevron inside the story `<select>`, because a triangle has to come from
+somewhere.
+
+Where a surface used to glow it now carries a **drawn emblem** instead: the
+story's mark, in its accent, at 14% on a hero or full strength on a plate.
 
 ### Type
 
-One family: **Figtree**, 400 / 600 / 700 / 800.
+Two families, split by job. **Figtree** (400/600/700/800) is the interface:
+buttons, labels, meta, body copy. **Playfair Display** (700/800, italic 500) is
+the book: story titles, the wordmark, chapter headings, tile titles and the
+byline. If a piece of text belongs to a story, it is set in Playfair; if it
+belongs to the app, it is set in Figtree.
 
 | Role         | Size                     | Weight | Tracking | Notes                                          |
 | ------------ | ------------------------ | ------ | -------- | ---------------------------------------------- |
@@ -121,11 +139,12 @@ Height 64px. On the reader it also carries the reading-progress line.
   `rgba(255,255,255,.08)` fill and `--text` icon.
 - Disabled: 40% opacity, no hover.
 
-### Story tile
+### Story plate
 
-The unit the browse page is built from. 2:3 portrait "poster", radius 12px, made
-of a gradient in the story's accent over `--surface-blue`, with the title set
-over a bottom scrim.
+The unit the browse page is built from — a book plate, not a film poster. 2:3
+portrait, radius 12px, flat `--surface-blue`, a `--gold-dim` rule inset 7px as a
+printed frame, the story's emblem drawn large in its accent, a short gold rule,
+then the title in Playfair and its status beneath.
 
 ```
 rest    transform: none;  border: 2px solid transparent
@@ -157,24 +176,29 @@ fill with `--bg` label. Used for theme filters.
 
 ### Prose surface
 
-Long reading is the one place Disney+ has no precedent, so: `--surface` panel,
-radius 16px, max width 68ch, 20px/1.75 body in `--text-body`, headings in
-`--text`. Words the reader supplied are set in the story's accent at 600 with a
-soft underline — they are the interactive element in the text.
+Long reading is the one place Disney+ has no precedent, so this is where the
+storybook leads: a `--surface` panel with a `--gold-dim` rule, radius 16px,
+centred, 68ch measure, 19px/1.75 body in `--text-body`. Chapter headings are
+Playfair with a short gold rule beneath. The first paragraph opens with an
+illuminated capital in the story's accent. Words the reader supplied are set in
+the accent at 600 with a soft underline — they are the interactive element in
+the text.
 
 ## Applying it to Fable's four screens
 
-**Browse** — top bar, a hero for a featured story (accent glow, title, blurb,
-primary CTA), theme chips, then rows of tiles. Drafts get their own first row.
+**Browse** — top bar, a hero for a featured story (its emblem drawn large in the
+margin, title, blurb, primary CTA), theme chips, then rows of plates. Drafts get
+their own first row.
 
-**Fill** — page title over an accent glow, story switcher as a select styled
-like a secondary button, fields in a two-column grid, a sticky bottom action bar
-carrying progress and the primary CTA.
+**Fill** — page title under the story's emblem and kicker, story switcher as a
+select styled like a secondary button, fields in a two-column grid, a sticky
+bottom action bar carrying progress and the primary CTA.
 
-**Read** — hero header in the story's accent, prose surface below, toolbar of
-icon buttons in the top bar, reading progress along its lower edge.
+**Read** — hero header with emblem, title and italic byline, prose surface
+below, toolbar of icon buttons in the top bar, reading progress along its lower
+edge.
 
-**Library** — a row/grid of saved tiles, same tile component.
+**Library** — a grid of saved plates, same plate component.
 
 ## Accessibility
 

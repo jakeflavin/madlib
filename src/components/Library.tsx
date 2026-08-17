@@ -20,12 +20,11 @@ export function Library({ tales, onRead, onDelete, onBack }: LibraryProps) {
       <TopBar onHome={onBack}>
         <button type="button" className="btn-ghost" onClick={onBack}>
           <ArrowLeft size={15} aria-hidden="true" />
-          All stories
+          <span className="btn-label">All stories</span>
         </button>
       </TopBar>
 
       <section className="page-hero">
-        <div className="hero-glow" aria-hidden="true" />
         <div className="page-hero-inner">
           <p className="hero-eyebrow">Bound and kept</p>
           <h1 className="page-title">Saved stories</h1>

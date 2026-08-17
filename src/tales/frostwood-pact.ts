@@ -9,6 +9,7 @@ export const frostwoodPact: Tale = {
   minutes: 6,
   tags: ['winter', 'family', 'magic'],
   accent: '#7BD8FF',
+  emblem: 'snowflake',
   slots: [
     { id: 'elder', kind: 'name', label: 'The older sister' },
     { id: 'younger', kind: 'name', label: 'The younger sister' },

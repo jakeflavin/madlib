@@ -9,6 +9,7 @@ export const wanderingTeahouse: Tale = {
   minutes: 7,
   tags: ['spirits', 'magic', 'friendship'],
   accent: '#FF8FA3',
+  emblem: 'lantern',
   slots: [
     { id: 'hero', kind: 'name', label: "The new cook's name" },
     { id: 'village', kind: 'place', label: 'The nearest village' },

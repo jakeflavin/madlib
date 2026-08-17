@@ -1,4 +1,5 @@
 import { ArrowLeft } from 'lucide-react'
+import { Emblem } from './Emblem'
 import { TopBar } from './TopBar'
 import { kindLabel } from '../lib/template'
 import { suggestWord } from '../lib/suggestions'
@@ -52,14 +53,16 @@ export function Writer({
       <TopBar onHome={onBack}>
         <button type="button" className="btn-ghost" onClick={onBack}>
           <ArrowLeft size={15} aria-hidden="true" />
-          All stories
+          <span className="btn-label">All stories</span>
         </button>
       </TopBar>
 
       <section className="page-hero">
-        <div className="hero-glow" aria-hidden="true" />
         <div className="page-hero-inner">
-          <p className="hero-eyebrow">{tale.kicker}</p>
+          <p className="hero-eyebrow">
+            <Emblem name={tale.emblem} className="eyebrow-emblem" />
+            {tale.kicker}
+          </p>
           <h1 className="page-title">{tale.title}</h1>
 
           <label className="picker">

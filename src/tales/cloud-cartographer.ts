@@ -9,6 +9,7 @@ export const cloudCartographer: Tale = {
   minutes: 6,
   tags: ['sky', 'adventure', 'friendship'],
   accent: '#FFD166',
+  emblem: 'cloud',
   slots: [
     { id: 'hero', kind: 'name', label: "The mapmaker's name" },
     { id: 'island', kind: 'place', label: 'The home island' },

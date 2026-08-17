@@ -1,5 +1,6 @@
 import { BookMarked, Check, Copy, Link2, Pause, PencilLine, Printer, Volume2 } from 'lucide-react'
 import { useState } from 'react'
+import { Emblem } from './Emblem'
 import { TopBar } from './TopBar'
 import { useReadingProgress } from '../hooks/useReadingProgress'
 import { useSpeech } from '../hooks/useSpeech'
@@ -56,7 +57,7 @@ export function Reader({
       <TopBar onHome={onHome} progress={progress}>
         <button type="button" className="btn-ghost" onClick={onEditWords}>
           <PencilLine size={15} aria-hidden="true" />
-          Edit words
+          <span className="btn-label">Edit words</span>
         </button>
         {speech.supported && (
           <button
@@ -121,9 +122,11 @@ export function Reader({
       </TopBar>
 
       <section className="page-hero">
-        <div className="hero-glow" aria-hidden="true" />
         <div className="page-hero-inner">
-          <p className="hero-eyebrow">{tale.kicker}</p>
+          <p className="hero-eyebrow">
+            <Emblem name={tale.emblem} className="eyebrow-emblem" />
+            {tale.kicker}
+          </p>
           <h1 className="story-title">{tale.title}</h1>
           <p className="story-byline">
             told with the words of <strong>{words[tale.slots[0].id] || 'an anonymous soul'}</strong>

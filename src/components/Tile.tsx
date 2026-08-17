@@ -1,3 +1,4 @@
+import { Emblem } from './Emblem'
 import type { Tale } from '../types'
 
 interface TileProps {
@@ -8,9 +9,9 @@ interface TileProps {
 }
 
 /**
- * The poster. There is no licensed key art to draw on, so each tile generates
- * its own from the story's accent: a wash of colour over deep blue, with the
- * title lockup sitting on a scrim at the foot of the artwork.
+ * A book plate rather than a poster: flat navy, a gold rule inset like a frame,
+ * the story's emblem drawn in its own colour, and the title set in the display
+ * serif. No gradients — the plate is printed, not lit.
  */
 export function Tile({ tale, note, onOpen }: TileProps) {
   return (
@@ -20,10 +21,11 @@ export function Tile({ tale, note, onOpen }: TileProps) {
       onClick={onOpen}
       style={{ '--accent': tale.accent } as React.CSSProperties}
     >
-      <span className="tile-orb" aria-hidden="true" />
+      <span className="tile-frame" aria-hidden="true" />
+      <span className="tile-plate">
+        <Emblem name={tale.emblem} className="tile-emblem" />
+      </span>
       <span className="tile-lockup">
-        {/* The kicker is a full phrase and only ever truncated at this width, so
-            the poster carries the title and its status and nothing else. */}
         <span className="tile-title">{tale.title}</span>
         <span className="tile-note">{note ?? `${tale.minutes} min read`}</span>
       </span>

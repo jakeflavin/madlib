@@ -1,4 +1,5 @@
 import { BookMarked } from 'lucide-react'
+import { Emblem } from './Emblem'
 import { Tile } from './Tile'
 import { TopBar } from './TopBar'
 import type { SavedTale, Tag, Tale } from '../types'
@@ -57,7 +58,7 @@ export function Shelf({ tales, drafts, library, tag, onTag, onOpen, onOpenLibrar
       </TopBar>
 
       <section className="hero" style={{ '--accent': featured.accent } as React.CSSProperties}>
-        <div className="hero-glow" aria-hidden="true" />
+        <Emblem name={featured.emblem} className="hero-emblem" />
         <div className="hero-inner">
           <p className="hero-eyebrow">{featured.kicker}</p>
           <h1 className="hero-title">{featured.title}</h1>

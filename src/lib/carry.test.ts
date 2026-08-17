@@ -10,6 +10,7 @@ const tale = (id: string, slots: Tale['slots']): Tale => ({
   tags: [],
   minutes: 5,
   accent: '#000',
+  emblem: 'flame',
   slots,
   chapters: [],
 })

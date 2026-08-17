@@ -9,6 +9,7 @@ export const emberFell: Tale = {
   minutes: 6,
   tags: ['dragons', 'friendship', 'adventure'],
   accent: '#FF8A4C',
+  emblem: 'flame',
   slots: [
     { id: 'hero', kind: 'name', label: "Your hero's name" },
     {
