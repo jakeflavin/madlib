@@ -194,16 +194,20 @@ button {
 }
 
 .masthead {
+  padding: 36px 0 44px;
+}
+
+/* The library button belongs on the wordmark's line, not floating beside the
+   description where it had nothing to align to. */
+.masthead-top {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 44px 0 30px;
+  gap: 20px;
 }
 
 .wordmark {
-  font-size: clamp(44px, 9vw, 68px);
+  font-size: clamp(40px, 8vw, 60px);
   font-variation-settings:
     'SOFT' 20,
     'opsz' 144;
@@ -212,42 +216,66 @@ button {
 }
 
 .lede {
-  margin: 10px 0 0;
-  max-width: 38ch;
+  margin: 14px 0 0;
+  max-width: 46ch;
   font-family: var(--story);
   font-size: 19px;
   line-height: 1.5;
   color: var(--ink-soft);
 }
 
+.browse-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+}
+
+.browse-title {
+  font-size: 21px;
+  font-variation-settings:
+    'SOFT' 20,
+    'opsz' 36;
+}
+
+/* Updates as filters are pressed, so the pills visibly do something. */
+.browse-count {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
 .filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  padding: 0 0 20px;
+  gap: 7px;
+  padding-bottom: 22px;
 }
 
+/* Filled rather than outlined: an outline-only pill reads as a label, and these
+   are buttons. */
 .filter {
-  padding: 6px 13px;
-  border: 1px solid var(--rule);
+  padding: 7px 14px;
+  border: 1px solid transparent;
   border-radius: 999px;
-  background: none;
+  background: var(--paper-sunk);
   font-size: 13px;
+  font-weight: 500;
   color: var(--ink-soft);
   transition:
     background 0.15s ease,
-    color 0.15s ease,
-    border-color 0.15s ease;
+    color 0.15s ease;
 }
 
 .filter:hover {
-  border-color: var(--ink-faint);
+  background: #eae5da;
   color: var(--ink);
 }
 
 .filter[aria-pressed='true'] {
   background: var(--ink);
-  border-color: var(--ink);
   color: var(--paper);
 }
 
