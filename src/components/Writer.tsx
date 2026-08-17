@@ -1,7 +1,7 @@
-import { ArrowLeft, BookOpen, Dices, Eraser } from 'lucide-react'
-import { kindLabel, slotLabel } from '../lib/template'
+import { ArrowLeft } from 'lucide-react'
+import { kindLabel } from '../lib/template'
 import { suggestWord } from '../lib/suggestions'
-import type { Tale } from '../types'
+import type { Slot, Tale } from '../types'
 
 interface WriterProps {
   tale: Tale
@@ -12,6 +12,17 @@ interface WriterProps {
   onSwitchTale: (tale: Tale) => void
   onRead: () => void
   onBack: () => void
+}
+
+/**
+ * One line per blank. A custom label already says what the blank is for; where
+ * there isn't one, the hint does the job. The word kind trails behind either as
+ * an aside, and is dropped when the prompt is already just the kind.
+ */
+function prompt(slot: Slot): { label: string; kind: string | null } {
+  const kind = kindLabel(slot.kind)
+  const label = slot.label ?? slot.hint ?? kind
+  return { label, kind: label === kind ? null : kind.toLowerCase() }
 }
 
 export function Writer({
@@ -27,12 +38,12 @@ export function Writer({
   const filled = tale.slots.filter((slot) => words[slot.id]?.trim()).length
   const complete = filled === tale.slots.length
 
-  const rollEmpty = () => {
-    const rolled = { ...words }
+  const fillEmpty = () => {
+    const filledIn = { ...words }
     for (const slot of tale.slots) {
-      if (!rolled[slot.id]?.trim()) rolled[slot.id] = suggestWord(slot.kind)
+      if (!filledIn[slot.id]?.trim()) filledIn[slot.id] = suggestWord(slot.kind)
     }
-    onReplaceAll(rolled)
+    onReplaceAll(filledIn)
   }
 
   return (
@@ -40,18 +51,15 @@ export function Writer({
       <header className="page-head">
         <button type="button" className="text-btn" onClick={onBack}>
           <ArrowLeft size={15} aria-hidden="true" />
-          Contents
+          All stories
         </button>
-      </header>
 
-      <div className="writer-intro">
-        <p className="eyebrow">{tale.kicker}</p>
-        <h1 className="page-title">{tale.title}</h1>
-
-        <label className="picker">
-          <span>Story</span>
+        {/* Sits up in the chrome rather than under the title, where it only read
+            as a duplicate of the heading. */}
+        <div className="picker">
           <select
             value={tale.id}
+            aria-label="Choose a different story"
             onChange={(event) => {
               const next = tales.find((item) => item.id === event.target.value)
               if (next) onSwitchTale(next)
@@ -63,11 +71,11 @@ export function Writer({
               </option>
             ))}
           </select>
-        </label>
-        <p className="picker-note">
-          Switch stories whenever you like — the words you have already given are carried across.
-        </p>
-      </div>
+        </div>
+      </header>
+
+      <p className="eyebrow">{tale.kicker}</p>
+      <h1 className="page-title">{tale.title}</h1>
 
       <div className="writer-status">
         <div
@@ -84,49 +92,45 @@ export function Writer({
           />
         </div>
         <p className="progress-label">
-          {filled} of {tale.slots.length} blanks filled
+          {filled}/{tale.slots.length}
         </p>
       </div>
 
       <ul className="field-list">
-        {tale.slots.map((slot) => (
-          <li key={slot.id} className="field">
-            <label>
-              <span className="field-label">
-                {slotLabel(slot)}
-                {/* The kind is only worth repeating when the prompt doesn't already say it. */}
-                {slotLabel(slot) !== kindLabel(slot.kind) && (
-                  <span className="field-kind">{kindLabel(slot.kind)}</span>
-                )}
-              </span>
-              {slot.hint && <span className="field-hint">{slot.hint}</span>}
-              <span className="field-input">
-                <input
-                  value={words[slot.id] ?? ''}
-                  onChange={(event) => onChange(slot.id, event.target.value)}
-                  placeholder={kindLabel(slot.kind).toLowerCase()}
-                  autoComplete="off"
-                  spellCheck={false}
-                />
-                <button
-                  type="button"
-                  className="die"
-                  onClick={() => onChange(slot.id, suggestWord(slot.kind, words[slot.id]))}
-                  aria-label={`Suggest a ${kindLabel(slot.kind).toLowerCase()}`}
-                  title="Roll a word"
-                >
-                  <Dices size={16} aria-hidden="true" />
-                </button>
-              </span>
-            </label>
-          </li>
-        ))}
+        {tale.slots.map((slot) => {
+          const { label, kind } = prompt(slot)
+
+          return (
+            <li key={slot.id} className="field">
+              <label>
+                <span className="field-label">
+                  {label} {kind && <span className="field-kind">· {kind}</span>}
+                </span>
+                <span className="field-input">
+                  <input
+                    value={words[slot.id] ?? ''}
+                    onChange={(event) => onChange(slot.id, event.target.value)}
+                    autoComplete="off"
+                    spellCheck={false}
+                  />
+                  <button
+                    type="button"
+                    className="suggest"
+                    onClick={() => onChange(slot.id, suggestWord(slot.kind, words[slot.id]))}
+                    aria-label={`Suggest a ${kindLabel(slot.kind).toLowerCase()}`}
+                  >
+                    Suggest
+                  </button>
+                </span>
+              </label>
+            </li>
+          )
+        })}
       </ul>
 
       <div className="writer-actions">
-        <button type="button" className="quiet-btn" onClick={rollEmpty} disabled={complete}>
-          <Dices size={16} aria-hidden="true" />
-          Roll the empty ones
+        <button type="button" className="quiet-btn" onClick={fillEmpty} disabled={complete}>
+          Suggest the rest
         </button>
         <button
           type="button"
@@ -134,11 +138,9 @@ export function Writer({
           onClick={() => onReplaceAll({})}
           disabled={filled === 0}
         >
-          <Eraser size={16} aria-hidden="true" />
           Clear
         </button>
         <button type="button" className="primary-btn" onClick={onRead} disabled={!complete}>
-          <BookOpen size={16} aria-hidden="true" />
           {complete ? 'Read the story' : `${tale.slots.length - filled} to go`}
         </button>
       </div>

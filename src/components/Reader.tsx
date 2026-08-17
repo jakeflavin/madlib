@@ -117,7 +117,6 @@ export function Reader({ tale, words, onEditWord, onEditWords, onSave, saved }: 
           <p className="story-byline">
             told with the words of <strong>{words[tale.slots[0].id] || 'an anonymous soul'}</strong>
           </p>
-          <p className="story-hint">Tap any highlighted word to change your mind about it.</p>
         </header>
 
         {tale.chapters.map((chapter, chapterIndex) => (
@@ -163,10 +162,6 @@ export function Reader({ tale, words, onEditWord, onEditWords, onSave, saved }: 
             ))}
           </section>
         ))}
-
-        <p className="story-end" aria-hidden="true">
-          ❧
-        </p>
       </article>
     </div>
   )

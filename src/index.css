@@ -1,26 +1,27 @@
 /* ---------------------------------------------------------------------------
-   Fable — fantasy mad libs, set like a printed storybook.
-   Cream paper, brown ink, one deep red accent, and each tale's own colour for
-   the words you supplied. Ornament is kept to rules and a drop cap; everything
-   else is space, so a thousand words of prose stay comfortable to read.
+   Fable — fantasy mad libs, set for reading.
+
+   Three faces, each with one job: Fraunces for titles, Newsreader for prose,
+   Inter for the controls. No letter-spaced capitals anywhere — that, plus the
+   sheer amount of instructional copy, was what made the first pass feel like a
+   template. Copy is kept to what a reader can't work out by looking.
    --------------------------------------------------------------------------- */
 
 :root {
-  --paper: #faf4e6;
-  --paper-sunk: #f3ebd8;
-  --paper-edge: #e2d6bb;
-  --ink: #2e2318;
-  --ink-soft: #6d5c48;
-  --ink-faint: #9a8971;
-  --red: #9c2b2b;
-  --gold: #a8802c;
+  --paper: #fbf9f4;
+  --paper-sunk: #f4f1e9;
+  --rule: #e5e0d5;
+  --ink: #1d1b17;
+  --ink-soft: #635d54;
+  --ink-faint: #938c81;
+  --red: #a3352c;
 
-  --display: 'Cormorant Garamond', Georgia, serif;
-  --story: 'EB Garamond', Georgia, 'Times New Roman', serif;
-  --ui: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --display: 'Fraunces', Georgia, serif;
+  --story: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --ui: 'Inter', system-ui, -apple-system, sans-serif;
 
   /* Overridden per tale; this is the fallback for chrome that has no tale. */
-  --accent: #9c2b2b;
+  --accent: #a3352c;
 
   color-scheme: light;
 }
@@ -34,6 +35,7 @@
 body {
   margin: 0;
   font-family: var(--ui);
+  font-size: 15px;
   color: var(--ink);
   background: var(--paper);
   -webkit-font-smoothing: antialiased;
@@ -42,8 +44,8 @@ body {
 
 .app {
   min-height: 100dvh;
-  padding: max(24px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
-    max(64px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+  padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+    max(72px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
 }
 
 h1,
@@ -52,15 +54,15 @@ h3 {
   margin: 0;
   font-family: var(--display);
   font-weight: 600;
+  font-variation-settings: 'SOFT' 20;
+  letter-spacing: -0.015em;
 }
 
+/* The line above a title — small, sentence case, in the tale's colour. */
 .eyebrow {
   margin: 0;
-  font-family: var(--ui);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--accent);
 }
 
@@ -87,10 +89,10 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 11px 20px;
-  border-radius: 3px;
-  font-size: 15px;
+  gap: 7px;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 14px;
   font-weight: 500;
   transition:
     background 0.15s ease,
@@ -99,25 +101,25 @@ button {
 }
 
 .primary-btn {
-  border: 1px solid var(--red);
-  background: var(--red);
+  border: 1px solid var(--ink);
+  background: var(--ink);
   color: var(--paper);
 }
 
 .primary-btn:hover:not(:disabled) {
-  background: #85211f;
-  border-color: #85211f;
+  background: #000;
+  border-color: #000;
 }
 
 .primary-btn:disabled {
   background: transparent;
-  border-color: var(--paper-edge);
+  border-color: var(--rule);
   color: var(--ink-faint);
   cursor: default;
 }
 
 .quiet-btn {
-  border: 1px solid var(--paper-edge);
+  border: 1px solid var(--rule);
   background: transparent;
   color: var(--ink-soft);
 }
@@ -141,33 +143,33 @@ button {
   background: none;
   font-size: 14px;
   font-weight: 500;
+  white-space: nowrap;
   color: var(--ink-soft);
   transition: color 0.15s ease;
 }
 
 .text-btn:hover {
-  color: var(--accent);
+  color: var(--ink);
 }
 
 .tool {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   flex: none;
-  border: 1px solid var(--paper-edge);
-  border-radius: 3px;
+  border: 1px solid transparent;
+  border-radius: 6px;
   background: transparent;
-  color: var(--ink-soft);
+  color: var(--ink-faint);
   transition:
-    border-color 0.15s ease,
-    color 0.15s ease,
-    background 0.15s ease;
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .tool:hover:not(:disabled) {
-  border-color: var(--ink-soft);
+  background: var(--paper-sunk);
   color: var(--ink);
 }
 
@@ -177,77 +179,57 @@ button {
 }
 
 .tool[aria-pressed='true'] {
-  border-color: var(--accent);
   color: var(--accent);
 }
 
 .tool.danger:hover {
-  border-color: var(--red);
   color: var(--red);
 }
 
 /* --- contents page ------------------------------------------------------- */
 
 .shelf {
-  max-width: 880px;
+  max-width: 820px;
   margin: 0 auto;
 }
 
 .masthead {
-  padding: 48px 0 40px;
-  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 44px 0 30px;
 }
 
 .wordmark {
-  margin: 6px 0 0;
-  font-size: clamp(56px, 12vw, 88px);
-  font-weight: 600;
+  font-size: clamp(44px, 9vw, 68px);
+  font-variation-settings:
+    'SOFT' 20,
+    'opsz' 144;
   line-height: 1;
-  letter-spacing: 0.02em;
-  color: var(--ink);
+  letter-spacing: -0.03em;
 }
 
 .lede {
-  max-width: 40ch;
-  margin: 18px auto 0;
+  margin: 10px 0 0;
+  max-width: 38ch;
   font-family: var(--story);
-  font-size: 20px;
-  line-height: 1.6;
+  font-size: 19px;
+  line-height: 1.5;
   color: var(--ink-soft);
-}
-
-.masthead .text-btn {
-  margin-top: 18px;
-}
-
-.contents-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--paper-edge);
-}
-
-.section-title {
-  font-size: 15px;
-  font-family: var(--ui);
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
 }
 
 .filters {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  padding: 0 0 20px;
 }
 
 .filter {
-  padding: 5px 12px;
-  border: 1px solid transparent;
+  padding: 6px 13px;
+  border: 1px solid var(--rule);
   border-radius: 999px;
   background: none;
   font-size: 13px;
@@ -259,7 +241,8 @@ button {
 }
 
 .filter:hover {
-  border-color: var(--paper-edge);
+  border-color: var(--ink-faint);
+  color: var(--ink);
 }
 
 .filter[aria-pressed='true'] {
@@ -272,61 +255,48 @@ button {
   list-style: none;
   margin: 0;
   padding: 0;
+  border-top: 1px solid var(--rule);
 }
 
 .tale-card {
   display: block;
   width: 100%;
-  padding: 30px 0 28px 62px;
+  padding: 26px 8px 26px 0;
   border: none;
-  border-bottom: 1px solid var(--paper-edge);
+  border-bottom: 1px solid var(--rule);
   background: none;
   text-align: left;
-  position: relative;
-  transition: background 0.15s ease;
 }
 
-.tale-card:hover {
-  background: var(--paper-sunk);
-}
-
-/* The numeral sits in the margin, the way a chapter number would. */
-.tale-numeral {
-  position: absolute;
-  left: 8px;
-  top: 32px;
-  font-family: var(--display);
-  font-size: 26px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+.tale-card:hover .tale-title {
   color: var(--accent);
 }
 
 .tale-kicker {
   display: block;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  font-size: 13px;
   color: var(--ink-faint);
 }
 
 .tale-title {
   display: block;
-  margin-top: 6px;
+  margin-top: 2px;
   font-family: var(--display);
-  font-size: clamp(26px, 4vw, 32px);
+  font-size: clamp(25px, 3.6vw, 31px);
   font-weight: 600;
+  font-variation-settings: 'SOFT' 20;
+  letter-spacing: -0.02em;
   line-height: 1.15;
   color: var(--ink);
+  transition: color 0.15s ease;
 }
 
 .tale-blurb {
   display: block;
-  max-width: 58ch;
-  margin-top: 8px;
+  max-width: 62ch;
+  margin-top: 7px;
   font-family: var(--story);
-  font-size: 19px;
+  font-size: 18px;
   line-height: 1.5;
   color: var(--ink-soft);
 }
@@ -334,21 +304,14 @@ button {
 .tale-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px;
-  margin-top: 14px;
+  gap: 14px;
+  margin-top: 12px;
   font-size: 13px;
   color: var(--ink-faint);
 }
 
-.tale-meta > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
 .tale-draft {
   color: var(--accent);
-  font-weight: 500;
 }
 
 /* --- the writing form ---------------------------------------------------- */
@@ -360,74 +323,70 @@ button {
 }
 
 .page-head {
-  padding-bottom: 24px;
-}
-
-.writer-intro {
-  padding-bottom: 28px;
-  border-bottom: 1px solid var(--paper-edge);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 26px;
 }
 
 .page-title {
-  margin: 6px 0 0;
-  font-size: clamp(32px, 6vw, 44px);
+  margin: 3px 0 0;
+  font-size: clamp(30px, 5vw, 40px);
+  font-variation-settings:
+    'SOFT' 20,
+    'opsz' 96;
   line-height: 1.1;
 }
 
+/* The story select lives in the chrome, opposite the back link. */
 .picker {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 22px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
+  min-width: 0;
 }
 
 .picker select {
-  padding: 9px 34px 9px 12px;
-  border: 1px solid var(--paper-edge);
-  border-radius: 3px;
+  max-width: 100%;
+  padding: 8px 32px 8px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
   background-color: transparent;
   /* A chevron drawn in CSS, so the select matches the rest of the chrome. */
   background-image:
-    linear-gradient(45deg, transparent 50%, var(--ink-soft) 50%),
-    linear-gradient(135deg, var(--ink-soft) 50%, transparent 50%);
+    linear-gradient(45deg, transparent 50%, var(--ink-faint) 50%),
+    linear-gradient(135deg, var(--ink-faint) 50%, transparent 50%);
   background-position:
-    right 16px center,
-    right 11px center;
+    right 15px center,
+    right 10px center;
   background-size:
     5px 5px,
     5px 5px;
   background-repeat: no-repeat;
   appearance: none;
-  font-family: var(--story);
-  font-size: 18px;
-  font-weight: 400;
-  letter-spacing: normal;
-  text-transform: none;
-  color: var(--ink);
+  font-size: 14px;
+  color: var(--ink-soft);
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .picker select:hover {
-  border-color: var(--ink-soft);
-}
-
-.picker-note {
-  margin: 10px 0 0;
-  font-size: 13px;
-  color: var(--ink-faint);
+  border-color: var(--ink-faint);
+  color: var(--ink);
 }
 
 .writer-status {
-  padding: 22px 0 26px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 26px 0 30px;
 }
 
 .progress {
-  height: 3px;
-  background: var(--paper-edge);
+  flex: 1;
+  height: 2px;
+  background: var(--rule);
 }
 
 .progress-fill {
@@ -437,22 +396,24 @@ button {
 }
 
 .progress-label {
-  margin: 8px 0 0;
+  margin: 0;
+  flex: none;
   font-size: 13px;
   color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
 }
 
 .field-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 22px 32px;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 26px 36px;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-/* Hints make some prompts taller than others; pushing the input to the bottom of
-   each cell keeps the line of inputs level across the two columns. */
+/* One prompt, one input. The kind rides along at the end of the prompt rather
+   than taking a line of its own. */
 .field,
 .field label {
   display: flex;
@@ -461,91 +422,87 @@ button {
 }
 
 .field-label {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
   font-family: var(--story);
   font-size: 18px;
+  line-height: 1.35;
   color: var(--ink);
 }
 
 .field-kind {
-  font-family: var(--ui);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 15px;
   color: var(--ink-faint);
 }
 
-.field-hint {
-  display: block;
-  margin-top: 2px;
-  font-family: var(--story);
-  font-size: 15px;
-  font-style: italic;
-  color: var(--ink-soft);
-}
-
+/* The rule belongs to the row, not the input, so the button sits on the line
+   rather than floating off the end of it. */
 .field-input {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   margin-top: auto;
-  padding-top: 6px;
+  padding-top: 4px;
+  border-bottom: 1px solid var(--rule);
+  transition: border-color 0.15s ease;
+}
+
+.field-input:focus-within {
+  border-bottom-color: var(--accent);
 }
 
 .field-input input {
   flex: 1;
   min-width: 0;
-  padding: 7px 2px;
+  padding: 5px 0;
   border: none;
-  border-bottom: 1px solid var(--paper-edge);
   background: none;
   font-family: var(--story);
   font-size: 19px;
   color: var(--ink);
-  transition: border-color 0.15s ease;
-}
-
-.field-input input::placeholder {
-  color: var(--ink-faint);
-  opacity: 0.7;
 }
 
 .field-input input:focus {
   outline: none;
-  border-bottom-color: var(--accent);
 }
 
-.die {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
+/* A quiet word of help, not a game of chance. */
+.suggest {
   flex: none;
+  padding: 4px 0;
   border: none;
-  border-radius: 3px;
   background: none;
+  font-size: 13px;
   color: var(--ink-faint);
+  opacity: 0;
   transition:
     color 0.15s ease,
-    background 0.15s ease;
+    opacity 0.15s ease;
 }
 
-.die:hover {
-  background: var(--paper-sunk);
+/* Kept out of the way until the row is in play — on touch there is no hover, so
+   it stays visible there rather than being unreachable. */
+.field:hover .suggest,
+.field-input:focus-within .suggest,
+.suggest:focus-visible {
+  opacity: 1;
+}
+
+.suggest:hover {
   color: var(--accent);
+}
+
+@media (hover: none) {
+  .suggest {
+    opacity: 1;
+  }
 }
 
 .writer-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 36px;
-  padding-top: 24px;
-  border-top: 1px solid var(--paper-edge);
+  margin-top: 40px;
+  padding-top: 26px;
+  border-top: 1px solid var(--rule);
 }
 
 .writer-actions .primary-btn {
@@ -555,7 +512,7 @@ button {
 /* --- the story ----------------------------------------------------------- */
 
 .reader {
-  max-width: 680px;
+  max-width: 660px;
   margin: 0 auto;
 }
 
@@ -567,122 +524,103 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 8px 0 14px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--paper-edge);
+  padding: 6px 0 10px;
+  margin-bottom: 34px;
+  border-bottom: 1px solid var(--rule);
   background: var(--paper);
 }
 
 .toolbar-tools {
   display: flex;
-  gap: 6px;
+  gap: 2px;
 }
 
 .story-head {
-  padding: 26px 0 40px;
-  text-align: center;
+  padding-bottom: 40px;
 }
 
 .story-title {
-  max-width: 16ch;
-  margin: 10px auto 0;
-  font-size: clamp(38px, 8vw, 58px);
-  line-height: 1.08;
+  margin: 4px 0 0;
+  font-size: clamp(40px, 7vw, 60px);
+  font-variation-settings:
+    'SOFT' 20,
+    'opsz' 144;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
 }
 
 .story-byline {
-  margin: 18px 0 0;
+  margin: 16px 0 0;
   font-family: var(--story);
-  font-size: 18px;
-  font-style: italic;
-  color: var(--ink-soft);
+  font-size: 17px;
+  color: var(--ink-faint);
 }
 
 .story-byline strong {
-  font-style: normal;
-  font-weight: 600;
-  color: var(--accent);
-}
-
-.story-hint {
-  margin: 26px 0 0;
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  color: var(--ink-faint);
+  font-weight: 500;
+  color: var(--ink-soft);
 }
 
 .chapter {
-  margin-bottom: 46px;
+  margin-bottom: 44px;
 }
 
 .chapter-title {
-  margin-bottom: 26px;
-  font-family: var(--ui);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  text-align: center;
-  color: var(--ink-faint);
-}
-
-/* A hairline rule either side of the chapter number, as a book would set it. */
-.chapter-title::before,
-.chapter-title::after {
-  content: '';
-  display: block;
-  width: 44px;
-  height: 1px;
-  margin: 0 auto 14px;
-  background: var(--paper-edge);
-}
-
-.chapter-title::after {
-  margin: 14px auto 0;
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-variation-settings:
+    'SOFT' 20,
+    'opsz' 36;
+  color: var(--ink);
 }
 
 .chapter p {
-  margin: 0 0 1.1em;
+  margin: 0 0 1.15em;
   font-family: var(--story);
-  font-size: 21px;
-  line-height: 1.78;
+  font-size: 20px;
+  line-height: 1.7;
   color: var(--ink);
 }
 
 .chapter .drop-cap::first-letter {
   float: left;
-  margin: 0.08em 0.08em 0 0;
+  margin: 0.07em 0.07em 0 0;
   font-family: var(--display);
-  font-size: 3.6em;
+  font-size: 3.4em;
   font-weight: 600;
-  line-height: 0.78;
+  line-height: 0.8;
   color: var(--accent);
 }
 
-/* Every word the reader supplied, in the tale's own colour and editable in place. */
+/* Every word the reader supplied, in the tale's colour and editable in place. */
 .word {
   padding: 0;
   border: none;
-  border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
   background: none;
   font: inherit;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--accent);
-  transition: background 0.15s ease;
+  text-decoration: underline;
+  /* Barely there at rest — a page with forty of these underlined at full strength
+     is a page nobody wants to read. */
+  text-decoration-color: color-mix(in srgb, var(--accent) 16%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s ease;
 }
 
 .word:hover {
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  text-decoration-color: var(--accent);
 }
 
 .word-edit {
   min-width: 4ch;
-  padding: 0 3px;
+  padding: 0 2px;
   border: none;
   border-bottom: 1px solid var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
   font: inherit;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--accent);
 }
 
@@ -690,27 +628,21 @@ button {
   outline: none;
 }
 
-.story-end {
-  margin: 8px 0 0;
-  font-size: 26px;
-  text-align: center;
-  color: var(--ink-faint);
-}
-
 /* --- library ------------------------------------------------------------- */
 
 .saved-list {
   list-style: none;
-  margin: 28px 0 0;
+  margin: 0;
   padding: 0;
+  border-top: 1px solid var(--rule);
 }
 
 .saved-card {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 18px 0;
-  border-bottom: 1px solid var(--paper-edge);
+  gap: 10px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule);
 }
 
 .saved-body {
@@ -721,8 +653,10 @@ button {
 .saved-body strong {
   display: block;
   font-family: var(--display);
-  font-size: 23px;
+  font-size: 21px;
   font-weight: 600;
+  font-variation-settings: 'SOFT' 20;
+  letter-spacing: -0.015em;
   color: var(--ink);
 }
 
@@ -732,18 +666,16 @@ button {
 }
 
 .empty {
-  margin-top: 40px;
+  margin-top: 36px;
   font-family: var(--story);
-  font-size: 20px;
-  font-style: italic;
+  font-size: 19px;
   color: var(--ink-soft);
 }
 
 /* --- print --------------------------------------------------------------- */
 
 @media print {
-  .toolbar,
-  .story-hint {
+  .toolbar {
     display: none !important;
   }
 
@@ -753,8 +685,8 @@ button {
   }
 
   .word {
-    border-bottom: none;
     color: #000;
+    text-decoration: none;
   }
 
   .chapter {
@@ -766,20 +698,17 @@ button {
 
 @media (width <= 620px) {
   .masthead {
-    padding: 28px 0 32px;
-  }
-
-  .tale-card {
-    padding-left: 44px;
-  }
-
-  .tale-numeral {
-    left: 0;
-    font-size: 22px;
+    padding: 24px 0 26px;
   }
 
   .field-list {
     grid-template-columns: 1fr;
+  }
+
+  /* Leave the back link its whole width; the select gives ground instead. */
+  .picker select {
+    max-width: 52vw;
+    text-overflow: ellipsis;
   }
 
   .writer-actions {
@@ -792,7 +721,7 @@ button {
   }
 
   .chapter p {
-    font-size: 19px;
+    font-size: 18px;
   }
 }
 

@@ -1,8 +1,8 @@
 import type { SlotKind } from '../types'
 
 /**
- * Words the dice can roll for each kind of blank. They lean silly on purpose —
- * a tale filled entirely at random should still be worth reading aloud.
+ * The words offered for each kind of blank. They lean silly on purpose — a tale
+ * filled entirely from these should still be worth reading aloud.
  */
 const BANKS: Record<SlotKind, string[]> = {
   name: [
@@ -238,20 +238,10 @@ const BANKS: Record<SlotKind, string[]> = {
   ],
 }
 
-/** A random suggestion for a blank, never repeating the word already there. */
+/** A suggestion for a blank, never repeating the word already there. */
 export function suggestWord(kind: SlotKind, avoid?: string): string {
   const bank = BANKS[kind]
   const options = bank.filter((word) => word.toLowerCase() !== avoid?.trim().toLowerCase())
   const pool = options.length > 0 ? options : bank
   return pool[Math.floor(Math.random() * pool.length)]
-}
-
-/** The first few bank entries, shown as tappable chips under a prompt. */
-export function exampleWords(kind: SlotKind, count = 3): string[] {
-  const bank = [...BANKS[kind]]
-  const picks: string[] = []
-  while (picks.length < count && bank.length > 0) {
-    picks.push(...bank.splice(Math.floor(Math.random() * bank.length), 1))
-  }
-  return picks
 }
