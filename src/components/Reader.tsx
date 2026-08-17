@@ -1,5 +1,6 @@
 import { BookMarked, Check, Copy, Link2, Pause, PencilLine, Printer, Volume2 } from 'lucide-react'
 import { useState } from 'react'
+import { useReadingProgress } from '../hooks/useReadingProgress'
 import { useSpeech } from '../hooks/useSpeech'
 import { shareUrl } from '../lib/share'
 import { renderBody, renderPlainText, slotLabel } from '../lib/template'
@@ -18,6 +19,7 @@ export function Reader({ tale, words, onEditWord, onEditWords, onSave, saved }: 
   const [editing, setEditing] = useState<string | null>(null)
   const [copied, setCopied] = useState<'text' | 'link' | null>(null)
   const speech = useSpeech()
+  const progress = useReadingProgress()
 
   const flash = (kind: 'text' | 'link') => {
     setCopied(kind)
@@ -41,7 +43,7 @@ export function Reader({ tale, words, onEditWord, onEditWords, onSave, saved }: 
 
   return (
     <div className="reader" style={{ '--accent': tale.accent } as React.CSSProperties}>
-      <div className="toolbar">
+      <div className="toolbar" style={{ '--read': `${progress}%` } as React.CSSProperties}>
         <button type="button" className="text-btn" onClick={onEditWords}>
           <PencilLine size={15} aria-hidden="true" />
           Edit words

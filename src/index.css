@@ -40,6 +40,27 @@ body {
   background: var(--paper);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* Both display faces carry an optical size axis; letting the browser drive it
+     is what keeps 60px titles from looking like blown-up body text. */
+  font-optical-sizing: auto;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+/* Headings set their own rag rather than leaving one word stranded on a line. */
+h1,
+h2,
+h3,
+.tale-title,
+.field-label {
+  text-wrap: balance;
+}
+
+p,
+.tale-blurb {
+  text-wrap: pretty;
 }
 
 .app {
@@ -286,7 +307,37 @@ button {
   border-top: 1px solid var(--rule);
 }
 
+/* A short settle on arrival, staggered down the list. Deliberately small — this
+   is a page of text, not a slideshow. */
+.tale-list li {
+  animation: settle 0.4s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+}
+
+.tale-list li:nth-child(2) {
+  animation-delay: 0.04s;
+}
+.tale-list li:nth-child(3) {
+  animation-delay: 0.08s;
+}
+.tale-list li:nth-child(4) {
+  animation-delay: 0.12s;
+}
+.tale-list li:nth-child(5) {
+  animation-delay: 0.16s;
+}
+.tale-list li:nth-child(n + 6) {
+  animation-delay: 0.2s;
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
 .tale-card {
+  position: relative;
   display: block;
   width: 100%;
   padding: 26px 8px 26px 0;
@@ -294,6 +345,31 @@ button {
   border-bottom: 1px solid var(--rule);
   background: none;
   text-align: left;
+  transition: padding-left 0.2s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+/* On hover the tale's own colour arrives as a rule in the margin and the row
+   steps aside to make room for it. */
+.tale-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 26px;
+  bottom: 26px;
+  width: 2px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.tale-card:hover,
+.tale-card:focus-visible {
+  padding-left: 18px;
+}
+
+.tale-card:hover::before,
+.tale-card:focus-visible::before {
+  opacity: 1;
 }
 
 .tale-card:hover .tale-title {
@@ -332,13 +408,25 @@ button {
 .tale-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 12px;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
   font-size: 13px;
   color: var(--ink-faint);
 }
 
+/* Facts run together as one line with dividers; the status is a badge, because
+   it is the only part that changes and the only part worth scanning for. */
+.tale-meta > span + span:not(.tale-draft)::before {
+  content: '·';
+  margin-right: 8px;
+}
+
 .tale-draft {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 11%, transparent);
+  font-weight: 500;
   color: var(--accent);
 }
 
@@ -449,7 +537,10 @@ button {
   height: 100%;
 }
 
+/* Two lines' worth of room, so a one-line prompt doesn't leave a gaping hole
+   above its input just to line up with a two-line neighbour. */
 .field-label {
+  min-height: 2.7em;
   font-family: var(--story);
   font-size: 18px;
   line-height: 1.35;
@@ -556,6 +647,18 @@ button {
   margin-bottom: 34px;
   border-bottom: 1px solid var(--rule);
   background: var(--paper);
+}
+
+/* How far through the story you are, drawn along the toolbar's own rule. */
+.toolbar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 1px;
+  width: var(--read, 0%);
+  background: var(--accent);
+  transition: width 0.1s linear;
 }
 
 .toolbar-tools {
@@ -757,6 +860,8 @@ button {
   *,
   *::before,
   *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.001ms !important;
   }
 }
