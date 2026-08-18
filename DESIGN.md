@@ -23,6 +23,10 @@ either the change is wrong or this file needs updating first.
 - The format itself, which every printed edition and every teacher's printable
   shares: a numbered list of ruled blanks, each labelled beneath the line with
   its part of speech, then the story with the same ruled blanks set inline.
+- For the characters, `game-icons.net` — 4,170 fantasy icons under CC BY 3.0 by
+  Lorc, Delapouite and contributors. Nothing is traced from it: their icons are
+  solid silhouettes and ours are outlined and filled. What it teaches is
+  _composition_, and that is what we took (see Characters, below).
 
 ## What we do not take
 
@@ -52,13 +56,14 @@ text on white.
 --yellow     #F7C948   focus wash, highlights
 ```
 
-**Crayon box** — the flat fills a story cover can take. Each is chosen so black
-text sits on it comfortably:
+**Crayon box** — the flat fills a story cover can take, one per story. Each is
+chosen so black text sits on it comfortably:
 
 ```
-orange  #F0813F     blue    #8FC7E8
-yellow  #F7C948     green   #86C99A
-pink    #F2A0BE     purple  #B9A7DC
+orange  #F0813F     blue        #8FC7E8     periwinkle  #9AA9E8
+yellow  #F7C948     green       #86C99A     teal        #6FC5C0
+pink    #F2A0BE     purple      #B9A7DC     lilac       #DCA9E8
+lime    #C6D870     tan         #D7A96B     red         #EE6B5E
 ```
 
 Rules:
@@ -139,20 +144,45 @@ a title block up top with the character and a heavy rule beneath.
 
 ## Characters
 
-Six, one per story, drawn as flat cartoons: 3px black outline, flat crayon
-fills, no gradients, no shading, on a 64×64 grid.
+Twelve, one per story, drawn as flat cartoons: 3px ink outline, flat crayon
+fill, no gradients, no shading, on a 64×64 grid.
 
-| Story                      | Character  |
-| -------------------------- | ---------- |
-| The Dragon of Ember Fell   | dragon     |
-| The Cinder Crown           | crown      |
-| The Frostwood Pact         | snowy tree |
-| The Lantern Below the Sea  | mermaid    |
-| The Cartographer of Clouds | castle     |
-| The Wandering Teahouse     | fairy      |
+### What the reference taught us
 
-They are a first pass and meant to be redrawn. They live in one file
-(`src/components/Character.tsx`) so replacing them touches nothing else.
+Looking at how game-icons.net draws fantasy at small sizes, three rules carried
+over — and they are the difference between a mark that reads and a mark that
+doesn't:
+
+1. **Creatures are front-facing heads or busts, not full bodies.** A whole
+   dragon at 96px is a smudge; a dragon's face is a dragon.
+2. **Build from three or four chunky shapes, symmetrically.** Interior detail
+   disappears first, so there should be almost none.
+3. **When a creature won't reduce, draw its emblem instead.** Their armoury is
+   full of helms and shields standing in for knights. Ours does the same.
+
+What we did _not_ take is their silhouette technique — solid white shapes on
+black, read through negative space. Ours are positive shapes with an ink
+outline and a crayon fill, because that is what the booklet style is.
+
+### The cast
+
+| Story                                 | Character | Note                           |
+| ------------------------------------- | --------- | ------------------------------ |
+| The Dragon of Ember Fell              | dragon    | horned face, front on          |
+| The Cinder Crown                      | crown     |                                |
+| The Frostwood Pact                    | tree      | snow-capped                    |
+| The Lantern Below the Sea             | mermaid   | bust and tail                  |
+| The Cartographer of Clouds            | castle    |                                |
+| The Wandering Teahouse                | fairy     | four wings                     |
+| The Knight Who Was Afraid of Anything | knight    | a shield — the helm never read |
+| The Witch of Tumbledown Lane          | witch     | the hat, not a face            |
+| The Last Unicorn Delivery             | unicorn   | front-facing, horn centred     |
+| The Troll Under the Toll Bridge       | troll     | wide skull, tusks up           |
+| The Library at the End of the Road    | book      | open, with a ribbon            |
+| The Phoenix and the Lighthouse Keeper | phoenix   | wings up                       |
+
+They live in one file (`src/components/Character.tsx`) so any of them can be
+redrawn without touching anything else.
 
 ## Accessibility
 

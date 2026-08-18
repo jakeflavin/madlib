@@ -49,7 +49,19 @@ export interface Chapter {
 }
 
 /** The cartoon character that fronts a story, in place of a Mad Libs face. */
-export type Character = 'dragon' | 'crown' | 'tree' | 'mermaid' | 'castle' | 'fairy'
+export type Character =
+  | 'dragon'
+  | 'crown'
+  | 'tree'
+  | 'mermaid'
+  | 'castle'
+  | 'fairy'
+  | 'knight'
+  | 'witch'
+  | 'unicorn'
+  | 'troll'
+  | 'book'
+  | 'phoenix'
 
 export interface Tale {
   id: string

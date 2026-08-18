@@ -111,7 +111,7 @@ export function Shelf({ tales, drafts, library, tag, onTag, onOpen, onOpenLibrar
 
       <footer className="colophon">
         <Character name="fairy" className="colophon-character" />
-        <p>Six stories. Twenty-eight blanks apiece. No two readings alike.</p>
+        <p>Twelve stories. Nearly thirty blanks apiece. No two readings alike.</p>
       </footer>
     </div>
   )

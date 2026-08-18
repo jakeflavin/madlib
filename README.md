@@ -11,7 +11,7 @@ thing aloud.
 
 ## What it does
 
-- **Six long tales**, five chapters apiece, written for this app rather than
+- **Twelve long stories**, five chapters apiece, written for this app rather than
   padded out of a paragraph. Every tale defines its own prompts, so the blanks
   fit the story instead of a generic noun/verb/adjective list.
 - **Browse by what you fancy** — the contents page filters on tags like dragons,
