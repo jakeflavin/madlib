@@ -1,6 +1,6 @@
 import { BookMarked, Check, Copy, Link2, Pause, PencilLine, Printer, Volume2 } from 'lucide-react'
 import { useState } from 'react'
-import { Emblem } from './Emblem'
+import { Character } from './Character'
 import { TopBar } from './TopBar'
 import { useReadingProgress } from '../hooks/useReadingProgress'
 import { useSpeech } from '../hooks/useSpeech'
@@ -53,9 +53,9 @@ export function Reader({
   }
 
   return (
-    <div className="reader" style={{ '--accent': tale.accent } as React.CSSProperties}>
+    <div className="reader" style={{ '--fill': tale.accent } as React.CSSProperties}>
       <TopBar onHome={onHome} progress={progress}>
-        <button type="button" className="btn-ghost" onClick={onEditWords}>
+        <button type="button" className="btn-quiet" onClick={onEditWords}>
           <PencilLine size={15} aria-hidden="true" />
           <span className="btn-label">Edit words</span>
         </button>
@@ -121,20 +121,16 @@ export function Reader({
         </button>
       </TopBar>
 
-      <section className="page-hero">
-        <div className="page-hero-inner">
-          <p className="hero-eyebrow">
-            <Emblem name={tale.emblem} className="eyebrow-emblem" />
-            {tale.kicker}
-          </p>
+      <article className="story">
+        <header className="story-head">
+          <Character name={tale.character} className="story-character" />
+          <p className="kicker">{tale.kicker}</p>
           <h1 className="story-title">{tale.title}</h1>
           <p className="story-byline">
-            told with the words of <strong>{words[tale.slots[0].id] || 'an anonymous soul'}</strong>
+            as told by <strong>{words[tale.slots[0].id] || 'somebody'}</strong>
           </p>
-        </div>
-      </section>
+        </header>
 
-      <article className="story">
         {tale.chapters.map((chapter, chapterIndex) => (
           <section key={chapter.title} className="chapter">
             <h2 className="chapter-title">{chapter.title}</h2>
@@ -157,6 +153,8 @@ export function Reader({
                         size={Math.max(4, (words[segment.slotId] ?? '').length)}
                       />
                     ) : (
+                      /* The player's word, in their hand, on the line they
+                         wrote it on. */
                       <button
                         type="button"
                         className="word"

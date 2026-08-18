@@ -4,22 +4,22 @@ interface TopBarProps {
   onHome: () => void
   /** Buttons for the right-hand side. */
   children?: ReactNode
-  /** 0–100. Draws the reading line along the bar's lower edge. */
+  /** 0–100. Draws the reading line along the band's lower edge. */
   progress?: number
 }
 
 /**
- * Sticky chrome across every screen: wordmark left, actions right, and on the
- * reader a progress line along the bottom edge.
+ * The masthead band, as a booklet cover has: solid navy, the wordmark knocked
+ * out in white, sitting on a heavy ink rule.
  */
 export function TopBar({ onHome, children, progress }: TopBarProps) {
   return (
-    <header className="topbar" style={{ '--read': `${progress ?? 0}%` } as React.CSSProperties}>
-      <div className="topbar-inner">
+    <header className="masthead" style={{ '--read': `${progress ?? 0}%` } as React.CSSProperties}>
+      <div className="masthead-inner">
         <button type="button" className="wordmark" onClick={onHome}>
           Fable
         </button>
-        <div className="topbar-actions">{children}</div>
+        <div className="masthead-actions">{children}</div>
       </div>
     </header>
   )

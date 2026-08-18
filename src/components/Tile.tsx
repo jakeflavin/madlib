@@ -1,4 +1,4 @@
-import { Emblem } from './Emblem'
+import { Character } from './Character'
 import type { Tale } from '../types'
 
 interface TileProps {
@@ -9,25 +9,23 @@ interface TileProps {
 }
 
 /**
- * A book plate rather than a poster: flat navy, a gold rule inset like a frame,
- * the story's emblem drawn in its own colour, and the title set in the display
- * serif. No gradients — the plate is printed, not lit.
+ * A booklet cover: flat crayon fill, fat ink outline, hard shadow, the story's
+ * character drawn large, the title beneath in the cartoon face.
  */
 export function Tile({ tale, note, onOpen }: TileProps) {
   return (
     <button
       type="button"
-      className="tile"
+      className="cover"
       onClick={onOpen}
-      style={{ '--accent': tale.accent } as React.CSSProperties}
+      style={{ '--fill': tale.accent } as React.CSSProperties}
     >
-      <span className="tile-frame" aria-hidden="true" />
-      <span className="tile-plate">
-        <Emblem name={tale.emblem} className="tile-emblem" />
+      <span className="cover-art">
+        <Character name={tale.character} className="cover-character" />
       </span>
-      <span className="tile-lockup">
-        <span className="tile-title">{tale.title}</span>
-        <span className="tile-note">{note ?? `${tale.minutes} min read`}</span>
+      <span className="cover-band">
+        <span className="cover-title">{tale.title}</span>
+        <span className="cover-note">{note ?? `${tale.minutes} min read`}</span>
       </span>
     </button>
   )

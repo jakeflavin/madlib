@@ -8,8 +8,8 @@ export const wanderingTeahouse: Tale = {
     'It appears at the crossroads for one night a year. The rule is simple: everyone gets fed, and nobody asks what anybody is.',
   minutes: 7,
   tags: ['spirits', 'magic', 'friendship'],
-  accent: '#FF8FA3',
-  emblem: 'lantern',
+  accent: '#F2A0BE',
+  character: 'fairy',
   slots: [
     { id: 'hero', kind: 'name', label: "The new cook's name" },
     { id: 'village', kind: 'place', label: 'The nearest village' },

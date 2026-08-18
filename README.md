@@ -1,6 +1,8 @@
 # Fable
 
-Fantasy mad libs, in the design language of Disney+.
+Fantasy Mad Libs, set like the printed booklets: cream paper, fat black
+outlines, crayon-box covers, and write-on lines with the part of speech printed
+underneath.
 
 Six original tales — dragons, drowned cities, sky islands, a teahouse that only
 appears one night a year — each around a five-to-seven minute read, each with
@@ -18,10 +20,10 @@ thing aloud.
   suggestion. **Switch stories from the same page** and your answers come with
   you, matched across by kind.
 - **Roll the empty ones** fills whatever's left from a hand-written word bank.
-- **Then read it** as one continuous story — no pagination — on a raised panel at
-  a comfortable measure, with every word you supplied picked out in the story's
-  own colour. Tap one mid-story to change your mind; it updates everywhere it
-  appears. The top bar tracks how far through you are.
+- **Then read it** as one continuous story — no pagination — with every word you
+  supplied set in handwriting on its own ruled line, exactly as a filled-in
+  booklet reads. Tap one mid-story to change your mind; it updates everywhere it
+  appears. The masthead tracks how far through you are.
 - **Read aloud** via the browser's own voice, **print**, **copy**, and a **share
   link** that carries the whole finished tale in the URL — no server involved.
 - **A library** of the tales you've bound, plus drafts that survive a refresh.
@@ -44,9 +46,10 @@ npm run dev
 
 ## Design
 
-[DESIGN.md](DESIGN.md) is the source of truth for the look: colour, type, spacing,
-components and motion, with the values measured from `disneyplus.com` rather than
-guessed. Change the guide before changing the app.
+[DESIGN.md](DESIGN.md) is the source of truth for the look: colour, type,
+components, the write-on line, and the six characters. It also records what the
+design deliberately does not take from the trademark it is inspired by. Change
+the guide before changing the app.
 
 ## Adding a tale
 

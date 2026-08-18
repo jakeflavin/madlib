@@ -1,5 +1,4 @@
-import { ArrowLeft } from 'lucide-react'
-import { Emblem } from './Emblem'
+import { Character } from './Character'
 import { TopBar } from './TopBar'
 import { kindLabel } from '../lib/template'
 import { suggestWord } from '../lib/suggestions'
@@ -17,14 +16,14 @@ interface WriterProps {
 }
 
 /**
- * One line per blank. A custom label already says what the blank is for; where
- * there isn't one, the hint does the job. The word kind trails behind either as
- * an aside, and is dropped when the prompt is already just the kind.
+ * What gets printed under a write-on line. The part of speech always shows,
+ * because that is what the player is answering; a custom prompt or hint rides
+ * along beneath it when the story has one.
  */
-function prompt(slot: Slot): { label: string; kind: string | null } {
+function prompt(slot: Slot): { kind: string; hint: string | null } {
   const kind = kindLabel(slot.kind)
-  const label = slot.label ?? slot.hint ?? kind
-  return { label, kind: label === kind ? null : kind.toLowerCase() }
+  const hint = slot.label ?? slot.hint ?? null
+  return { kind, hint: hint === kind ? null : hint }
 }
 
 export function Writer({
@@ -49,24 +48,20 @@ export function Writer({
   }
 
   return (
-    <div className="writer" style={{ '--accent': tale.accent } as React.CSSProperties}>
+    <div className="writer" style={{ '--fill': tale.accent } as React.CSSProperties}>
       <TopBar onHome={onBack}>
-        <button type="button" className="btn-ghost" onClick={onBack}>
-          <ArrowLeft size={15} aria-hidden="true" />
-          <span className="btn-label">All stories</span>
+        <button type="button" className="btn-quiet" onClick={onBack}>
+          All stories
         </button>
       </TopBar>
 
-      <section className="page-hero">
-        <div className="page-hero-inner">
-          <p className="hero-eyebrow">
-            <Emblem name={tale.emblem} className="eyebrow-emblem" />
-            {tale.kicker}
-          </p>
+      <section className="sheet-head">
+        <Character name={tale.character} className="sheet-character" />
+        <div className="sheet-head-body">
+          <p className="kicker">{tale.kicker}</p>
           <h1 className="page-title">{tale.title}</h1>
-
           <label className="picker">
-            <span className="picker-label">Story</span>
+            <span className="picker-label">Playing</span>
             <select
               value={tale.id}
               onChange={(event) => {
@@ -84,65 +79,55 @@ export function Writer({
         </div>
       </section>
 
-      <ul className="field-list">
-        {tale.slots.map((slot) => {
-          const { label, kind } = prompt(slot)
+      <section className="sheet">
+        <h2 className="sheet-title">Fill in the blanks</h2>
+        <ol className="blanks">
+          {tale.slots.map((slot, index) => {
+            const { kind, hint } = prompt(slot)
 
-          return (
-            <li key={slot.id} className="field">
-              <label>
-                <span className="field-label">
-                  {label} {kind && <span className="field-kind">· {kind}</span>}
-                </span>
-                <span className="field-input">
-                  <input
-                    value={words[slot.id] ?? ''}
-                    onChange={(event) => onChange(slot.id, event.target.value)}
-                    autoComplete="off"
-                    spellCheck={false}
-                  />
-                  <button
-                    type="button"
-                    className="suggest"
-                    onClick={() => onChange(slot.id, suggestWord(slot.kind, words[slot.id]))}
-                    aria-label={`Suggest a ${kindLabel(slot.kind).toLowerCase()}`}
-                  >
-                    Suggest
-                  </button>
-                </span>
-              </label>
-            </li>
-          )
-        })}
-      </ul>
+            return (
+              <li key={slot.id} className="blank">
+                <span className="blank-number">{index + 1}</span>
+                <label className="blank-body">
+                  {/* The line, then the part of speech under it — the format's
+                      one non-negotiable. */}
+                  <span className="write-on">
+                    <input
+                      value={words[slot.id] ?? ''}
+                      onChange={(event) => onChange(slot.id, event.target.value)}
+                      autoComplete="off"
+                      spellCheck={false}
+                    />
+                    <button
+                      type="button"
+                      className="suggest"
+                      onClick={() => onChange(slot.id, suggestWord(slot.kind, words[slot.id]))}
+                      aria-label={`Suggest a ${kind.toLowerCase()}`}
+                    >
+                      Suggest
+                    </button>
+                  </span>
+                  <span className="blank-kind">{kind}</span>
+                  {hint && <span className="blank-hint">{hint}</span>}
+                </label>
+              </li>
+            )
+          })}
+        </ol>
+      </section>
 
-      {/* The action bar rides with you: on a 28-field form the button that
+      {/* The action bar rides with you: on a 28-blank sheet the button that
           matters should never be a scroll away. */}
       <div className="action-bar">
         <div className="action-bar-inner">
-          <div className="action-progress">
-            <div
-              className="progress"
-              role="progressbar"
-              aria-valuenow={filled}
-              aria-valuemin={0}
-              aria-valuemax={tale.slots.length}
-              aria-label="Blanks filled"
-            >
-              <div
-                className="progress-fill"
-                style={{ width: `${(filled / tale.slots.length) * 100}%` }}
-              />
-            </div>
-            <p className="progress-label">
-              {filled}/{tale.slots.length}
-            </p>
-          </div>
+          <p className="tally">
+            <strong>{filled}</strong> of {tale.slots.length} filled in
+          </p>
 
           <div className="action-buttons">
             <button
               type="button"
-              className="btn-ghost"
+              className="btn-quiet"
               onClick={() => onReplaceAll({})}
               disabled={filled === 0}
             >
@@ -152,7 +137,7 @@ export function Writer({
               Suggest the rest
             </button>
             <button type="button" className="btn-primary" onClick={onRead} disabled={!complete}>
-              {complete ? 'Read the story' : `${tale.slots.length - filled} to go`}
+              {complete ? 'Read it out loud' : `${tale.slots.length - filled} to go`}
             </button>
           </div>
         </div>

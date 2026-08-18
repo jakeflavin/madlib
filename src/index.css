@@ -1,47 +1,37 @@
 /* ---------------------------------------------------------------------------
-   Fable — built to DESIGN.md.
+   Fable — built to DESIGN.md: a printed Mad Libs booklet.
 
-   Disney+ chrome (navy, pills, tiles, motion) carrying a storybook interior:
-   flat printed surfaces, gold rules, drawn emblems and a display serif for the
-   stories themselves. Values marked "observed" were measured from disneyplus.com.
+   Paper and ink first. Colour arrives only as flat crayon fills behind black
+   text. No gradients, no soft shadows — depth is a hard 4px offset in ink, and
+   pressing something moves it into its own shadow.
 
-   Gradients are deliberately rare. The only ones left are two hairline rules;
-   everything that used to be a blurred wash is now flat colour and line work.
+   The write-on line is the whole format: handwriting on a 2px rule, with the
+   part of speech printed underneath it.
    --------------------------------------------------------------------------- */
 
 :root {
-  --bg: #040714; /* observed */
-  --surface: #10131d;
-  --surface-2: #1e1f24; /* observed */
-  --surface-blue: #071528;
-  --line: rgb(255 255 255 / 10%); /* observed */
+  --paper: #fffdf6;
+  --paper-2: #f5f0e3;
+  --ink: #16130f;
+  --ink-soft: #5d564c;
 
-  --text: #f9f9f9; /* observed */
-  --text-body: #c0c0c0; /* observed */
-  --text-dim: #8a8d98;
-  --grey-border: #6f717b; /* observed */
+  --navy: #262a47;
+  --red: #e24b33;
+  --yellow: #f7c948;
 
-  --cyan: #33ddff; /* observed */
-  --cyan-hot: #7be9ff;
-  --blue: #0040e5; /* observed */
+  /* Set per story; a background colour only, never text. */
+  --fill: #f7c948;
 
-  /* The storybook signature: foil, used only as rules and small marks. */
-  --gold: #e3c08a;
-  --gold-dim: rgb(227 192 138 / 42%);
+  --display: 'Luckiest Guy', 'Arial Black', sans-serif;
+  --story: 'Bitter', Georgia, serif;
+  --ui: 'Nunito Sans', system-ui, sans-serif;
+  --hand: 'Caveat', 'Comic Sans MS', cursive;
 
-  /* Set per story on a container; this is the fallback. */
-  --accent: #33ddff;
+  --gutter: clamp(18px, 4vw, 48px);
+  --shadow: 4px 4px 0 var(--ink);
+  --shadow-sm: 3px 3px 0 var(--ink);
 
-  --ui: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --display: 'Playfair Display', Georgia, serif;
-
-  --ease: cubic-bezier(0.4, 0, 0.2, 1); /* observed */
-  --ease-out: cubic-bezier(0, 0, 0.2, 1); /* observed */
-
-  --gutter: clamp(20px, 5vw, 64px);
-  --bar: 64px;
-
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 *,
@@ -54,39 +44,35 @@ body {
   margin: 0;
   font-family: var(--ui);
   font-size: 16px;
-  color: var(--text-body);
-  background: var(--bg);
+  color: var(--ink);
+  background: var(--paper);
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--accent) 30%, transparent);
-  color: var(--text);
+  background: var(--yellow);
+  color: var(--ink);
 }
 
 h1,
 h2,
 h3 {
   margin: 0;
-  color: var(--text);
+  font-weight: 400;
   line-height: 1.1;
-  text-wrap: balance;
 }
 
-/* Story titles are set in the book face; interface headings stay in the sans. */
-.hero-title,
 .page-title,
 .story-title,
+.banner-title,
+.cover-title,
 .chapter-title,
-.tile-title,
-.row-title {
+.sheet-title,
+.rack-title,
+.wordmark {
   font-family: var(--display);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-
-p {
-  text-wrap: pretty;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
 }
 
 button,
@@ -101,8 +87,8 @@ button {
 }
 
 :focus-visible {
-  outline: 2px solid var(--cyan);
-  outline-offset: 4px;
+  outline: 3px solid var(--navy);
+  outline-offset: 2px;
 }
 
 /* --- buttons ------------------------------------------------------------- */
@@ -113,69 +99,77 @@ button {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  height: 48px;
-  padding: 0 26px;
-  border-radius: 1000px; /* observed */
-  font-size: 14px; /* observed */
-  font-weight: 700;
-  letter-spacing: 0.35px; /* observed */
-  text-transform: uppercase; /* observed */
+  min-height: 46px;
+  padding: 0 20px;
+  border: 3px solid var(--ink);
+  border-radius: 6px;
+  font-family: var(--ui);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   white-space: nowrap;
+  box-shadow: var(--shadow);
   transition:
-    background 200ms var(--ease),
-    border-color 200ms var(--ease),
-    color 200ms var(--ease);
+    transform 120ms ease-out,
+    box-shadow 120ms ease-out,
+    background 120ms ease-out;
 }
 
 .btn-primary {
-  border: 2px solid transparent;
-  background: var(--cyan);
-  color: #04121a;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background: var(--cyan-hot);
+  background: var(--red);
+  color: #fff;
 }
 
 .btn-secondary {
-  border: 2px solid var(--grey-border); /* observed */
-  background: transparent;
-  color: var(--text);
+  background: var(--paper);
+  color: var(--ink);
 }
 
+/* Pressing moves the thing into its own shadow. */
+.btn-primary:hover:not(:disabled),
 .btn-secondary:hover:not(:disabled) {
-  border-color: var(--text);
-  background: rgb(255 255 255 / 8%);
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.btn-primary:active:not(:disabled),
+.btn-secondary:active:not(:disabled) {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--ink);
 }
 
 .btn-primary:disabled,
 .btn-secondary:disabled {
-  opacity: 0.4;
+  background: var(--paper-2);
+  color: var(--ink-soft);
+  box-shadow: none;
+  transform: none;
   cursor: default;
 }
 
-.btn-ghost {
+.btn-quiet {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  height: 40px;
-  padding: 0 8px;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 10px;
   border: none;
-  border-radius: 1000px;
+  border-radius: 4px;
   background: none;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
-  color: var(--text-dim);
-  transition: color 200ms var(--ease);
+  color: currentColor;
+  transition: background 120ms ease-out;
 }
 
-.btn-ghost:hover:not(:disabled) {
-  color: var(--text);
+.btn-quiet:hover:not(:disabled) {
+  background: rgb(255 255 255 / 18%);
 }
 
-.btn-ghost:disabled {
-  opacity: 0.4;
+.btn-quiet:disabled {
+  opacity: 0.45;
   cursor: default;
 }
 
@@ -183,461 +177,484 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   flex: none;
   border: none;
-  border-radius: 50%;
+  border-radius: 4px;
   background: none;
-  color: var(--text-dim);
-  transition:
-    background 200ms var(--ease),
-    color 200ms var(--ease);
+  color: currentColor;
+  transition: background 120ms ease-out;
 }
 
 .btn-icon:hover:not(:disabled) {
-  background: rgb(255 255 255 / 8%);
-  color: var(--text);
+  background: rgb(255 255 255 / 18%);
 }
 
-.btn-icon[aria-pressed='true'] {
-  color: var(--cyan);
-}
+/* --- masthead ------------------------------------------------------------ */
 
-/* --- top bar ------------------------------------------------------------- */
-
-.topbar {
+.masthead {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: var(--bg);
-  border-bottom: 1px solid var(--gold-dim);
+  background: var(--navy);
+  border-bottom: 3px solid var(--ink);
+  color: #fff;
 }
 
-/* The reading line rides the bar's own bottom edge. */
-.topbar::after {
+/* Reading progress, drawn along the band's ink rule. */
+.masthead::after {
   content: '';
   position: absolute;
   left: 0;
-  bottom: -1px;
-  height: 2px;
+  bottom: -3px;
+  height: 3px;
   width: var(--read, 0%);
-  background: var(--accent);
+  background: var(--yellow);
   transition: width 100ms linear;
 }
 
-.topbar-inner {
+.masthead-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  height: var(--bar);
-  padding: 0 var(--gutter);
+  gap: 12px;
+  min-height: 60px;
+  padding: 8px var(--gutter);
 }
 
 .wordmark {
   padding: 0;
   border: none;
   background: none;
-  font-family: var(--display);
-  font-size: 28px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  color: var(--text);
-  transition: color 200ms var(--ease);
+  font-size: 30px;
+  line-height: 1;
+  color: #fff;
+  transition: color 120ms ease-out;
 }
 
 .wordmark:hover {
-  color: var(--gold);
+  color: var(--yellow);
 }
 
-.topbar-actions {
+.masthead-actions {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
   min-width: 0;
 }
 
-/* --- heroes -------------------------------------------------------------- */
+/* --- browse -------------------------------------------------------------- */
 
-.hero,
-.page-hero {
-  position: relative;
-  padding: clamp(40px, 6vw, 72px) var(--gutter) clamp(28px, 4vw, 44px);
-  overflow: hidden;
+.banner {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: clamp(28px, 5vw, 52px) var(--gutter) clamp(20px, 3vw, 32px);
+  text-align: center;
 }
 
-/* A drawn mark in the margin instead of a wash of colour. */
-.hero-emblem {
-  position: absolute;
-  top: 50%;
-  right: clamp(-40px, -2vw, 0px);
-  width: clamp(220px, 28vw, 380px);
-  transform: translateY(-50%);
-  color: var(--accent);
-  opacity: 0.14;
-  pointer-events: none;
-}
-
-.hero-inner,
-.page-hero-inner {
-  position: relative;
-  max-width: 720px;
-}
-
-.hero-eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0 0 14px;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--accent);
-}
-
-.eyebrow-emblem {
-  width: 18px;
-  flex: none;
-}
-
-.hero-title {
-  font-size: clamp(38px, 6.5vw, 68px);
-  line-height: 1.06;
-}
-
-.hero-blurb {
-  max-width: 52ch;
-  margin: 18px 0 0;
-  font-size: 18px;
-  line-height: 1.6;
-  color: var(--text-body);
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 20px;
-  margin-top: 30px;
-}
-
-.hero-meta {
+.banner-line {
   margin: 0;
-  font-size: 13px;
+  font-family: var(--hand);
+  font-size: 26px;
   font-weight: 600;
-  color: var(--text-dim);
+  color: var(--ink-soft);
 }
 
-.page-title {
-  font-size: clamp(28px, 4vw, 44px);
+.banner-title {
+  margin: 2px 0 0;
+  font-size: clamp(38px, 8vw, 76px);
+  line-height: 1;
 }
 
-/* --- rows of plates ------------------------------------------------------ */
-
-.row {
-  padding: 0 0 clamp(28px, 3.5vw, 44px);
+.banner-blurb {
+  max-width: 46ch;
+  margin: 16px auto 0;
+  font-family: var(--story);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink-soft);
 }
 
-.row-head {
+.rack {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.rack-head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 16px;
-  padding: 0 var(--gutter);
+  padding-bottom: 10px;
+  border-bottom: 3px solid var(--ink);
 }
 
-.row-title {
-  padding: 0 var(--gutter);
-  font-size: 22px;
+.rack-title {
+  font-size: 26px;
 }
 
-.row-head .row-title {
-  padding: 0;
-}
-
-.row-count {
+.rack-count {
   margin: 0;
   font-size: 13px;
-  font-weight: 600;
-  color: var(--text-dim);
+  font-weight: 700;
+  color: var(--ink-soft);
   font-variant-numeric: tabular-nums;
 }
-
-.row-track {
-  display: flex;
-  gap: 18px;
-  /* Plates grow on hover, so the track needs room to let them overlap rather
-     than shove their neighbours or get clipped. */
-  padding: 18px var(--gutter) 26px;
-  overflow-x: auto;
-  overflow-y: visible;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline-start: var(--gutter);
-  scrollbar-width: none;
-}
-
-.row-track::-webkit-scrollbar {
-  display: none;
-}
-
-/* --- the plate ----------------------------------------------------------- */
-
-.tile {
-  position: relative;
-  display: flex;
-  flex: none;
-  flex-direction: column;
-  width: clamp(168px, 21vw, 216px);
-  aspect-ratio: 2 / 3;
-  padding: 0;
-  border: 1px solid rgb(255 255 255 / 8%);
-  border-radius: 12px; /* observed */
-  background: var(--surface-blue);
-  text-align: left;
-  scroll-snap-align: start;
-  overflow: hidden;
-  transition:
-    transform 300ms var(--ease-out),
-    box-shadow 300ms var(--ease-out),
-    border-color 300ms var(--ease-out);
-}
-
-.tile:hover,
-.tile:focus-visible {
-  transform: scale(1.05);
-  border-color: var(--gold);
-  box-shadow: 0 12px 40px rgb(0 0 0 / 60%);
-}
-
-/* The inner rule — a printed plate's frame. */
-.tile-frame {
-  position: absolute;
-  inset: 7px;
-  border: 1px solid var(--gold-dim);
-  border-radius: 7px;
-  pointer-events: none;
-}
-
-.tile-plate {
-  display: grid;
-  flex: 1;
-  place-items: center;
-  padding: 22px 18px 6px;
-}
-
-.tile-emblem {
-  width: 64%;
-  max-width: 104px;
-  color: var(--accent);
-}
-
-.tile-lockup {
-  display: block;
-  padding: 0 18px 20px;
-  text-align: center;
-}
-
-/* A short gold rule between the emblem and the title, as a title page has. */
-.tile-lockup::before {
-  content: '';
-  display: block;
-  width: 26px;
-  height: 1px;
-  margin: 0 auto 12px;
-  background: var(--gold-dim);
-}
-
-.tile-title {
-  display: block;
-  font-size: 17px;
-  line-height: 1.25;
-  color: var(--text);
-}
-
-.tile-note {
-  display: block;
-  margin-top: 8px;
-  font-family: var(--ui);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-dim);
-}
-
-/* --- chips --------------------------------------------------------------- */
 
 .chips {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 16px var(--gutter) 0;
+  padding: 16px 0 4px;
 }
 
 .chip {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 1000px;
-  background: rgb(255 255 255 / 8%);
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-body);
+  padding: 6px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
   transition:
-    background 200ms var(--ease),
-    color 200ms var(--ease);
+    background 120ms ease-out,
+    color 120ms ease-out;
 }
 
 .chip:hover {
-  background: rgb(255 255 255 / 16%);
-  color: var(--text);
+  background: var(--yellow);
 }
 
 .chip[aria-pressed='true'] {
-  background: var(--text);
-  color: var(--bg);
+  background: var(--ink);
+  color: var(--paper);
 }
 
-/* --- the fill form ------------------------------------------------------- */
-
-.field-list {
+.cover-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px 28px;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 26px 22px;
   list-style: none;
   margin: 0;
-  /* Clears the sticky action bar. */
-  padding: 8px var(--gutter) 160px;
+  padding: 26px 0 40px;
 }
 
-.field,
-.field label {
+/* --- a booklet cover ----------------------------------------------------- */
+
+.cover {
   display: flex;
   flex-direction: column;
+  width: 100%;
   height: 100%;
+  padding: 0;
+  border: 3px solid var(--ink);
+  border-radius: 8px;
+  background: var(--fill);
+  text-align: left;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition:
+    transform 120ms ease-out,
+    box-shadow 120ms ease-out;
 }
 
-.field-label {
-  min-height: 2.6em;
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--text);
-  text-wrap: balance;
+.cover:hover,
+.cover:focus-visible {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--ink);
 }
 
-.field-kind {
-  font-weight: 400;
-  color: var(--text-dim);
+.cover:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--ink);
 }
 
-.field-input {
+.cover-art {
+  display: grid;
+  flex: 1;
+  place-items: center;
+  padding: 26px 18px 22px;
+}
+
+/* On a coloured cover the character is knocked out in paper, the way the
+   cartoon faces sit on a printed cover. */
+.cover-character {
+  width: 96px;
+  height: 96px;
+  --character-fill: var(--paper);
+}
+
+/* The white panel a cover carries its logotype on. */
+.cover-band {
+  display: block;
+  padding: 14px 16px 16px;
+  border-top: 3px solid var(--ink);
+  background: var(--paper);
+}
+
+.cover-title {
+  display: block;
+  font-size: 21px;
+  line-height: 1.15;
+}
+
+.cover-note {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.colophon {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: auto;
-  padding: 0 6px 0 14px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface);
-  transition:
-    border-color 200ms var(--ease),
-    box-shadow 200ms var(--ease);
+  justify-content: center;
+  gap: 12px;
+  padding: 8px var(--gutter) 64px;
+  font-family: var(--story);
+  font-size: 15px;
+  color: var(--ink-soft);
 }
 
-.field-input:focus-within {
-  border-color: var(--cyan);
-  box-shadow: 0 0 0 3px rgb(51 221 255 / 20%);
+.colophon-character {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  --fill: var(--yellow);
 }
 
-.field-input input {
+.colophon p {
+  margin: 0;
+}
+
+/* --- the fill sheet ------------------------------------------------------ */
+
+.sheet-head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  max-width: 940px;
+  margin: 0 auto;
+  padding: clamp(22px, 4vw, 40px) var(--gutter) 20px;
+}
+
+.sheet-character {
+  width: clamp(56px, 9vw, 82px);
+  height: clamp(56px, 9vw, 82px);
+  flex: none;
+  --character-fill: var(--fill);
+}
+
+.sheet-head-body {
+  min-width: 0;
+}
+
+.kicker {
+  margin: 0;
+  font-family: var(--hand);
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.page-title {
+  margin: 0;
+  font-size: clamp(28px, 5vw, 44px);
+}
+
+.picker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  margin-top: 14px;
+}
+
+.picker-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.picker select {
   flex: 1;
   min-width: 0;
-  height: 46px;
-  border: none;
-  background: none;
-  font-size: 16px;
-  color: var(--text);
+  height: 38px;
+  max-width: max-content;
+  padding: 0 34px 0 12px;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  background-color: var(--paper);
+  /* A chevron, drawn with two hard-edged wedges rather than a gradient wash. */
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--ink) 50%),
+    linear-gradient(135deg, var(--ink) 50%, transparent 50%);
+  background-position:
+    right 17px center,
+    right 12px center;
+  background-size:
+    6px 6px,
+    6px 6px;
+  background-repeat: no-repeat;
+  appearance: none;
+  font-size: 14px;
+  font-weight: 700;
 }
 
-.field-input input:focus {
+.sheet {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 22px clamp(16px, 3vw, 32px) 30px;
+  border: 3px solid var(--ink);
+  border-radius: 10px;
+  background: var(--paper-2);
+  box-shadow: var(--shadow);
+}
+
+/* The sheet sits inside the page gutter without fighting it. */
+.writer .sheet {
+  margin-inline: var(--gutter);
+  max-width: calc(940px - var(--gutter) * 0);
+}
+
+.sheet-title {
+  margin-bottom: 18px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.blanks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 22px 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: blank;
+}
+
+.blank {
+  display: flex;
+  gap: 10px;
+}
+
+.blank-number {
+  flex: none;
+  width: 22px;
+  padding-top: 2px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.blank-body {
+  flex: 1;
+  min-width: 0;
+}
+
+/* The write-on line: handwriting sits on it, the part of speech goes under. */
+.write-on {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  border-bottom: 2px solid var(--ink);
+  transition:
+    border-color 120ms ease-out,
+    background 120ms ease-out;
+}
+
+.write-on:focus-within {
+  border-bottom-width: 3px;
+  background: color-mix(in srgb, var(--yellow) 34%, transparent);
+}
+
+.write-on input {
+  flex: 1;
+  min-width: 0;
+  height: 38px;
+  padding: 0 2px;
+  border: none;
+  background: none;
+  font-family: var(--hand);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.write-on input:focus {
   outline: none;
 }
 
 .suggest {
   flex: none;
-  padding: 6px 10px;
+  padding: 4px 6px 6px;
   border: none;
-  border-radius: 1000px;
   background: none;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-dim);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  opacity: 0;
   transition:
-    color 200ms var(--ease),
-    background 200ms var(--ease);
+    opacity 120ms ease-out,
+    color 120ms ease-out;
+}
+
+.blank:hover .suggest,
+.write-on:focus-within .suggest,
+.suggest:focus-visible {
+  opacity: 1;
 }
 
 .suggest:hover {
-  background: rgb(255 255 255 / 8%);
-  color: var(--cyan);
+  color: var(--red);
 }
 
-/* --- the picker ---------------------------------------------------------- */
-
-.picker {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 26px;
+@media (hover: none) {
+  .suggest {
+    opacity: 1;
+  }
 }
 
-.picker-label {
-  font-size: 13px;
+/* The label, printed under the line — the one thing the format insists on. */
+.blank-kind {
+  display: block;
+  margin-top: 5px;
+  font-size: 11px;
   font-weight: 700;
-  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
 }
 
-.picker select {
-  max-width: 100%;
-  height: 44px;
-  padding: 0 40px 0 18px;
-  border: 2px solid var(--grey-border);
-  border-radius: 1000px;
-  background-color: transparent;
-  /* The one place a gradient earns its keep: a chevron drawn in CSS so the
-     control matches the rest of the chrome. */
-  background-image:
-    linear-gradient(45deg, transparent 50%, var(--text) 50%),
-    linear-gradient(135deg, var(--text) 50%, transparent 50%);
-  background-position:
-    right 20px center,
-    right 15px center;
-  background-size:
-    5px 5px,
-    5px 5px;
-  background-repeat: no-repeat;
-  appearance: none;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  transition: border-color 200ms var(--ease);
+.blank-hint {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--story);
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--ink-soft);
 }
 
-.picker select:hover {
-  border-color: var(--text);
-}
-
-.picker select option {
-  background: var(--surface-2);
-  color: var(--text);
-}
-
-/* --- sticky action bar --------------------------------------------------- */
+/* --- action bar ---------------------------------------------------------- */
 
 .action-bar {
   position: fixed;
   inset: auto 0 0;
   z-index: 15;
-  border-top: 1px solid var(--gold-dim);
-  background: var(--bg);
+  border-top: 3px solid var(--ink);
+  background: var(--paper);
 }
 
 .action-bar-inner {
@@ -645,40 +662,20 @@ button {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 16px var(--gutter) max(16px, env(safe-area-inset-bottom));
+  gap: 14px;
+  padding: 12px var(--gutter) max(12px, env(safe-area-inset-bottom));
 }
 
-.action-progress {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
-  min-width: 160px;
-  max-width: 340px;
-}
-
-.progress {
-  flex: 1;
-  height: 4px;
-  border-radius: 1000px;
-  background: rgb(255 255 255 / 14%);
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  border-radius: 1000px;
-  background: var(--accent);
-  transition: width 300ms var(--ease);
-}
-
-.progress-label {
+.tally {
   margin: 0;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-dim);
-  font-variant-numeric: tabular-nums;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.tally strong {
+  font-size: 20px;
+  color: var(--ink);
 }
 
 .action-buttons {
@@ -689,38 +686,49 @@ button {
 
 /* --- the story ----------------------------------------------------------- */
 
+.story {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(26px, 5vw, 48px) var(--gutter) 96px;
+}
+
+.story-head {
+  padding-bottom: 26px;
+  margin-bottom: 30px;
+  border-bottom: 3px solid var(--ink);
+  text-align: center;
+}
+
+.story-character {
+  width: clamp(72px, 12vw, 104px);
+  height: clamp(72px, 12vw, 104px);
+  --character-fill: var(--fill);
+}
+
+.story-head .kicker {
+  margin-top: 4px;
+}
+
 .story-title {
-  font-size: clamp(34px, 5.5vw, 58px);
-  line-height: 1.08;
+  margin: 4px 0 0;
+  font-size: clamp(34px, 6vw, 60px);
+  line-height: 1.05;
 }
 
 .story-byline {
-  margin: 16px 0 0;
-  font-family: var(--display);
-  font-size: 17px;
-  font-style: italic;
-  color: var(--text-dim);
+  margin: 14px 0 0;
+  font-family: var(--hand);
+  font-size: 22px;
+  color: var(--ink-soft);
 }
 
 .story-byline strong {
-  font-style: normal;
   font-weight: 700;
-  color: var(--accent);
-}
-
-/* The page: a printed panel with a gold rule, at a measure you can read. */
-.story {
-  position: relative;
-  width: min(760px, 100% - var(--gutter) * 2);
-  margin: 0 auto 96px;
-  padding: clamp(30px, 5vw, 60px) clamp(22px, 4vw, 56px);
-  border: 1px solid var(--gold-dim);
-  border-radius: 16px;
-  background: var(--surface);
+  color: var(--ink);
 }
 
 .chapter {
-  margin-bottom: 44px;
+  margin-bottom: 40px;
 }
 
 .chapter:last-child {
@@ -728,37 +736,16 @@ button {
 }
 
 .chapter-title {
-  margin-bottom: 22px;
-  font-size: 24px;
-}
-
-/* The rule under a chapter number, as a book sets it. */
-.chapter-title::after {
-  content: '';
-  display: block;
-  width: 34px;
-  height: 1px;
-  margin-top: 14px;
-  background: var(--gold-dim);
+  margin-bottom: 16px;
+  font-size: 22px;
 }
 
 .chapter p {
-  margin: 0 0 1.2em;
-  max-width: 68ch;
+  margin: 0 0 1.15em;
+  font-family: var(--story);
   font-size: 19px;
-  line-height: 1.75;
-  color: var(--text-body);
-}
-
-/* An illuminated opening, in the story's own colour. */
-.chapter:first-of-type p:first-of-type::first-letter {
-  float: left;
-  margin: 0.06em 0.09em 0 0;
-  font-family: var(--display);
-  font-size: 3.4em;
-  font-weight: 700;
-  line-height: 0.82;
-  color: var(--accent);
+  line-height: 1.8;
+  color: var(--ink);
 }
 
 .chapter em {
@@ -767,41 +754,36 @@ button {
 
 .chapter strong {
   font-weight: 700;
-  color: var(--text);
 }
 
-/* The reader's own words: the interactive element inside the prose. */
+/* The player's word: their hand, on the line they wrote it on. */
 .word {
-  padding: 0;
+  padding: 0 3px;
   border: none;
+  border-bottom: 2px solid var(--ink);
   background: none;
-  font: inherit;
+  font-family: var(--hand);
+  font-size: 1.2em;
   font-weight: 600;
-  color: var(--accent);
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--accent) 30%, transparent);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  transition:
-    text-decoration-color 200ms var(--ease),
-    background 200ms var(--ease);
+  line-height: 1;
+  color: var(--ink);
+  transition: background 120ms ease-out;
 }
 
 .word:hover {
-  text-decoration-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  background: var(--yellow);
 }
 
 .word-edit {
   min-width: 4ch;
-  padding: 0 4px;
+  padding: 0 3px;
   border: none;
-  border-bottom: 2px solid var(--accent);
-  border-radius: 3px 3px 0 0;
-  background: color-mix(in srgb, var(--accent) 16%, transparent);
-  font: inherit;
+  border-bottom: 2px solid var(--ink);
+  background: var(--yellow);
+  font-family: var(--hand);
+  font-size: 1.2em;
   font-weight: 600;
-  color: var(--text);
+  color: var(--ink);
 }
 
 .word-edit:focus {
@@ -810,70 +792,53 @@ button {
 
 /* --- library ------------------------------------------------------------- */
 
-.saved-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-  gap: 28px 20px;
-  padding: 24px var(--gutter) 96px;
-}
-
 .saved-item {
   position: relative;
 }
 
-.saved-item .tile {
-  width: 100%;
-}
-
 .saved-delete {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgb(4 7 20 / 80%);
+  top: 8px;
+  right: 8px;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
 }
 
 .saved-delete:hover {
-  background: #a3352c;
-  color: var(--text);
+  background: var(--red);
+  color: #fff;
 }
 
 .empty {
+  max-width: 1120px;
+  margin: 0 auto;
   padding: 8px var(--gutter) 96px;
+  font-family: var(--story);
   font-size: 18px;
-  color: var(--text-dim);
+  color: var(--ink-soft);
 }
 
 /* --- print --------------------------------------------------------------- */
 
 @media print {
-  body {
-    background: #fff;
-    color: #000;
-  }
-
-  .topbar,
-  .page-hero {
+  .masthead,
+  .action-bar {
     display: none !important;
   }
 
   .story {
-    margin: 0;
     padding: 0;
-    border: none;
-    background: none;
     max-width: none;
   }
 
-  .chapter p,
-  .chapter-title {
-    color: #000;
+  .chapter p {
     font-size: 12pt;
+    line-height: 1.7;
   }
 
   .word {
-    color: #000;
-    text-decoration: none;
-    font-weight: 700;
+    background: none;
   }
 
   .chapter {
@@ -884,53 +849,49 @@ button {
 /* --- small screens ------------------------------------------------------- */
 
 @media (width <= 620px) {
-  /* The reader's toolbar is six controls wide; on a phone the labels go and the
-     icons tighten so it still fits the bar. */
   .btn-label {
     display: none;
   }
 
-  .btn-icon {
-    width: 36px;
-    height: 36px;
-  }
-
-  .topbar-inner {
-    gap: 8px;
-    padding-inline: 16px;
-  }
-
   .wordmark {
-    font-size: 24px;
+    font-size: 26px;
   }
 
-  .hero-emblem {
-    width: 200px;
-    top: auto;
-    bottom: -30px;
-    right: -30px;
-    transform: none;
-    opacity: 0.1;
-  }
-
-  .field-list {
+  .blanks {
     grid-template-columns: 1fr;
   }
 
+  .writer .sheet {
+    margin-inline: 12px;
+    padding-inline: 14px;
+  }
+
+  /* Three controls will not sit on one phone-width row: the two helpers share
+     a line and the button that matters takes its own. */
   .action-buttons {
+    flex-wrap: wrap;
     width: 100%;
   }
 
-  .action-buttons .btn-primary {
+  .action-buttons .btn-secondary {
     flex: 1;
   }
 
-  .story {
-    width: calc(100% - 32px);
-    border-radius: 12px;
+  .action-buttons .btn-primary {
+    flex-basis: 100%;
   }
 
-  .chapter p {
+  .cover-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px 16px;
+  }
+
+  .cover-character {
+    width: 72px;
+    height: 72px;
+  }
+
+  .cover-title {
     font-size: 18px;
   }
 }
@@ -939,12 +900,14 @@ button {
   *,
   *::before,
   *::after {
-    animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }
 
-  .tile:hover,
-  .tile:focus-visible {
+  .btn-primary:hover,
+  .btn-secondary:hover,
+  .cover:hover,
+  .cover:focus-visible {
     transform: none;
+    box-shadow: var(--shadow);
   }
 }

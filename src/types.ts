@@ -48,8 +48,8 @@ export interface Chapter {
   body: string
 }
 
-/** The line-art mark that stands in for key art on a story's plate. */
-export type Emblem = 'flame' | 'crown' | 'snowflake' | 'wave' | 'cloud' | 'lantern'
+/** The cartoon character that fronts a story, in place of a Mad Libs face. */
+export type Character = 'dragon' | 'crown' | 'tree' | 'mermaid' | 'castle' | 'fairy'
 
 export interface Tale {
   id: string
@@ -60,9 +60,9 @@ export interface Tale {
   tags: Tag[]
   /** Rough reading time in minutes, shown on the contents page. */
   minutes: number
-  /** The story's accent — used for its plate, emblem and highlighted words. */
+  /** The story's crayon fill. A background colour only — never used as text. */
   accent: string
-  emblem: Emblem
+  character: Character
   slots: Slot[]
   chapters: Chapter[]
 }

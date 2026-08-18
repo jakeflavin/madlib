@@ -6,37 +6,30 @@
  * changing the mark. The PNG is written directly rather than pulling in an image
  * library for three small files.
  *
- * The mark matches public/favicon.svg: a cyan crescent and a spark on the same
- * near-black navy the app is built on (see DESIGN.md).
+ * The mark matches public/favicon.svg: the write-on line itself — a yellow
+ * field with an ink rule across it (see DESIGN.md).
  */
 import { deflateSync } from 'node:zlib'
 import { writeFileSync } from 'node:fs'
 
 const OUT = new URL('../public/', import.meta.url)
 
-/** The night, top to bottom — #040714 lifted very slightly at the top. */
+/** Paper, very slightly warmer at the top. */
 const BACKDROP = [
-  { stop: 0, rgb: [9, 14, 32] },
-  { stop: 1, rgb: [4, 7, 20] },
+  { stop: 0, rgb: [255, 253, 246] },
+  { stop: 1, rgb: [250, 245, 232] },
 ]
 
-/** The brand-blue glow, the same wash the heroes use. */
-const GLOWS = [
-  { x: 0.22, y: 0.14, r: 0.72, rgb: [0, 64, 229] },
-  { x: 0.84, y: 0.9, r: 0.6, rgb: [10, 30, 70] },
-]
+const GLOWS = []
 
-/** The mark itself: the cyan the app uses for every primary action. */
-const MARK = [51, 221, 255]
+const INK = [22, 19, 15]
+const YELLOW = [247, 201, 72]
 
-/** Crescent: one disc with a second, offset disc bitten out of it. */
-const MOON = { x: 0.47, y: 0.5, r: 0.29 }
-const BITE = { x: 0.61, y: 0.42, r: 0.26 }
-/** The spark, as two crossed bars — it still reads as a star at 16px. */
-const SPARK_H = { x: 0.735, y: 0.735, hw: 0.115, hh: 0.017, r: 0.017 }
-const SPARK_V = { x: 0.735, y: 0.735, hw: 0.017, hh: 0.115, r: 0.017 }
-
-const circle = (u, v, c) => Math.hypot(u - c.x, v - c.y) - c.r
+/** The highlighted field, and the rule you write on. */
+const FIELD = { x: 0.5, y: 0.5, hw: 0.32, hh: 0.24, r: 0.05 }
+const RULE = { x: 0.5, y: 0.63, hw: 0.26, hh: 0.035, r: 0.02 }
+const FRAME = { x: 0.5, y: 0.5, hw: 0.32, hh: 0.24, r: 0.05 }
+const FRAME_INNER = { x: 0.5, y: 0.5, hw: 0.288, hh: 0.208, r: 0.035 }
 
 /** Signed distance to a rounded rectangle: negative inside, positive outside. */
 function roundRect(u, v, box) {
@@ -111,11 +104,15 @@ function render(size) {
         rgb = rgb.map((c, i) => lerp(c, glow.rgb[i], strength))
       }
 
-      // Crescent: inside the moon, outside the bite. Then the spark on top.
-      const crescent = Math.max(circle(u, v, MOON), -circle(u, v, BITE))
-      const spark = Math.min(roundRect(u, v, SPARK_H), roundRect(u, v, SPARK_V))
-      const cover = clamp01(-Math.min(crescent, spark) / edge)
-      if (cover > 0) rgb = rgb.map((c, i) => lerp(c, MARK[i], cover))
+      // Flat shapes, stacked back to front: yellow field, ink frame, ink rule.
+      const paint = (d, colour) => {
+        const cover = clamp01(-d / edge)
+        if (cover > 0) rgb = rgb.map((c, i) => lerp(c, colour[i], cover))
+      }
+
+      paint(roundRect(u, v, FIELD), YELLOW)
+      paint(Math.max(roundRect(u, v, FRAME), -roundRect(u, v, FRAME_INNER)), INK)
+      paint(roundRect(u, v, RULE), INK)
 
       pixels[y * size + x] = rgb.map((c) => Math.round(clamp01(c / 255) * 255))
     }

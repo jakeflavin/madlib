@@ -1,4 +1,4 @@
-import { ArrowLeft, Trash2 } from 'lucide-react'
+import { Trash2 } from 'lucide-react'
 import { Tile } from './Tile'
 import { TopBar } from './TopBar'
 import { findTale } from '../tales'
@@ -18,29 +18,26 @@ export function Library({ tales, onRead, onDelete, onBack }: LibraryProps) {
   return (
     <div className="library">
       <TopBar onHome={onBack}>
-        <button type="button" className="btn-ghost" onClick={onBack}>
-          <ArrowLeft size={15} aria-hidden="true" />
-          <span className="btn-label">All stories</span>
+        <button type="button" className="btn-quiet" onClick={onBack}>
+          All stories
         </button>
       </TopBar>
 
-      <section className="page-hero">
-        <div className="page-hero-inner">
-          <p className="hero-eyebrow">Bound and kept</p>
-          <h1 className="page-title">Saved stories</h1>
-        </div>
+      <section className="banner">
+        <p className="banner-line">Kept for later</p>
+        <h1 className="banner-title">Your stories</h1>
       </section>
 
       {tales.length === 0 ? (
         <p className="empty">Nothing kept yet. Finish a story and press the ribbon to save it.</p>
       ) : (
-        <div className="saved-grid">
+        <ul className="cover-grid">
           {tales.map((saved) => {
             const tale = findTale(saved.taleId)
             if (!tale) return null
 
             return (
-              <div key={saved.id} className="saved-item">
+              <li key={saved.id} className="saved-item">
                 <Tile
                   tale={{ ...tale, title: saved.title }}
                   note={`Saved ${formatDate(saved.savedAt)}`}
@@ -55,10 +52,10 @@ export function Library({ tales, onRead, onDelete, onBack }: LibraryProps) {
                 >
                   <Trash2 size={16} aria-hidden="true" />
                 </button>
-              </div>
+              </li>
             )
           })}
-        </div>
+        </ul>
       )}
     </div>
   )
