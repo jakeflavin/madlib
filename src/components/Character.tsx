@@ -26,20 +26,25 @@ const INK = 'var(--ink)'
 const DRAWINGS: Record<CharacterName, React.ReactNode> = {
   dragon: (
     <>
-      {/* in profile: a long snout and a jawful of teeth are the only things
-          that cannot be mistaken for a cat or an owl */}
-      <path d="M24 16 L22 3 L34 13 Z" fill={FILL} />
-      <path d="M15 25 L4 20 L13 33 Z" fill={FILL} />
+      {/* in flight, side on, facing right. Proportion is what makes it a dragon
+          rather than a bird: a small body, a long neck, a long tail and a wing
+          that takes up half the grid. Drawn back to front. The legs are left
+          off — at this size they only read as spikes under the belly */}
+      <path d="M26 40c-7 4-12 10-16 17l-5 6 10-2c3-8 8-14 15-17Z" fill={FILL} />
       <path
-        d="M14 35c0-12 9-20 20-20 6 0 11 2 15 6l7 8c2 2 1 5-2 5h-5l2 4c1 2 0 4-3 4l-11 1c-6 4-13 5-18 2-4-2-5-5-5-10Z"
+        d="M33 31C26 18 16 8 5 4c2 8 4 14 8 19-2 3-3 6-2 9 4-1 8 0 11 3-1 2-1 3 0 5 5-2 9-6 11-9Z"
         fill={FILL}
       />
-      <path d="M28 45h15" />
-      <path d="M31 45 L32 50 L34 45 Z" fill="#fff" />
-      <path d="M38 45 L39 50 L41 45 Z" fill="#fff" />
-      <circle cx="29" cy="29" r="4.6" fill="#fff" />
-      <circle cx="30" cy="29" r="2" fill={INK} stroke="none" />
-      <circle cx="51" cy="31" r="1.7" fill={INK} stroke="none" />
+      <path d="M21 37c0-5 4-8 9-8s10 3 10 8-4 8-10 8-9-3-9-8Z" fill={FILL} />
+      <path d="M38 33c3-8 7-13 13-16l4 6c-5 3-8 7-10 13Z" fill={FILL} />
+      {/* head: a wedge tapering to a snout, with a jaw line and a swept horn */}
+      <path
+        d="M44 19c0-6 5-10 11-10 3 0 5 1 7 3l1 2c1 1 0 3-2 3h-3l-11 6c-2 1-3-1-3-4Z"
+        fill={FILL}
+      />
+      <path d="M48 18h12" />
+      <path d="M48 10 L44 2 L54 7 Z" fill={FILL} />
+      <circle cx="52" cy="14" r="1.6" fill={INK} stroke="none" />
     </>
   ),
   crown: (
