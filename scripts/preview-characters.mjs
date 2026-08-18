@@ -25,6 +25,8 @@ const tiles = entries.map(([, name, jsx]) => {
     .replace(/\{\/\*[\s\S]*?\*\/\}/g, '')
     .replace(/<\/?>/g, '')
     .replace(/fill=\{FILL\}/g, `fill="${FILLS[name] ?? '#ccc'}"`)
+    .replace(/fill=\{PAPER\}/g, 'fill="#FFFDF6"')
+    .replace(/fill=\{INK\}/g, 'fill="#16130f"')
     .replace(/\{'\s*'\}/g, '')
   return `<figure>
     <div class="tile" style="background:${FILLS[name]}">

@@ -1,190 +1,146 @@
 import type { Character as CharacterName } from '../types'
 
 /**
- * The cast, drawn flat: fat ink outlines, crayon fills, no shading and no
- * gradients — the same construction as the cartoon faces on a Mad Libs cover,
- * with fantasy characters in their place.
- *
- * Composition follows what game-icons.net gets right about fantasy marks at
- * small sizes (see DESIGN.md): creatures are front-facing heads or busts, built
- * symmetrically from a few chunky shapes, with almost no interior detail. Their
- * icons are solid silhouettes and ours are outlined and filled, so nothing is
- * traced — only the way of composing is borrowed.
- *
- * The hard part is that a round head with two pointed ears is a cat, whatever
- * you meant it to be. Each creature here leans on the one feature that can only
- * belong to it: the dragon its snout and fangs, the unicorn its horn, the troll
- * its underbite, the phoenix its flame tail.
- *
- * Everything sits on a 64×64 grid. The fill comes from `--character-fill`:
- * paper when the character stands on a coloured cover, the story's own crayon
- * colour when it stands on paper.
+ * The cast is deliberately drawn like the little illustrations on a printed
+ * activity-book cover: one sturdy silhouette, a few large secondary shapes,
+ * and only the details that survive when the art is reduced to 56px.
  */
 const FILL = 'var(--character-fill, var(--fill))'
 const INK = 'var(--ink)'
+const PAPER = 'var(--paper)'
 
 const DRAWINGS: Record<CharacterName, React.ReactNode> = {
   dragon: (
     <>
-      {/* in flight, side on, facing right. Proportion is what makes it a dragon
-          rather than a bird: a small body, a long neck, a long tail and a wing
-          that takes up half the grid. Drawn back to front. The legs are left
-          off — at this size they only read as spikes under the belly */}
-      <path d="M26 40c-7 4-12 10-16 17l-5 6 10-2c3-8 8-14 15-17Z" fill={FILL} />
-      <path
-        d="M33 31C26 18 16 8 5 4c2 8 4 14 8 19-2 3-3 6-2 9 4-1 8 0 11 3-1 2-1 3 0 5 5-2 9-6 11-9Z"
-        fill={FILL}
-      />
-      <path d="M21 37c0-5 4-8 9-8s10 3 10 8-4 8-10 8-9-3-9-8Z" fill={FILL} />
-      <path d="M38 33c3-8 7-13 13-16l4 6c-5 3-8 7-10 13Z" fill={FILL} />
-      {/* head: a wedge tapering to a snout, with a jaw line and a swept horn */}
-      <path
-        d="M44 19c0-6 5-10 11-10 3 0 5 1 7 3l1 2c1 1 0 3-2 3h-3l-11 6c-2 1-3-1-3-4Z"
-        fill={FILL}
-      />
-      <path d="M48 18h12" />
-      <path d="M48 10 L44 2 L54 7 Z" fill={FILL} />
-      <circle cx="52" cy="14" r="1.6" fill={INK} stroke="none" />
+      {/* Flying side profile: a bat wing, long tail and a proper reptile snout. */}
+      <path d="M29 34 7 7l5 28-9 11 26-5Z" fill={FILL} />
+      <path d="M12 20 27 36M11 35l16 2" />
+      <path d="M28 39c-8 1-16 7-20 16 10 1 18-2 24-9Z" fill={FILL} />
+      <path d="M24 48c0-14 4-24 13-30l2-10 6 8c5-1 10 2 13 6l5 1-5 5c-2 7-8 12-16 14l-3 15h-8v-10h-7Z" fill={FILL} />
+      <path d="m34 20 4-12 5 13" fill={FILL} />
+      <path d="M44 26h14l-5 5 5 4H43" fill={FILL} />
+      <circle cx="45" cy="23" r="2" fill={INK} stroke="none" />
+      <path d="m48 35 3 5 3-5 3 5" fill={PAPER} />
+      <path d="m26 43 4-5 3 5 3-5" fill={FILL} />
     </>
   ),
   crown: (
     <>
-      <path d="M11 45 L8 18 L22 29 L32 11 L42 29 L56 18 L53 45 Z" fill={FILL} />
-      <path d="M9 45 H55 V54 H9 Z" fill={FILL} />
-      <circle cx="8" cy="16" r="3.5" fill={FILL} />
-      <circle cx="32" cy="9" r="3.5" fill={FILL} />
-      <circle cx="56" cy="16" r="3.5" fill={FILL} />
-      <circle cx="32" cy="38" r="3" fill="#fff" />
+      <path d="m9 45 3-27 13 12L32 9l7 21 13-12 3 27Z" fill={FILL} />
+      <path d="M9 45h46v10H9Z" fill={FILL} />
+      <circle cx="12" cy="17" r="4" fill={FILL} />
+      <circle cx="32" cy="8" r="4" fill={FILL} />
+      <circle cx="52" cy="17" r="4" fill={FILL} />
+      <path d="M25 38h14l-7-8Z" fill={PAPER} />
+      <path d="M16 50h32" />
     </>
   ),
   tree: (
     <>
-      <path d="M28 44 H36 V58 H28 Z" fill="#fff" />
-      <path d="M32 4 L47 25 H17 Z" fill={FILL} />
-      <path d="M32 19 L52 45 H12 Z" fill={FILL} />
-      {/* snow lying along each tier, not dotted over it */}
-      <path d="M17 25h30l-5 5-5-3-5 4-5-4-5 3Z" fill="#fff" />
-      <path d="M12 45h40l-6 5-6-3-6 4-6-4-6 3Z" fill="#fff" />
+      <path d="M27 42h10v16H27Z" fill={FILL} />
+      <path d="m32 4 16 22H16Z" fill={FILL} />
+      <path d="m32 17 22 29H10Z" fill={FILL} />
+      <path d="M17 26h31l-5 5-5-2-6 4-6-4-5 2Z" fill={PAPER} />
+      <path d="M10 46h44l-6 5-6-3-10 4-10-4-6 3Z" fill={PAPER} />
+      <path d="M25 58h14" />
     </>
   ),
   mermaid: (
     <>
-      <path
-        d="M20 22c0-9 5-15 12-15s12 6 12 15c0 4-1 7-3 9-1-7-4-10-9-10s-8 3-9 10c-2-2-3-5-3-9Z"
-        fill={FILL}
-      />
-      <circle cx="32" cy="17" r="7" fill="#fff" />
-      {/* shoulders and arms, so the top half is plainly a person */}
-      <path d="M23 32c0-5 4-8 9-8s9 3 9 8l-2 7H25Z" fill={FILL} />
-      <path d="M23 33c-3 2-4 5-4 9M41 33c3 2 4 5 4 9" />
-      {/* then a narrower tail, and a fluke wide enough to read */}
-      <path d="M27 39h10c2 6 1 11-2 15l-3 4-3-4c-3-4-4-9-2-15Z" fill={FILL} />
-      <path d="M32 55c-9 1-15 5-17 10 6 2 12 1 17-3 5 4 11 5 17 3-2-5-8-9-17-10Z" fill={FILL} />
+      {/* A swimming profile, with the tail taking up half the drawing. */}
+      <path d="M16 25c0-9 6-15 14-15 7 0 12 5 12 12v8H19Z" fill={FILL} />
+      <path d="M24 17c3-5 9-5 13-1 3 4 2 10-2 13l-8 2c-4-3-5-9-3-14Z" fill={PAPER} />
+      <circle cx="34" cy="22" r="1.6" fill={INK} stroke="none" />
+      <path d="M36 27h4" />
+      <path d="M24 31c5-4 11-2 14 4l3 6-9 3-10-5Z" fill={FILL} />
+      <path d="M28 39c6 3 10 8 11 14 1 5-2 8-6 9-5-6-9-12-12-19Z" fill={FILL} />
+      <path d="M34 54c-8 1-13 5-15 10 6 1 11-1 15-5 4 4 9 6 15 5-2-5-7-9-15-10Z" fill={FILL} />
+      <path d="M19 32c-4 2-6 6-6 10M29 46l6 3m-4 4 6 3" />
     </>
   ),
   castle: (
     <>
-      <path d="M9 26h12v30H9Z" fill={FILL} />
-      <path d="M43 26h12v30H43Z" fill={FILL} />
-      <path d="M9 26V19h3v4h3v-4h3v4h3v-4h3v7Z" fill={FILL} />
-      <path d="M43 26v-7h3v4h3v-4h3v4h3v-4h3v7Z" fill={FILL} />
-      <path d="M21 34h22v22H21Z" fill={FILL} />
-      <path d="M21 34v-6h4v3h4v-3h4v3h4v-3h4v6Z" fill={FILL} />
-      <path d="M28 56v-9a4 4 0 0 1 8 0v9Z" fill="#fff" />
-      <path d="M32 28V13" />
-      <path d="M32 13h11l-4 4 4 4H32Z" fill={FILL} />
+      <path d="M9 25h13v31H9ZM42 25h13v31H42Z" fill={FILL} />
+      <path d="M22 32h20v24H22Z" fill={FILL} />
+      <path d="M9 25v-8h4v5h5v-5h4v8M42 25v-8h4v5h5v-5h4v8M22 32v-7h4v4h4v-4h4v4h4v-4h4v7" fill={FILL} />
+      <path d="M28 56v-9a4 4 0 0 1 8 0v9Z" fill={PAPER} />
+      <path d="M32 25V9m0 0h13l-5 4 5 4H32Z" fill={FILL} />
+      <path d="M13 34h5m28 0h5M27 40h3m7 0h3" />
     </>
   ),
   fairy: (
     <>
-      {/* wings behind the figure, not beside it */}
-      <path d="M28 26c-9-9-18-9-21-3-3 7 5 14 19 13Z" fill={FILL} />
-      <path d="M36 26c9-9 18-9 21-3 3 7-5 14-19 13Z" fill={FILL} />
-      <circle cx="32" cy="15" r="7" fill="#fff" />
-      {/* a dress and legs read as a person; a blob reads as a moth */}
-      <path d="M32 22c5 0 10 8 12 17 1 3-1 5-4 5H24c-3 0-5-2-4-5 2-9 7-17 12-17Z" fill={FILL} />
-      <path d="M29 44v7M35 44v7" />
-      {/* wand */}
-      <path d="M44 42 L52 34" />
-      <path d="M54 26l1.5 4.5L60 32l-4.5 1.5L54 38l-1.5-4.5L48 32l4.5-1.5Z" fill={FILL} />
+      {/* A tiny flying person, not a wing-shaped abstract mark. */}
+      <path d="M27 29C16 12 6 15 7 25c1 8 10 12 21 8ZM37 29C48 12 58 15 57 25c-1 8-10 12-21 8Z" fill={FILL} />
+      <circle cx="32" cy="16" r="6" fill={PAPER} />
+      <path d="M26 15c1-6 4-8 7-8 4 0 6 3 7 8-4-2-10-2-14 0Z" fill={FILL} />
+      <path d="M28 23h8l5 20H23Z" fill={FILL} />
+      <path d="m26 29-7 6m19-6 7 6M29 43v8m6-8v8m2-20 11-9" />
+      <path d="m53 16 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill={FILL} />
     </>
   ),
   knight: (
     <>
-      {/* a shield, not a helm: heraldry reads instantly at this size, and this
-          is the knight who never carried a sword anyway */}
-      <path d="M32 6 L53 12v17c0 14-9 24-21 29-12-5-21-15-21-29V12Z" fill={FILL} />
-      <path d="M29 17h6v11h11v6H35v13h-6V34H18v-6h11Z" fill="#fff" />
+      <path d="M32 5 53 12v18c0 13-8 23-21 29C19 53 11 43 11 30V12Z" fill={FILL} />
+      <path d="M29 17h6v11h11v6H35v13h-6V34H18v-6h11Z" fill={PAPER} />
+      <path d="M20 15 32 11l12 4" />
     </>
   ),
   witch: (
     <>
-      {/* a hat says witch faster than a face does */}
-      <path d="M30 10c1-4 5-5 7-2l10 26H21Z" fill={FILL} />
-      <path d="M20 36h24v7H20Z" fill="#fff" />
-      <ellipse cx="32" cy="46" rx="24" ry="7" fill={FILL} />
-      <circle cx="32" cy="39" r="2.4" fill={INK} stroke="none" />
-      <path d="M52 14l1.6 3.8L57 19l-3.4 1.2L52 24l-1.6-3.8L47 19l3.4-1.2Z" fill={FILL} />
-      <circle cx="10" cy="22" r="2.4" fill={FILL} />
+      <path d="M30 8c3-5 8-3 8 2l9 27H20Z" fill={FILL} />
+      <path d="M20 36h27v7H20Z" fill={PAPER} />
+      <path d="M18 43c-7 2-10 6-10 9h48c0-4-4-8-11-9Z" fill={FILL} />
+      <circle cx="32" cy="47" r="3" fill={INK} stroke="none" />
+      <path d="m50 14 1.5 4L56 19.5l-4.5 1.5L50 25l-1.5-4-4.5-1.5 4.5-1.5ZM14 20l1 3 3 1-3 1-1 3-1-3-3-1 3-1Z" fill={FILL} />
     </>
   ),
   unicorn: (
     <>
-      {/* head and neck in profile, facing left: a straight nose bridge, a jaw,
-          and a thick neck are what make a horse rather than a blob */}
-      <path
-        d="M13 45c0-6 4-11 10-14l8-11c2-3 6-3 8 0 6 8 9 18 9 29v9H29v-9c0-4-3-6-7-6h-5c-3 0-4-1-4-3Z"
-        fill={FILL}
-      />
-      {/* mane down the back of the neck */}
-      <path d="M39 20c6 8 9 18 9 29h-6c0-11-3-20-7-26Z" fill={FILL} />
-      {/* ear, then the horn — which must out-top everything else on the grid */}
-      <path d="M36 17 L41 7 L44 18 Z" fill={FILL} />
-      <path d="M28 16 L33 2 L36 17 Z" fill={FILL} />
-      <path d="M30.5 10h4" />
-      <circle cx="30" cy="28" r="2.6" fill={INK} stroke="none" />
-      <circle cx="18" cy="42" r="1.7" fill={INK} stroke="none" />
+      {/* A full pony in profile so the horn belongs to a whole unicorn. */}
+      <path d="M8 42c0-9 8-14 18-12l8 3 4-10c3-6 9-8 14-5 4 2 6 5 7 9l5 3-6 4c-3 4-8 6-14 6l-2 13h-7V43H26v10h-7V43H8Z" fill={FILL} />
+      <path d="M15 36C9 34 5 37 4 42c5 1 9 0 13-3Z" fill={FILL} />
+      <path d="m40 23-3-10 10 7" fill={FILL} />
+      <path d="m47 21 9-16-4 19Z" fill={FILL} />
+      <path d="m51 12 3 2m-5 4 4 2" />
+      <path d="M33 29c-5 7-6 14-5 20h7c0-9 2-15 7-20Z" fill={FILL} />
+      <circle cx="50" cy="27" r="2" fill={INK} stroke="none" />
+      <circle cx="60" cy="32" r="1.3" fill={INK} stroke="none" />
     </>
   ),
   troll: (
     <>
-      <path d="M13 30 L5 25 L10 39 Z" fill={FILL} />
-      <path d="M51 30 L59 25 L54 39 Z" fill={FILL} />
-      {/* a flat top and a jaw wider than the skull; round plus big ears is an ape */}
-      <path
-        d="M14 23c0-7 8-11 18-11s18 4 18 11v11c0 4-3 7-7 8l-3 1c-2 5-4 7-8 7s-6-2-8-7l-3-1c-4-1-7-4-7-8Z"
-        fill={FILL}
-      />
-      <path d="M19 27h11M34 27h11" />
-      <circle cx="25" cy="32" r="2.3" fill="#fff" />
-      <circle cx="39" cy="32" r="2.3" fill="#fff" />
-      <path d="M32 33 L37 42 H27 Z" fill="#fff" />
-      <path d="M25 46h14" />
-      {/* the underbite is the whole point */}
-      <path d="M28 46 L29 36 L32 46 Z" fill="#fff" />
-      <path d="M36 46 L35 36 L32 46 Z" fill="#fff" />
+      <path d="m17 30-11-7 5 16m36-9 11-7-5 16" fill={FILL} />
+      <path d="M13 28c0-10 8-16 19-16s19 6 19 16v12c0 10-8 17-19 17S13 50 13 40Z" fill={FILL} />
+      <path d="M19 27h10m6 0h10" />
+      <circle cx="25" cy="34" r="3" fill={PAPER} />
+      <circle cx="39" cy="34" r="3" fill={PAPER} />
+      <circle cx="25" cy="34" r="1" fill={INK} stroke="none" />
+      <circle cx="39" cy="34" r="1" fill={INK} stroke="none" />
+      <ellipse cx="32" cy="41" rx="5" ry="4" fill={PAPER} />
+      <path d="M27 49c3 3 7 3 10 0" />
     </>
   ),
   book: (
     <>
-      <path d="M32 20c-6-5-13-7-22-6v32c9-1 16 1 22 6Z" fill={FILL} />
-      <path d="M32 20c6-5 13-7 22-6v32c-9-1-16 1-22 6Z" fill={FILL} />
-      <path d="M32 20v32" />
-      <path d="M42 14v16l4-4 4 4V13" fill="#fff" />
-      <path d="M32 4l1.8 4.2L38 10l-4.2 1.8L32 16l-1.8-4.2L26 10l4.2-1.8Z" fill={FILL} />
+      <path d="M32 20c-7-5-14-6-23-4v33c9-2 16 0 23 5Z" fill={FILL} />
+      <path d="M32 20c7-5 14-6 23-4v33c-9-2-16 0-23 5Z" fill={FILL} />
+      <path d="M32 20v34" />
+      <path d="M44 16v17l5-4 5 4V15" fill={PAPER} />
     </>
   ),
   phoenix: (
     <>
-      <path d="M26 28C18 14 8 8 3 11c1 13 10 21 23 24Z" fill={FILL} />
-      <path d="M38 28C46 14 56 8 61 11c-1 13-10 21-23 24Z" fill={FILL} />
-      {/* flame tail, because a bird without one is just a bird */}
-      <path d="M26 38c-4 8-4 15 1 21 2-4 3-9 3-13 1 5 3 10 6 13 4-6 4-14 0-21Z" fill={FILL} />
-      <path d="M32 17c5 0 8 6 8 13 0 6-3 11-8 11s-8-5-8-11c0-7 3-13 8-13Z" fill={FILL} />
-      <circle cx="32" cy="15" r="6" fill="#fff" />
-      <path d="M32 9c0-5 3-7 6-7-2 2-3 5-2 7Z" fill={FILL} />
-      <path d="M38 15h6l-4 4Z" fill={FILL} />
-      <circle cx="33" cy="14" r="1.7" fill={INK} stroke="none" />
+      {/* A rising firebird: feathered wings, crest and three flame-tail plumes. */}
+      <path d="M28 33C15 25 8 14 9 6c11 4 19 12 23 24Z" fill={FILL} />
+      <path d="M36 33C47 25 56 14 55 6 44 10 37 18 33 30Z" fill={FILL} />
+      <path d="M32 15c6 0 10 6 10 15 0 8-4 14-10 14s-10-6-10-14c0-9 4-15 10-15Z" fill={FILL} />
+      <circle cx="32" cy="17" r="6" fill={PAPER} />
+      <path d="m27 12 2-11 4 9 5-8 1 11" fill={FILL} />
+      <path d="m38 17 8 3-8 3Z" fill={FILL} />
+      <circle cx="34" cy="16" r="1.5" fill={INK} stroke="none" />
+      <path d="m24 35-7 7m23-7 7 7" />
+      <path d="M27 42c-6 7-6 14-1 20 2-5 3-10 3-14 2 6 4 11 8 14 5-7 5-14 0-20Z" fill={FILL} />
     </>
   ),
 }
