@@ -11,26 +11,35 @@ import type { Character as CharacterName } from '../types'
  * icons are solid silhouettes and ours are outlined and filled, so nothing is
  * traced — only the way of composing is borrowed.
  *
+ * The hard part is that a round head with two pointed ears is a cat, whatever
+ * you meant it to be. Each creature here leans on the one feature that can only
+ * belong to it: the dragon its snout and fangs, the unicorn its horn, the troll
+ * its underbite, the phoenix its flame tail.
+ *
  * Everything sits on a 64×64 grid. The fill comes from `--character-fill`:
  * paper when the character stands on a coloured cover, the story's own crayon
  * colour when it stands on paper.
  */
 const FILL = 'var(--character-fill, var(--fill))'
+const INK = 'var(--ink)'
 
 const DRAWINGS: Record<CharacterName, React.ReactNode> = {
   dragon: (
     <>
-      <path d="M19 22 L16 6 L29 17 Z" fill={FILL} />
-      <path d="M45 22 L48 6 L35 17 Z" fill={FILL} />
-      <circle cx="32" cy="36" r="20" fill={FILL} />
-      <circle cx="24" cy="32" r="6.5" fill="#fff" />
-      <circle cx="40" cy="32" r="6.5" fill="#fff" />
-      <circle cx="25" cy="33" r="2.8" fill="var(--ink)" stroke="none" />
-      <circle cx="41" cy="33" r="2.8" fill="var(--ink)" stroke="none" />
-      <ellipse cx="32" cy="46" rx="10" ry="7" fill="#fff" />
-      <path d="M27 45c3 3 7 3 10 0" />
-      <circle cx="29" cy="42" r="1.3" fill="var(--ink)" stroke="none" />
-      <circle cx="35" cy="42" r="1.3" fill="var(--ink)" stroke="none" />
+      {/* in profile: a long snout and a jawful of teeth are the only things
+          that cannot be mistaken for a cat or an owl */}
+      <path d="M24 16 L22 3 L34 13 Z" fill={FILL} />
+      <path d="M15 25 L4 20 L13 33 Z" fill={FILL} />
+      <path
+        d="M14 35c0-12 9-20 20-20 6 0 11 2 15 6l7 8c2 2 1 5-2 5h-5l2 4c1 2 0 4-3 4l-11 1c-6 4-13 5-18 2-4-2-5-5-5-10Z"
+        fill={FILL}
+      />
+      <path d="M28 45h15" />
+      <path d="M31 45 L32 50 L34 45 Z" fill="#fff" />
+      <path d="M38 45 L39 50 L41 45 Z" fill="#fff" />
+      <circle cx="29" cy="29" r="4.6" fill="#fff" />
+      <circle cx="30" cy="29" r="2" fill={INK} stroke="none" />
+      <circle cx="51" cy="31" r="1.7" fill={INK} stroke="none" />
     </>
   ),
   crown: (
@@ -45,29 +54,27 @@ const DRAWINGS: Record<CharacterName, React.ReactNode> = {
   ),
   tree: (
     <>
-      <path d="M29 44 H35 V56 H29 Z" fill="#fff" />
-      <path d="M32 8 L46 27 H18 Z" fill={FILL} />
-      <path d="M32 22 L50 45 H14 Z" fill={FILL} />
-      <circle cx="21" cy="34" r="2" fill="#fff" />
-      <circle cx="44" cy="38" r="2" fill="#fff" />
-      <circle cx="32" cy="16" r="2" fill="#fff" />
+      <path d="M28 44 H36 V58 H28 Z" fill="#fff" />
+      <path d="M32 4 L47 25 H17 Z" fill={FILL} />
+      <path d="M32 19 L52 45 H12 Z" fill={FILL} />
+      {/* snow lying along each tier, not dotted over it */}
+      <path d="M17 25h30l-5 5-5-3-5 4-5-4-5 3Z" fill="#fff" />
+      <path d="M12 45h40l-6 5-6-3-6 4-6-4-6 3Z" fill="#fff" />
     </>
   ),
   mermaid: (
     <>
-      {/* hair first, then the face — a bust, as the reference builds people */}
       <path
-        d="M19 24c-1-11 5-18 13-18s14 7 13 18c-1 5-3 8-5 10-1-8-4-12-8-12s-7 4-8 12c-2-2-4-5-5-10Z"
+        d="M20 22c0-9 5-15 12-15s12 6 12 15c0 4-1 7-3 9-1-7-4-10-9-10s-8 3-9 10c-2-2-3-5-3-9Z"
         fill={FILL}
       />
-      <circle cx="32" cy="18" r="8" fill="#fff" />
-      <path d="M26 27c4 3 8 3 12 0 3 4 5 8 5 12H21c0-4 2-8 5-12Z" fill={FILL} />
-      {/* tail, curling down to a fluke */}
-      <path
-        d="M21 39h22c1 7-2 12-7 15 6 2 10 6 11 11-7 1-13-1-17-5-4 4-10 6-17 5 1-5 5-9 11-11-5-3-8-8-7-15Z"
-        fill={FILL}
-      />
-      <path d="M26 47c4 2 8 2 12 0" />
+      <circle cx="32" cy="17" r="7" fill="#fff" />
+      {/* shoulders and arms, so the top half is plainly a person */}
+      <path d="M23 32c0-5 4-8 9-8s9 3 9 8l-2 7H25Z" fill={FILL} />
+      <path d="M23 33c-3 2-4 5-4 9M41 33c3 2 4 5 4 9" />
+      {/* then a narrower tail, and a fluke wide enough to read */}
+      <path d="M27 39h10c2 6 1 11-2 15l-3 4-3-4c-3-4-4-9-2-15Z" fill={FILL} />
+      <path d="M32 55c-9 1-15 5-17 10 6 2 12 1 17-3 5 4 11 5 17 3-2-5-8-9-17-10Z" fill={FILL} />
     </>
   ),
   castle: (
@@ -85,13 +92,16 @@ const DRAWINGS: Record<CharacterName, React.ReactNode> = {
   ),
   fairy: (
     <>
-      {/* two rounded wings a side — points don't read at 24px, lobes do */}
-      <path d="M27 27C19 15 9 14 7 21c-2 8 8 13 20 11Z" fill={FILL} />
-      <path d="M27 34c-8 5-14 13-10 18 5 5 11-2 14-13Z" fill={FILL} />
-      <path d="M37 27c8-12 18-13 20-6 2 8-8 13-20 11Z" fill={FILL} />
-      <path d="M37 34c8 5 14 13 10 18-5 5-11-2-14-13Z" fill={FILL} />
-      <circle cx="32" cy="16" r="7" fill="#fff" />
-      <path d="M32 23c4 0 7 6 7 14v7H25v-7c0-8 3-14 7-14Z" fill={FILL} />
+      {/* wings behind the figure, not beside it */}
+      <path d="M28 26c-9-9-18-9-21-3-3 7 5 14 19 13Z" fill={FILL} />
+      <path d="M36 26c9-9 18-9 21-3 3 7-5 14-19 13Z" fill={FILL} />
+      <circle cx="32" cy="15" r="7" fill="#fff" />
+      {/* a dress and legs read as a person; a blob reads as a moth */}
+      <path d="M32 22c5 0 10 8 12 17 1 3-1 5-4 5H24c-3 0-5-2-4-5 2-9 7-17 12-17Z" fill={FILL} />
+      <path d="M29 44v7M35 44v7" />
+      {/* wand */}
+      <path d="M44 42 L52 34" />
+      <path d="M54 26l1.5 4.5L60 32l-4.5 1.5L54 38l-1.5-4.5L48 32l4.5-1.5Z" fill={FILL} />
     </>
   ),
   knight: (
@@ -108,37 +118,46 @@ const DRAWINGS: Record<CharacterName, React.ReactNode> = {
       <path d="M30 10c1-4 5-5 7-2l10 26H21Z" fill={FILL} />
       <path d="M20 36h24v7H20Z" fill="#fff" />
       <ellipse cx="32" cy="46" rx="24" ry="7" fill={FILL} />
-      <circle cx="32" cy="39" r="2.4" fill="var(--ink)" stroke="none" />
+      <circle cx="32" cy="39" r="2.4" fill={INK} stroke="none" />
       <path d="M52 14l1.6 3.8L57 19l-3.4 1.2L52 24l-1.6-3.8L47 19l3.4-1.2Z" fill={FILL} />
       <circle cx="10" cy="22" r="2.4" fill={FILL} />
     </>
   ),
   unicorn: (
     <>
-      {/* front-facing, to match the others; a long face and a horn do the work */}
-      <path d="M21 20 L17 6 L28 15 Z" fill={FILL} />
-      <path d="M43 20 L47 6 L36 15 Z" fill={FILL} />
-      <path d="M28 17 L32 1 L36 17 Z" fill={FILL} />
-      <path d="M20 26c0-9 5-15 12-15s12 6 12 15v13c0 9-5 15-12 15s-12-6-12-15Z" fill={FILL} />
-      <ellipse cx="32" cy="44" rx="9" ry="7" fill="#fff" />
-      <circle cx="26" cy="29" r="2.6" fill="var(--ink)" stroke="none" />
-      <circle cx="38" cy="29" r="2.6" fill="var(--ink)" stroke="none" />
-      <circle cx="29" cy="43" r="1.5" fill="var(--ink)" stroke="none" />
-      <circle cx="35" cy="43" r="1.5" fill="var(--ink)" stroke="none" />
+      {/* head and neck in profile, facing left: a straight nose bridge, a jaw,
+          and a thick neck are what make a horse rather than a blob */}
+      <path
+        d="M13 45c0-6 4-11 10-14l8-11c2-3 6-3 8 0 6 8 9 18 9 29v9H29v-9c0-4-3-6-7-6h-5c-3 0-4-1-4-3Z"
+        fill={FILL}
+      />
+      {/* mane down the back of the neck */}
+      <path d="M39 20c6 8 9 18 9 29h-6c0-11-3-20-7-26Z" fill={FILL} />
+      {/* ear, then the horn — which must out-top everything else on the grid */}
+      <path d="M36 17 L41 7 L44 18 Z" fill={FILL} />
+      <path d="M28 16 L33 2 L36 17 Z" fill={FILL} />
+      <path d="M30.5 10h4" />
+      <circle cx="30" cy="28" r="2.6" fill={INK} stroke="none" />
+      <circle cx="18" cy="42" r="1.7" fill={INK} stroke="none" />
     </>
   ),
   troll: (
     <>
-      <circle cx="10" cy="34" r="7" fill={FILL} />
-      <circle cx="54" cy="34" r="7" fill={FILL} />
-      {/* wide skull, heavy brow, tusks over the lip */}
-      <path d="M12 30c0-11 9-19 20-19s20 8 20 19v10c0 10-9 17-20 17s-20-7-20-17Z" fill={FILL} />
-      <path d="M18 27c4-3 9-3 12 0M34 27c3-3 8-3 12 0" />
-      <circle cx="24" cy="34" r="3.2" fill="#fff" />
-      <circle cx="40" cy="34" r="3.2" fill="#fff" />
-      <ellipse cx="32" cy="45" rx="11" ry="6" fill="#fff" />
-      <path d="M24 51 L26 37 L32 51 Z" fill="#fff" />
-      <path d="M40 51 L38 37 L32 51 Z" fill="#fff" />
+      <path d="M13 30 L5 25 L10 39 Z" fill={FILL} />
+      <path d="M51 30 L59 25 L54 39 Z" fill={FILL} />
+      {/* a flat top and a jaw wider than the skull; round plus big ears is an ape */}
+      <path
+        d="M14 23c0-7 8-11 18-11s18 4 18 11v11c0 4-3 7-7 8l-3 1c-2 5-4 7-8 7s-6-2-8-7l-3-1c-4-1-7-4-7-8Z"
+        fill={FILL}
+      />
+      <path d="M19 27h11M34 27h11" />
+      <circle cx="25" cy="32" r="2.3" fill="#fff" />
+      <circle cx="39" cy="32" r="2.3" fill="#fff" />
+      <path d="M32 33 L37 42 H27 Z" fill="#fff" />
+      <path d="M25 46h14" />
+      {/* the underbite is the whole point */}
+      <path d="M28 46 L29 36 L32 46 Z" fill="#fff" />
+      <path d="M36 46 L35 36 L32 46 Z" fill="#fff" />
     </>
   ),
   book: (
@@ -152,15 +171,15 @@ const DRAWINGS: Record<CharacterName, React.ReactNode> = {
   ),
   phoenix: (
     <>
-      {/* wings up, the pose every firebird gets drawn in */}
-      <path d="M27 30C20 16 10 10 4 12c2 12 10 20 22 24Z" fill={FILL} />
-      <path d="M37 30c7-14 17-20 23-18-2 12-10 20-22 24Z" fill={FILL} />
-      <path d="M32 20c5 0 9 6 9 14 0 7-4 12-9 12s-9-5-9-12c0-8 4-14 9-14Z" fill={FILL} />
-      <circle cx="32" cy="17" r="6" fill="#fff" />
-      <path d="M38 17h6l-4 3Z" fill={FILL} />
-      <circle cx="33" cy="16" r="1.8" fill="var(--ink)" stroke="none" />
-      <path d="M26 45c-2 6-1 11 2 15 2-4 3-8 3-12" fill={FILL} />
-      <path d="M38 45c2 6 1 11-2 15-2-4-3-8-3-12" fill={FILL} />
+      <path d="M26 28C18 14 8 8 3 11c1 13 10 21 23 24Z" fill={FILL} />
+      <path d="M38 28C46 14 56 8 61 11c-1 13-10 21-23 24Z" fill={FILL} />
+      {/* flame tail, because a bird without one is just a bird */}
+      <path d="M26 38c-4 8-4 15 1 21 2-4 3-9 3-13 1 5 3 10 6 13 4-6 4-14 0-21Z" fill={FILL} />
+      <path d="M32 17c5 0 8 6 8 13 0 6-3 11-8 11s-8-5-8-11c0-7 3-13 8-13Z" fill={FILL} />
+      <circle cx="32" cy="15" r="6" fill="#fff" />
+      <path d="M32 9c0-5 3-7 6-7-2 2-3 5-2 7Z" fill={FILL} />
+      <path d="M38 15h6l-4 4Z" fill={FILL} />
+      <circle cx="33" cy="14" r="1.7" fill={INK} stroke="none" />
     </>
   ),
 }
@@ -171,7 +190,7 @@ export function Character({ name, className }: { name: CharacterName; className?
       className={className}
       viewBox="0 0 64 64"
       fill="none"
-      stroke="var(--ink)"
+      stroke={INK}
       strokeWidth="3"
       strokeLinejoin="round"
       strokeLinecap="round"

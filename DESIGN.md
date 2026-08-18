@@ -159,6 +159,19 @@ doesn't:
    disappears first, so there should be almost none.
 3. **When a creature won't reduce, draw its emblem instead.** Their armoury is
    full of helms and shields standing in for knights. Ours does the same.
+4. **Front-facing is not always right.** A front-facing round head with two
+   pointed shapes on top is a cat, whatever you meant; add big round eyes and
+   it is an owl. Animals with long faces — dragons, horses — only read in
+   profile, where the snout does the work. Six drafts of a front-facing dragon
+   produced a cat, an owl and a fish before the profile settled it.
+
+Each creature leans on the one feature that can only belong to it: the dragon
+its snout and teeth, the unicorn a horn taller than everything else on the grid,
+the troll its underbite, the phoenix its flame tail, the mermaid a fluke wide
+enough to see.
+
+`npm run characters` renders the whole cast onto one sheet, on both a crayon
+cover and paper, which is the only sane way to judge them.
 
 What we did _not_ take is their silhouette technique — solid white shapes on
 black, read through negative space. Ours are positive shapes with an ink
