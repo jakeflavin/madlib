@@ -119,10 +119,8 @@ button {
    one consumer at a time. It goes when the last class here is converted. */
 .page-title,
 .story-title,
-.banner-title,
 .chapter-title,
-.sheet-title,
-.rack-title {
+.sheet-title {
   font-family: var(--display);
   letter-spacing: 0.01em;
   text-wrap: balance;
@@ -131,123 +129,6 @@ button {
 /* --- masthead ------------------------------------------------------------ */
 
 /* --- browse -------------------------------------------------------------- */
-
-.banner {
-  max-width: 780px;
-  margin: 0 auto;
-  padding: clamp(28px, 5vw, 52px) var(--gutter) clamp(20px, 3vw, 32px);
-  text-align: center;
-}
-
-.banner-line {
-  margin: 0;
-  font-family: var(--hand);
-  font-size: 26px;
-  font-weight: 600;
-  color: var(--dim);
-}
-
-.banner-title {
-  margin: 2px 0 0;
-  font-size: clamp(38px, 8vw, 76px);
-  line-height: 1;
-}
-
-.banner-blurb {
-  max-width: 46ch;
-  margin: 16px auto 0;
-  font-family: var(--story);
-  font-size: 17px;
-  line-height: 1.6;
-  color: var(--dim);
-}
-
-.rack {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 var(--gutter);
-}
-
-.rack-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  padding-bottom: 10px;
-  border-bottom: 3px solid var(--text);
-}
-
-.rack-title {
-  font-size: 26px;
-}
-
-.rack-count {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--dim);
-  font-variant-numeric: tabular-nums;
-}
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 16px 0 4px;
-}
-
-.chip {
-  padding: 6px 14px;
-  border: 2px solid var(--text);
-  border-radius: 999px;
-  background: var(--bg);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text);
-  transition:
-    background 120ms ease-out,
-    color 120ms ease-out;
-}
-
-.chip:hover {
-  background: var(--yellow);
-}
-
-.chip[aria-pressed='true'] {
-  background: var(--text);
-  color: var(--bg);
-}
-
-.cover-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: 26px 22px;
-  list-style: none;
-  margin: 0;
-  padding: 26px 0 40px;
-}
-
-.colophon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 8px var(--gutter) 64px;
-  font-family: var(--story);
-  font-size: 15px;
-  color: var(--dim);
-}
-
-.colophon-character {
-  width: 34px;
-  height: 34px;
-  flex: none;
-  --fill: var(--yellow);
-}
-
-.colophon p {
-  margin: 0;
-}
 
 /* --- the fill sheet ------------------------------------------------------ */
 
@@ -571,15 +452,6 @@ button {
 
 /* --- library ------------------------------------------------------------- */
 
-.empty {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 8px var(--gutter) 96px;
-  font-family: var(--story);
-  font-size: 18px;
-  color: var(--dim);
-}
-
 /* --- print --------------------------------------------------------------- */
 
 @media print {
@@ -621,11 +493,6 @@ button {
   .writer .sheet {
     width: calc(100% - 24px);
     padding-inline: 14px;
-  }
-
-  .cover-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 20px 16px;
   }
 
   .cover-title {

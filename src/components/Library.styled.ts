@@ -21,3 +21,13 @@ export const DeleteButton = styled(IconButton)`
     color: #fff;
   }
 `
+
+/** The shelf with nothing on it. Set in the story face, because it is a sentence. */
+export const Empty = styled.p`
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 8px var(--gutter) 96px;
+  font-family: var(--story);
+  font-size: 18px;
+  color: var(--dim);
+`

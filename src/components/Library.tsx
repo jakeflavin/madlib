@@ -1,6 +1,7 @@
 import { Trash2 } from 'lucide-react'
 import { QuietButton } from './buttons.styled'
-import { DeleteButton, SavedItem } from './Library.styled'
+import { DeleteButton, Empty, SavedItem } from './Library.styled'
+import { Banner, BannerLine, BannerTitle, CoverGrid } from './Shelf.styled'
 import { Tile } from './Tile'
 import { TopBar } from './TopBar'
 import { findTale } from '@/tales'
@@ -25,17 +26,17 @@ export function Library({ tales, onRead, onDelete, onBack }: LibraryProps) {
         </QuietButton>
       </TopBar>
 
-      <section className="banner">
-        <p className="banner-line">Kept for later</p>
-        <h1 className="banner-title">Your stories</h1>
-      </section>
+      <Banner>
+        <BannerLine>Kept for later</BannerLine>
+        <BannerTitle>Your stories</BannerTitle>
+      </Banner>
 
       {tales.length === 0 ? (
-        <p className="empty" role="status">
+        <Empty role="status">
           Nothing kept yet. Finish a story and press the ribbon to save it.
-        </p>
+        </Empty>
       ) : (
-        <ul className="cover-grid">
+        <CoverGrid>
           {tales.map((saved) => {
             const tale = findTale(saved.taleId)
             if (!tale) return null
@@ -58,7 +59,7 @@ export function Library({ tales, onRead, onDelete, onBack }: LibraryProps) {
               </SavedItem>
             )
           })}
-        </ul>
+        </CoverGrid>
       )}
     </div>
   )

@@ -1,6 +1,20 @@
-import { Character } from './Character'
 import { QuietButton } from './buttons.styled'
 import { Tile } from './Tile'
+import {
+  Banner,
+  BannerBlurb,
+  BannerLine,
+  BannerTitle,
+  Chip,
+  Chips,
+  Colophon,
+  ColophonCharacter,
+  CoverGrid,
+  Rack,
+  RackCount,
+  RackHead,
+  RackTitle,
+} from './Shelf.styled'
 import { TopBar } from './TopBar'
 import type { SavedTale, Tag, Tale } from '@/types'
 
@@ -49,46 +63,44 @@ export function Shelf({ tales, drafts, library, tag, onTag, onOpen, onOpenLibrar
       </TopBar>
 
       {/* The banner a booklet carries above its logotype. */}
-      <section className="banner">
-        <p className="banner-line">The world's most ridiculous word game</p>
-        <h1 className="banner-title">Fantasy Mad Libs</h1>
-        <p className="banner-blurb">
+      <Banner>
+        <BannerLine>The world's most ridiculous word game</BannerLine>
+        <BannerTitle>Fantasy Mad Libs</BannerTitle>
+        <BannerBlurb>
           Pick a story. Fill in the blanks without reading it first. Then read the whole ridiculous
           thing out loud.
-        </p>
-      </section>
+        </BannerBlurb>
+      </Banner>
 
-      <section className="rack">
-        <div className="rack-head">
-          <h2 className="rack-title">{tag ? TAG_LABELS[tag] : 'All stories'}</h2>
-          <p className="rack-count">
+      <Rack>
+        <RackHead>
+          <RackTitle>{tag ? TAG_LABELS[tag] : 'All stories'}</RackTitle>
+          <RackCount>
             {shown.length} of {tales.length}
-          </p>
-        </div>
+          </RackCount>
+        </RackHead>
 
-        <div className="chips" role="group" aria-label="Filter stories by theme">
-          <button
+        <Chips role="group" aria-label="Filter stories by theme">
+          <Chip
             type="button"
-            className="chip"
             aria-pressed={tag === null}
             onClick={() => onTag(null)}
           >
             All
-          </button>
+          </Chip>
           {tags.map((item) => (
-            <button
+            <Chip
               key={item}
               type="button"
-              className="chip"
               aria-pressed={tag === item}
               onClick={() => onTag(tag === item ? null : item)}
             >
               {TAG_LABELS[item]}
-            </button>
+            </Chip>
           ))}
-        </div>
+        </Chips>
 
-        <ul className="cover-grid">
+        <CoverGrid>
           {shown.map((tale) => {
             const answered = answeredIn(tale)
             return (
@@ -107,13 +119,13 @@ export function Shelf({ tales, drafts, library, tag, onTag, onOpen, onOpenLibrar
               </li>
             )
           })}
-        </ul>
-      </section>
+        </CoverGrid>
+      </Rack>
 
-      <footer className="colophon">
-        <Character name="fairy" className="colophon-character" />
+      <Colophon>
+        <ColophonCharacter name="fairy" />
         <p>Twelve stories. Nearly thirty blanks apiece. No two readings alike.</p>
-      </footer>
+      </Colophon>
     </div>
   )
 }
