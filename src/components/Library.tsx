@@ -1,4 +1,6 @@
 import { Trash2 } from 'lucide-react'
+import { QuietButton } from './buttons.styled'
+import { DeleteButton, SavedItem } from './Library.styled'
 import { Tile } from './Tile'
 import { TopBar } from './TopBar'
 import { findTale } from '@/tales'
@@ -18,9 +20,9 @@ export function Library({ tales, onRead, onDelete, onBack }: LibraryProps) {
   return (
     <div className="library">
       <TopBar onHome={onBack}>
-        <button type="button" className="btn-quiet" onClick={onBack}>
+        <QuietButton type="button" onClick={onBack}>
           All stories
-        </button>
+        </QuietButton>
       </TopBar>
 
       <section className="banner">
@@ -39,22 +41,21 @@ export function Library({ tales, onRead, onDelete, onBack }: LibraryProps) {
             if (!tale) return null
 
             return (
-              <li key={saved.id} className="saved-item">
+              <SavedItem key={saved.id}>
                 <Tile
                   tale={{ ...tale, title: saved.title }}
                   note={`Saved ${formatDate(saved.savedAt)}`}
                   onOpen={() => onRead(saved)}
                 />
-                <button
+                <DeleteButton
                   type="button"
-                  className="btn-icon saved-delete"
                   onClick={() => onDelete(saved.id)}
                   aria-label={`Delete ${saved.title}`}
                   title="Delete"
                 >
                   <Trash2 size={16} aria-hidden="true" />
-                </button>
-              </li>
+                </DeleteButton>
+              </SavedItem>
             )
           })}
         </ul>

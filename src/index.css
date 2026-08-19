@@ -99,19 +99,6 @@ h3 {
   line-height: 1.1;
 }
 
-.page-title,
-.story-title,
-.banner-title,
-.cover-title,
-.chapter-title,
-.sheet-title,
-.rack-title,
-.wordmark {
-  font-family: var(--display);
-  letter-spacing: 0.01em;
-  text-wrap: balance;
-}
-
 button,
 input,
 select {
@@ -128,112 +115,19 @@ button {
   outline-offset: 2px;
 }
 
-/* --- buttons ------------------------------------------------------------- */
-
-.btn-primary,
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 46px;
-  padding: 0 20px;
-  border: 3px solid var(--text);
-  border-radius: 6px;
-  font-family: var(--ui);
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  box-shadow: var(--shadow);
-  transition:
-    transform 120ms ease-out,
-    box-shadow 120ms ease-out,
-    background 120ms ease-out;
-}
-
-.btn-primary {
-  background: var(--red);
-  color: #fff;
-}
-
-.btn-secondary {
-  background: var(--bg);
-  color: var(--text);
-}
-
-/* Pressing moves the thing into its own shadow. */
-.btn-primary:hover:not(:disabled),
-.btn-secondary:hover:not(:disabled) {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 var(--text);
-}
-
-.btn-primary:active:not(:disabled),
-.btn-secondary:active:not(:disabled) {
-  transform: translate(4px, 4px);
-  box-shadow: 0 0 0 var(--text);
-}
-
-.btn-primary:disabled,
-.btn-secondary:disabled {
-  background: var(--surface);
-  color: var(--dim);
-  box-shadow: none;
-  transform: none;
-  cursor: default;
-}
-
-.btn-quiet {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 36px;
-  padding: 0 10px;
-  border: none;
-  border-radius: 4px;
-  background: none;
-  font-size: 14px;
-  font-weight: 700;
-  white-space: nowrap;
-  color: currentColor;
-  transition: background 120ms ease-out;
-}
-
-.btn-quiet:hover:not(:disabled) {
-  background: rgb(255 255 255 / 18%);
-}
-
-/* Square, because it carries an icon and no label — a text button's padding would
-   make it read as a wider, more important control than it is. */
-.btn-icon {
-  width: 36px;
-  padding: 0;
-  justify-content: center;
-}
-
-.btn-quiet:disabled {
-  opacity: 0.45;
-  cursor: default;
-}
-
-.btn-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  flex: none;
-  border: none;
-  border-radius: 4px;
-  background: none;
-  color: currentColor;
-  transition: background 120ms ease-out;
-}
-
-.btn-icon:hover:not(:disabled) {
-  background: rgb(255 255 255 / 18%);
+/* Temporary: this group is being replaced by the displayType mixin in styles/type.ts,
+   one consumer at a time. It goes when the last class here is converted. */
+.page-title,
+.story-title,
+.banner-title,
+.cover-title,
+.chapter-title,
+.sheet-title,
+.rack-title,
+.wordmark {
+  font-family: var(--display);
+  letter-spacing: 0.01em;
+  text-wrap: balance;
 }
 
 /* --- masthead ------------------------------------------------------------ */
@@ -691,41 +585,6 @@ button {
 
 /* --- action bar ---------------------------------------------------------- */
 
-.action-bar {
-  position: fixed;
-  inset: auto 0 0;
-  z-index: 15;
-  border-top: 3px solid var(--text);
-  background: var(--bg);
-}
-
-.action-bar-inner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 12px var(--gutter) max(12px, env(safe-area-inset-bottom));
-}
-
-.tally {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--dim);
-}
-
-.tally strong {
-  font-size: 20px;
-  color: var(--text);
-}
-
-.action-buttons {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
 /* --- the story ----------------------------------------------------------- */
 
 .story {
@@ -834,24 +693,6 @@ button {
 
 /* --- library ------------------------------------------------------------- */
 
-.saved-item {
-  position: relative;
-}
-
-.saved-delete {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  border: 2px solid var(--text);
-  background: var(--bg);
-  color: var(--text);
-}
-
-.saved-delete:hover {
-  background: var(--red);
-  color: #fff;
-}
-
 .empty {
   max-width: 1120px;
   margin: 0 auto;
@@ -906,21 +747,6 @@ button {
   .writer .sheet {
     width: calc(100% - 24px);
     padding-inline: 14px;
-  }
-
-  /* Three controls will not sit on one phone-width row: the two helpers share
-     a line and the button that matters takes its own. */
-  .action-buttons {
-    flex-wrap: wrap;
-    width: 100%;
-  }
-
-  .action-buttons .btn-secondary {
-    flex: 1;
-  }
-
-  .action-buttons .btn-primary {
-    flex-basis: 100%;
   }
 
   .cover-grid {

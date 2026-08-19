@@ -1,4 +1,5 @@
 import { BookMarked, Check, Copy, Link2, Pause, PencilLine, Printer, Volume2 } from 'lucide-react'
+import { IconButton, QuietButton } from './buttons.styled'
 import { useState } from 'react'
 import { Character } from './Character'
 import { TopBar } from './TopBar'
@@ -55,14 +56,13 @@ export function Reader({
   return (
     <div className="reader" style={{ '--fill': tale.accent } as React.CSSProperties}>
       <TopBar onHome={onHome} progress={progress}>
-        <button type="button" className="btn-quiet" onClick={onEditWords}>
+        <QuietButton type="button" onClick={onEditWords}>
           <PencilLine size={15} aria-hidden="true" />
           <span className="btn-label">Edit words</span>
-        </button>
+        </QuietButton>
         {speech.supported && (
-          <button
+          <IconButton
             type="button"
-            className="btn-icon"
             onClick={readAloud}
             aria-label={speech.speaking ? 'Stop reading aloud' : 'Read aloud'}
             title={speech.speaking ? 'Stop reading aloud' : 'Read aloud'}
@@ -72,11 +72,10 @@ export function Reader({
             ) : (
               <Volume2 size={17} aria-hidden="true" />
             )}
-          </button>
+          </IconButton>
         )}
-        <button
+        <IconButton
           type="button"
-          className="btn-icon"
           onClick={copyText}
           aria-label="Copy the story"
           title="Copy the story"
@@ -86,10 +85,9 @@ export function Reader({
           ) : (
             <Copy size={17} aria-hidden="true" />
           )}
-        </button>
-        <button
+        </IconButton>
+        <IconButton
           type="button"
-          className="btn-icon"
           onClick={copyLink}
           aria-label="Copy a share link"
           title="Copy a share link"
@@ -99,26 +97,24 @@ export function Reader({
           ) : (
             <Link2 size={17} aria-hidden="true" />
           )}
-        </button>
-        <button
+        </IconButton>
+        <IconButton
           type="button"
-          className="btn-icon"
           onClick={() => window.print()}
           aria-label="Print"
           title="Print"
         >
           <Printer size={17} aria-hidden="true" />
-        </button>
-        <button
+        </IconButton>
+        <IconButton
           type="button"
-          className="btn-icon"
           onClick={onSave}
           aria-label={saved ? 'Remove from your library' : 'Save to your library'}
           title={saved ? 'Saved' : 'Save to your library'}
           aria-pressed={saved}
         >
           <BookMarked size={17} aria-hidden="true" fill={saved ? 'currentColor' : 'none'} />
-        </button>
+        </IconButton>
       </TopBar>
 
       <article className="story">

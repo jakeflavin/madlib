@@ -1,4 +1,5 @@
 import { Character } from './Character'
+import { QuietButton } from './buttons.styled'
 import { Tile } from './Tile'
 import { TopBar } from './TopBar'
 import type { SavedTale, Tag, Tale } from '@/types'
@@ -41,9 +42,9 @@ export function Shelf({ tales, drafts, library, tag, onTag, onOpen, onOpenLibrar
     <div className="browse">
       <TopBar onHome={() => onTag(null)}>
         {library.length > 0 && (
-          <button type="button" className="btn-quiet" onClick={onOpenLibrary}>
+          <QuietButton type="button" onClick={onOpenLibrary}>
             Saved ({library.length})
-          </button>
+          </QuietButton>
         )}
       </TopBar>
 

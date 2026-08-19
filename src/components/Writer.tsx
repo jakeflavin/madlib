@@ -1,4 +1,6 @@
 import { Character } from './Character'
+import { PrimaryButton, QuietButton, SecondaryButton } from './buttons.styled'
+import { ActionBar, ActionBarInner, ActionButtons, Tally } from './Writer.styled'
 import { TopBar } from './TopBar'
 import { kindLabel } from '@/lib/template'
 import { suggestWord } from '@/lib/suggestions'
@@ -50,9 +52,9 @@ export function Writer({
   return (
     <div className="writer" style={{ '--fill': tale.accent } as React.CSSProperties}>
       <TopBar onHome={onBack}>
-        <button type="button" className="btn-quiet" onClick={onBack}>
+        <QuietButton type="button" onClick={onBack}>
           All stories
-        </button>
+        </QuietButton>
       </TopBar>
 
       <section className="sheet-head">
@@ -118,30 +120,29 @@ export function Writer({
 
       {/* The action bar rides with you: on a 28-blank sheet the button that
           matters should never be a scroll away. */}
-      <div className="action-bar">
-        <div className="action-bar-inner">
-          <p className="tally">
+      <ActionBar>
+        <ActionBarInner>
+          <Tally>
             <strong>{filled}</strong> of {tale.slots.length} filled in
-          </p>
+          </Tally>
 
-          <div className="action-buttons">
-            <button
+          <ActionButtons>
+            <QuietButton
               type="button"
-              className="btn-quiet"
               onClick={() => onReplaceAll({})}
               disabled={filled === 0}
             >
               Clear
-            </button>
-            <button type="button" className="btn-secondary" onClick={fillEmpty} disabled={complete}>
+            </QuietButton>
+            <SecondaryButton type="button" onClick={fillEmpty} disabled={complete}>
               Suggest the rest
-            </button>
-            <button type="button" className="btn-primary" onClick={onRead} disabled={!complete}>
+            </SecondaryButton>
+            <PrimaryButton type="button" onClick={onRead} disabled={!complete}>
               {complete ? 'Read it out loud' : `${tale.slots.length - filled} to go`}
-            </button>
-          </div>
-        </div>
-      </div>
+            </PrimaryButton>
+          </ActionButtons>
+        </ActionBarInner>
+      </ActionBar>
     </div>
   )
 }

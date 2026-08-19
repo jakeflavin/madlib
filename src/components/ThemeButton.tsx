@@ -1,4 +1,5 @@
 import { Monitor, Moon, Sun } from 'lucide-react'
+import { IconButton } from './buttons.styled'
 import type { Theme } from '@/hooks/useAppliedTheme'
 
 type ThemeButtonProps = {
@@ -20,14 +21,13 @@ export function ThemeButton({ theme, onChange }: ThemeButtonProps) {
   const next = order[(order.indexOf(theme) + 1) % order.length] ?? 'system'
 
   return (
-    <button
+    <IconButton
       type="button"
-      className="btn-quiet btn-icon"
       onClick={() => onChange(next)}
       aria-label={labels[theme]}
       title={labels[theme]}
     >
       <Icon size={18} aria-hidden="true" />
-    </button>
+    </IconButton>
   )
 }
