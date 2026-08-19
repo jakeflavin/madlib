@@ -32,7 +32,9 @@ export function fromShareHash(hash: string): SharedTale | null {
   if (!match) return null
 
   try {
-    const [taleId, words] = JSON.parse(decode(match[1]))
+    const payload = match[1]
+    if (!payload) return null
+    const [taleId, words] = JSON.parse(decode(payload))
     if (typeof taleId !== 'string' || typeof words !== 'object' || words === null) return null
     return { taleId, words }
   } catch {

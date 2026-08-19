@@ -28,7 +28,9 @@ export function carryWords(
     const at = taken.get(slot.kind) ?? 0
     if (at >= pool.length) continue
 
-    carried[slot.id] = pool[at]
+    const word = pool[at]
+    if (word == null) continue
+    carried[slot.id] = word
     taken.set(slot.kind, at + 1)
   }
 

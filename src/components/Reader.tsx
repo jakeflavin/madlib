@@ -127,7 +127,7 @@ export function Reader({
           <p className="kicker">{tale.kicker}</p>
           <h1 className="story-title">{tale.title}</h1>
           <p className="story-byline">
-            as told by <strong>{words[tale.slots[0].id] || 'somebody'}</strong>
+            as told by <strong>{(tale.slots[0] && words[tale.slots[0].id]) || 'somebody'}</strong>
           </p>
         </header>
 

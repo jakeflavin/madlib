@@ -38,6 +38,9 @@ export function renderBody(body: string, words: Record<string, string>, slots: S
       if (at > cursor) segments.push({ kind: 'text', text: text.slice(cursor, at), emphasis })
 
       const slotId = match[1]
+      // The pattern cannot match without this group, but nothing proves that to the
+      // compiler, and a marker with no id is not a slot worth rendering.
+      if (!slotId) continue
       const slot = byId.get(slotId)
       segments.push({
         kind: 'word',
@@ -74,7 +77,9 @@ export function countUses(chapters: Chapter[]): Record<string, number> {
   const counts: Record<string, number> = {}
   for (const chapter of chapters) {
     for (const match of chapter.body.matchAll(MARKER)) {
-      counts[match[1]] = (counts[match[1]] ?? 0) + 1
+      const slotId = match[1]
+      if (!slotId) continue
+      counts[slotId] = (counts[slotId] ?? 0) + 1
     }
   }
   return counts

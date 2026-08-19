@@ -243,5 +243,7 @@ export function suggestWord(kind: SlotKind, avoid?: string): string {
   const bank = BANKS[kind]
   const options = bank.filter((word) => word.toLowerCase() !== avoid?.trim().toLowerCase())
   const pool = options.length > 0 ? options : bank
-  return pool[Math.floor(Math.random() * pool.length)]
+  // Falls back rather than returning undefined: every bank is non-empty, so this is
+  // unreachable, but the signature promises a string.
+  return pool[Math.floor(Math.random() * pool.length)] ?? pool[0] ?? ''
 }
