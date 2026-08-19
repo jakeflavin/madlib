@@ -120,68 +120,15 @@ button {
 .page-title,
 .story-title,
 .banner-title,
-.cover-title,
 .chapter-title,
 .sheet-title,
-.rack-title,
-.wordmark {
+.rack-title {
   font-family: var(--display);
   letter-spacing: 0.01em;
   text-wrap: balance;
 }
 
 /* --- masthead ------------------------------------------------------------ */
-
-.masthead {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: var(--navy);
-  border-bottom: 3px solid var(--text);
-  color: #fff;
-}
-
-/* Reading progress, drawn along the band's ink rule. */
-.masthead::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -3px;
-  height: 3px;
-  width: var(--read, 0%);
-  background: var(--yellow);
-  transition: width 100ms linear;
-}
-
-.masthead-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 60px;
-  padding: 8px var(--gutter);
-}
-
-.wordmark {
-  padding: 0;
-  border: none;
-  background: none;
-  font-size: 30px;
-  line-height: 1;
-  color: #fff;
-  transition: color 120ms ease-out;
-}
-
-.wordmark:hover {
-  color: var(--yellow);
-}
-
-.masthead-actions {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  min-width: 0;
-}
 
 /* --- browse -------------------------------------------------------------- */
 
@@ -278,75 +225,6 @@ button {
   list-style: none;
   margin: 0;
   padding: 26px 0 40px;
-}
-
-/* --- a booklet cover ----------------------------------------------------- */
-
-.cover {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: 3px solid var(--text);
-  border-radius: 8px;
-  background: var(--fill);
-  text-align: left;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  transition:
-    transform 120ms ease-out,
-    box-shadow 120ms ease-out;
-}
-
-.cover:hover,
-.cover:focus-visible {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 var(--text);
-}
-
-.cover:active {
-  transform: translate(4px, 4px);
-  box-shadow: 0 0 0 var(--text);
-}
-
-.cover-art {
-  display: grid;
-  flex: 1;
-  place-items: center;
-  padding: 26px 18px 22px;
-}
-
-/* On a coloured cover the character is knocked out in paper, the way the
-   cartoon faces sit on a printed cover. */
-.cover-character {
-  width: 96px;
-  height: 96px;
-  --character-fill: var(--bg);
-}
-
-/* The white panel a cover carries its logotype on. */
-.cover-band {
-  display: block;
-  padding: 14px 16px 16px;
-  border-top: 3px solid var(--text);
-  background: var(--bg);
-}
-
-.cover-title {
-  display: block;
-  font-size: 21px;
-  line-height: 1.15;
-}
-
-.cover-note {
-  display: block;
-  margin-top: 8px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--dim);
 }
 
 .colophon {
@@ -736,10 +614,6 @@ button {
     display: none;
   }
 
-  .wordmark {
-    font-size: 26px;
-  }
-
   .blanks {
     grid-template-columns: 1fr;
   }
@@ -752,11 +626,6 @@ button {
   .cover-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 20px 16px;
-  }
-
-  .cover-character {
-    width: 72px;
-    height: 72px;
   }
 
   .cover-title {

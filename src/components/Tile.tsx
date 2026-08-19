@@ -1,5 +1,5 @@
-import { Character } from './Character'
 import type { Tale } from '@/types'
+import { Art, Band, Cover, CoverCharacter, Note, Title } from './Tile.styled'
 
 interface TileProps {
   tale: Tale
@@ -14,19 +14,18 @@ interface TileProps {
  */
 export function Tile({ tale, note, onOpen }: TileProps) {
   return (
-    <button
+    <Cover
       type="button"
-      className="cover"
       onClick={onOpen}
       style={{ '--fill': tale.accent } as React.CSSProperties}
     >
-      <span className="cover-art">
-        <Character name={tale.character} className="cover-character" />
-      </span>
-      <span className="cover-band">
-        <span className="cover-title">{tale.title}</span>
-        <span className="cover-note">{note ?? `${tale.minutes} min read`}</span>
-      </span>
-    </button>
+      <Art>
+        <CoverCharacter name={tale.character} />
+      </Art>
+      <Band>
+        <Title>{tale.title}</Title>
+        <Note>{note ?? `${tale.minutes} min read`}</Note>
+      </Band>
+    </Cover>
   )
 }

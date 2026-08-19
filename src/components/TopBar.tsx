@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { ThemeButton } from './ThemeButton'
 import { useTheme } from '@/hooks/useTheme'
+import { Actions, Inner, Masthead, Wordmark } from './TopBar.styled'
 
 interface TopBarProps {
   onHome: () => void
@@ -18,16 +19,16 @@ export function TopBar({ onHome, children, progress }: TopBarProps) {
   const { theme, setTheme } = useTheme()
 
   return (
-    <header className="masthead" style={{ '--read': `${progress ?? 0}%` } as React.CSSProperties}>
-      <div className="masthead-inner">
-        <button type="button" className="wordmark" onClick={onHome}>
+    <Masthead style={{ '--read': `${progress ?? 0}%` } as React.CSSProperties}>
+      <Inner>
+        <Wordmark type="button" onClick={onHome}>
           Fable
-        </button>
-        <div className="masthead-actions">
+        </Wordmark>
+        <Actions>
           {children}
           <ThemeButton theme={theme} onChange={setTheme} />
-        </div>
-      </div>
-    </header>
+        </Actions>
+      </Inner>
+    </Masthead>
   )
 }
