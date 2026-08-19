@@ -1,7 +1,19 @@
 import { BookMarked, Check, Copy, Link2, Pause, PencilLine, Printer, Volume2 } from 'lucide-react'
 import { IconButton, QuietButton } from './buttons.styled'
+import { Kicker } from './Writer.styled'
+import {
+  Byline,
+  ButtonLabel,
+  Chapter,
+  ChapterTitle,
+  Story,
+  StoryCharacter,
+  StoryHead,
+  StoryTitle,
+  Word,
+  WordEdit,
+} from './Reader.styled'
 import { useState } from 'react'
-import { Character } from './Character'
 import { TopBar } from './TopBar'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
 import { useSpeech } from '@/hooks/useSpeech'
@@ -54,11 +66,11 @@ export function Reader({
   }
 
   return (
-    <div className="reader" style={{ '--fill': tale.accent } as React.CSSProperties}>
+    <div style={{ '--fill': tale.accent } as React.CSSProperties}>
       <TopBar onHome={onHome} progress={progress}>
         <QuietButton type="button" onClick={onEditWords}>
           <PencilLine size={15} aria-hidden="true" />
-          <span className="btn-label">Edit words</span>
+          <ButtonLabel>Edit words</ButtonLabel>
         </QuietButton>
         {speech.supported && (
           <IconButton
@@ -117,19 +129,19 @@ export function Reader({
         </IconButton>
       </TopBar>
 
-      <article className="story">
-        <header className="story-head">
-          <Character name={tale.character} className="story-character" />
-          <p className="kicker">{tale.kicker}</p>
-          <h1 className="story-title">{tale.title}</h1>
-          <p className="story-byline">
+      <Story>
+        <StoryHead>
+          <StoryCharacter name={tale.character} />
+          <Kicker>{tale.kicker}</Kicker>
+          <StoryTitle>{tale.title}</StoryTitle>
+          <Byline>
             as told by <strong>{(tale.slots[0] && words[tale.slots[0].id]) || 'somebody'}</strong>
-          </p>
-        </header>
+          </Byline>
+        </StoryHead>
 
         {tale.chapters.map((chapter, chapterIndex) => (
-          <section key={chapter.title} className="chapter">
-            <h2 className="chapter-title">{chapter.title}</h2>
+          <Chapter key={chapter.title}>
+            <ChapterTitle>{chapter.title}</ChapterTitle>
             {chapter.body.split('\n\n').map((paragraph, paragraphIndex) => (
               <p key={paragraphIndex}>
                 {renderBody(paragraph, words, tale.slots).map((segment, segmentIndex) => {
@@ -138,8 +150,7 @@ export function Reader({
                     segment.kind === 'text' ? (
                       segment.text
                     ) : editing === key ? (
-                      <input
-                        className="word-edit"
+                      <WordEdit
                         autoFocus
                         value={words[segment.slotId] ?? ''}
                         onChange={(event) => onEditWord(segment.slotId, event.target.value)}
@@ -151,14 +162,13 @@ export function Reader({
                     ) : (
                       /* The player's word, in their hand, on the line they
                          wrote it on. */
-                      <button
+                      <Word
                         type="button"
-                        className="word"
                         onClick={() => setEditing(key)}
                         title="Tap to change this word"
                       >
                         {segment.text}
-                      </button>
+                      </Word>
                     )
 
                   if (segment.emphasis === 'strong') return <strong key={key}>{inner}</strong>
@@ -167,9 +177,9 @@ export function Reader({
                 })}
               </p>
             ))}
-          </section>
+          </Chapter>
         ))}
-      </article>
+      </Story>
     </div>
   )
 }

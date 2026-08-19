@@ -22,6 +22,11 @@ export const Masthead = styled.header`
     background: var(--yellow);
     transition: width 100ms linear;
   }
+
+  /* The page is the story on paper; the band and its progress rule are screen furniture. */
+  @media print {
+    display: none;
+  }
 `
 
 export const Inner = styled.div`

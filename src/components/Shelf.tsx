@@ -53,7 +53,7 @@ export function Shelf({ tales, drafts, library, tag, onTag, onOpen, onOpenLibrar
   }
 
   return (
-    <div className="browse">
+    <div>
       <TopBar onHome={() => onTag(null)}>
         {library.length > 0 && (
           <QuietButton type="button" onClick={onOpenLibrary}>

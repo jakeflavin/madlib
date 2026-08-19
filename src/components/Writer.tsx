@@ -1,6 +1,27 @@
-import { Character } from './Character'
 import { PrimaryButton, QuietButton, SecondaryButton } from './buttons.styled'
-import { ActionBar, ActionBarInner, ActionButtons, Tally } from './Writer.styled'
+import {
+  ActionBar,
+  ActionBarInner,
+  ActionButtons,
+  Blank,
+  BlankBody,
+  BlankHint,
+  BlankKind,
+  BlankNumber,
+  Blanks,
+  Kicker,
+  PageTitle,
+  Picker,
+  PickerLabel,
+  Sheet,
+  SheetCharacter,
+  SheetHead,
+  SheetHeadBody,
+  SheetTitle,
+  Suggest,
+  Tally,
+  WriteOn,
+} from './Writer.styled'
 import { TopBar } from './TopBar'
 import { kindLabel } from '@/lib/template'
 import { suggestWord } from '@/lib/suggestions'
@@ -50,20 +71,20 @@ export function Writer({
   }
 
   return (
-    <div className="writer" style={{ '--fill': tale.accent } as React.CSSProperties}>
+    <div style={{ '--fill': tale.accent } as React.CSSProperties}>
       <TopBar onHome={onBack}>
         <QuietButton type="button" onClick={onBack}>
           All stories
         </QuietButton>
       </TopBar>
 
-      <section className="sheet-head">
-        <Character name={tale.character} className="sheet-character" />
-        <div className="sheet-head-body">
-          <p className="kicker">{tale.kicker}</p>
-          <h1 className="page-title">{tale.title}</h1>
-          <label className="picker">
-            <span className="picker-label">Playing</span>
+      <SheetHead>
+        <SheetCharacter name={tale.character} />
+        <SheetHeadBody>
+          <Kicker>{tale.kicker}</Kicker>
+          <PageTitle>{tale.title}</PageTitle>
+          <Picker as="label">
+            <PickerLabel>Playing</PickerLabel>
             <select
               value={tale.id}
               onChange={(event) => {
@@ -77,46 +98,45 @@ export function Writer({
                 </option>
               ))}
             </select>
-          </label>
-        </div>
-      </section>
+          </Picker>
+        </SheetHeadBody>
+      </SheetHead>
 
-      <section className="sheet">
-        <h2 className="sheet-title">Fill in the blanks</h2>
-        <ol className="blanks">
+      <Sheet>
+        <SheetTitle>Fill in the blanks</SheetTitle>
+        <Blanks>
           {tale.slots.map((slot, index) => {
             const { kind, hint } = prompt(slot)
 
             return (
-              <li key={slot.id} className="blank">
-                <span className="blank-number">{index + 1}</span>
-                <label className="blank-body">
+              <Blank key={slot.id}>
+                <BlankNumber>{index + 1}</BlankNumber>
+                <BlankBody as="label">
                   {/* The line, then the part of speech under it — the format's
                       one non-negotiable. */}
-                  <span className="write-on">
+                  <WriteOn>
                     <input
                       value={words[slot.id] ?? ''}
                       onChange={(event) => onChange(slot.id, event.target.value)}
                       autoComplete="off"
                       spellCheck={false}
                     />
-                    <button
+                    <Suggest
                       type="button"
-                      className="suggest"
                       onClick={() => onChange(slot.id, suggestWord(slot.kind, words[slot.id]))}
                       aria-label={`Suggest a ${kind.toLowerCase()}`}
                     >
                       Suggest
-                    </button>
-                  </span>
-                  <span className="blank-kind">{kind}</span>
-                  {hint && <span className="blank-hint">{hint}</span>}
-                </label>
-              </li>
+                    </Suggest>
+                  </WriteOn>
+                  <BlankKind>{kind}</BlankKind>
+                  {hint && <BlankHint>{hint}</BlankHint>}
+                </BlankBody>
+              </Blank>
             )
           })}
-        </ol>
-      </section>
+        </Blanks>
+      </Sheet>
 
       {/* The action bar rides with you: on a 28-blank sheet the button that
           matters should never be a scroll away. */}

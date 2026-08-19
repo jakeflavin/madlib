@@ -19,7 +19,7 @@ const formatDate = (at: number) =>
 
 export function Library({ tales, onRead, onDelete, onBack }: LibraryProps) {
   return (
-    <div className="library">
+    <div>
       <TopBar onHome={onBack}>
         <QuietButton type="button" onClick={onBack}>
           All stories
