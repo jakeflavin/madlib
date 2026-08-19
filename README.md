@@ -67,3 +67,7 @@ under 800 words.
 Firebase Hosting, on push to `main` (`.github/workflows/deploy.yml`). The
 workflow needs `FIREBASE_SERVICE_ACCOUNT` as a secret and `FIREBASE_PROJECT_ID`
 as a repository variable.
+
+## Standards
+
+Code in this repo follows the [shared standards](https://github.com/jakeflavin/portfolio/blob/main/docs/STANDARDS.md) and [layout](https://github.com/jakeflavin/portfolio/blob/main/docs/LAYOUT.md) used across the directory.
