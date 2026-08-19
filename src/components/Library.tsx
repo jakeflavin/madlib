@@ -29,7 +29,9 @@ export function Library({ tales, onRead, onDelete, onBack }: LibraryProps) {
       </section>
 
       {tales.length === 0 ? (
-        <p className="empty" role="status">Nothing kept yet. Finish a story and press the ribbon to save it.</p>
+        <p className="empty" role="status">
+          Nothing kept yet. Finish a story and press the ribbon to save it.
+        </p>
       ) : (
         <ul className="cover-grid">
           {tales.map((saved) => {

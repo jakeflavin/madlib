@@ -21,7 +21,10 @@ const DRAWINGS: Record<CharacterName, React.ReactNode> = {
       <path d="M29 34 7 7l5 28-9 11 26-5Z" fill={FILL} />
       <path d="M12 20 27 36M11 35l16 2" />
       <path d="M28 39c-8 1-16 7-20 16 10 1 18-2 24-9Z" fill={FILL} />
-      <path d="M24 48c0-14 4-24 13-30l2-10 6 8c5-1 10 2 13 6l5 1-5 5c-2 7-8 12-16 14l-3 15h-8v-10h-7Z" fill={FILL} />
+      <path
+        d="M24 48c0-14 4-24 13-30l2-10 6 8c5-1 10 2 13 6l5 1-5 5c-2 7-8 12-16 14l-3 15h-8v-10h-7Z"
+        fill={FILL}
+      />
       <path d="m34 20 4-12 5 13" fill={FILL} />
       <path d="M44 26h14l-5 5 5 4H43" fill={FILL} />
       <circle cx="45" cy="23" r="2" fill={INK} stroke="none" />
@@ -67,7 +70,10 @@ const DRAWINGS: Record<CharacterName, React.ReactNode> = {
     <>
       <path d="M9 25h13v31H9ZM42 25h13v31H42Z" fill={FILL} />
       <path d="M22 32h20v24H22Z" fill={FILL} />
-      <path d="M9 25v-8h4v5h5v-5h4v8M42 25v-8h4v5h5v-5h4v8M22 32v-7h4v4h4v-4h4v4h4v-4h4v7" fill={FILL} />
+      <path
+        d="M9 25v-8h4v5h5v-5h4v8M42 25v-8h4v5h5v-5h4v8M22 32v-7h4v4h4v-4h4v4h4v-4h4v7"
+        fill={FILL}
+      />
       <path d="M28 56v-9a4 4 0 0 1 8 0v9Z" fill={PAPER} />
       <path d="M32 25V9m0 0h13l-5 4 5 4H32Z" fill={FILL} />
       <path d="M13 34h5m28 0h5M27 40h3m7 0h3" />
@@ -76,7 +82,10 @@ const DRAWINGS: Record<CharacterName, React.ReactNode> = {
   fairy: (
     <>
       {/* A tiny flying person, not a wing-shaped abstract mark. */}
-      <path d="M27 29C16 12 6 15 7 25c1 8 10 12 21 8ZM37 29C48 12 58 15 57 25c-1 8-10 12-21 8Z" fill={FILL} />
+      <path
+        d="M27 29C16 12 6 15 7 25c1 8 10 12 21 8ZM37 29C48 12 58 15 57 25c-1 8-10 12-21 8Z"
+        fill={FILL}
+      />
       <circle cx="32" cy="16" r="6" fill={PAPER} />
       <path d="M26 15c1-6 4-8 7-8 4 0 6 3 7 8-4-2-10-2-14 0Z" fill={FILL} />
       <path d="M28 23h8l5 20H23Z" fill={FILL} />
@@ -97,13 +106,19 @@ const DRAWINGS: Record<CharacterName, React.ReactNode> = {
       <path d="M20 36h27v7H20Z" fill={PAPER} />
       <path d="M18 43c-7 2-10 6-10 9h48c0-4-4-8-11-9Z" fill={FILL} />
       <circle cx="32" cy="47" r="3" fill={INK} stroke="none" />
-      <path d="m50 14 1.5 4L56 19.5l-4.5 1.5L50 25l-1.5-4-4.5-1.5 4.5-1.5ZM14 20l1 3 3 1-3 1-1 3-1-3-3-1 3-1Z" fill={FILL} />
+      <path
+        d="m50 14 1.5 4L56 19.5l-4.5 1.5L50 25l-1.5-4-4.5-1.5 4.5-1.5ZM14 20l1 3 3 1-3 1-1 3-1-3-3-1 3-1Z"
+        fill={FILL}
+      />
     </>
   ),
   unicorn: (
     <>
       {/* A full pony in profile so the horn belongs to a whole unicorn. */}
-      <path d="M8 42c0-9 8-14 18-12l8 3 4-10c3-6 9-8 14-5 4 2 6 5 7 9l5 3-6 4c-3 4-8 6-14 6l-2 13h-7V43H26v10h-7V43H8Z" fill={FILL} />
+      <path
+        d="M8 42c0-9 8-14 18-12l8 3 4-10c3-6 9-8 14-5 4 2 6 5 7 9l5 3-6 4c-3 4-8 6-14 6l-2 13h-7V43H26v10h-7V43H8Z"
+        fill={FILL}
+      />
       <path d="M15 36C9 34 5 37 4 42c5 1 9 0 13-3Z" fill={FILL} />
       <path d="m40 23-3-10 10 7" fill={FILL} />
       <path d="m47 21 9-16-4 19Z" fill={FILL} />
