@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { ThemeButton } from './ThemeButton'
-import { useTheme } from '../hooks/useTheme'
+import { useTheme } from '@/hooks/useTheme'
 
 interface TopBarProps {
   onHome: () => void

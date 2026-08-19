@@ -1,8 +1,8 @@
 import { Character } from './Character'
 import { TopBar } from './TopBar'
-import { kindLabel } from '../lib/template'
-import { suggestWord } from '../lib/suggestions'
-import type { Slot, Tale } from '../types'
+import { kindLabel } from '@/lib/template'
+import { suggestWord } from '@/lib/suggestions'
+import type { Slot, Tale } from '@/types'
 
 interface WriterProps {
   tale: Tale

@@ -1,4 +1,4 @@
-import type { SlotKind } from '../types'
+import type { SlotKind } from '@/types'
 
 /**
  * The words offered for each kind of blank. They lean silly on purpose — a tale

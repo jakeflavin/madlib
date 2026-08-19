@@ -2,11 +2,11 @@ import { BookMarked, Check, Copy, Link2, Pause, PencilLine, Printer, Volume2 } f
 import { useState } from 'react'
 import { Character } from './Character'
 import { TopBar } from './TopBar'
-import { useReadingProgress } from '../hooks/useReadingProgress'
-import { useSpeech } from '../hooks/useSpeech'
-import { shareUrl } from '../lib/share'
-import { renderBody, renderPlainText, slotLabel } from '../lib/template'
-import type { Tale } from '../types'
+import { useReadingProgress } from '@/hooks/useReadingProgress'
+import { useSpeech } from '@/hooks/useSpeech'
+import { shareUrl } from '@/lib/share'
+import { renderBody, renderPlainText, slotLabel } from '@/lib/template'
+import type { Tale } from '@/types'
 
 interface ReaderProps {
   tale: Tale

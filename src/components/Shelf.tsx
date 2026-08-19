@@ -1,7 +1,7 @@
 import { Character } from './Character'
 import { Tile } from './Tile'
 import { TopBar } from './TopBar'
-import type { SavedTale, Tag, Tale } from '../types'
+import type { SavedTale, Tag, Tale } from '@/types'
 
 interface ShelfProps {
   tales: Tale[]

@@ -1,4 +1,4 @@
-import type { Chapter, Slot, Tale } from '../types'
+import type { Chapter, Slot, Tale } from '@/types'
 
 /**
  * A run of prose, or a slot's filled-in word. `emphasis` carries the `*italic*`

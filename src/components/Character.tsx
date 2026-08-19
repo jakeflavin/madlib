@@ -1,4 +1,4 @@
-import type { Character as CharacterName } from '../types'
+import type { Character as CharacterName } from '@/types'
 
 /**
  * The cast is deliberately drawn like the little illustrations on a printed

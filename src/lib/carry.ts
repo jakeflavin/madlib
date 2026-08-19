@@ -1,4 +1,4 @@
-import type { Slot, Tale } from '../types'
+import type { Slot, Tale } from '@/types'
 
 /**
  * Moves answers from one tale to another when the reader switches stories.

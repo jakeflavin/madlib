@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import type { Tale } from '../types'
+import type { Tale } from '@/types'
 import { carryWords } from './carry'
 
 const tale = (id: string, slots: Tale['slots']): Tale => ({

@@ -1,4 +1,4 @@
-import type { Tale } from '../types'
+import type { Tale } from '@/types'
 
 export const frostwoodPact: Tale = {
   id: 'frostwood-pact',

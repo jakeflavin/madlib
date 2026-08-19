@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { countUses, renderBody, renderPlainText } from '../lib/template'
+import { countUses, renderBody, renderPlainText } from '@/lib/template'
 import { TALES } from './index'
 
 /**

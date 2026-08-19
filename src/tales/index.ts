@@ -1,4 +1,4 @@
-import type { Tale } from '../types'
+import type { Tale } from '@/types'
 import { afraidKnight } from './afraid-knight'
 import { cinderCrown } from './cinder-crown'
 import { cloudCartographer } from './cloud-cartographer'

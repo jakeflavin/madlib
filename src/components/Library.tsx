@@ -1,8 +1,8 @@
 import { Trash2 } from 'lucide-react'
 import { Tile } from './Tile'
 import { TopBar } from './TopBar'
-import { findTale } from '../tales'
-import type { SavedTale } from '../types'
+import { findTale } from '@/tales'
+import type { SavedTale } from '@/types'
 
 interface LibraryProps {
   tales: SavedTale[]

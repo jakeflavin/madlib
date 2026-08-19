@@ -1,5 +1,5 @@
 import { Monitor, Moon, Sun } from 'lucide-react'
-import type { Theme } from '../hooks/useAppliedTheme'
+import type { Theme } from '@/hooks/useAppliedTheme'
 
 type ThemeButtonProps = {
   theme: Theme

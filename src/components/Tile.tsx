@@ -1,5 +1,5 @@
 import { Character } from './Character'
-import type { Tale } from '../types'
+import type { Tale } from '@/types'
 
 interface TileProps {
   tale: Tale

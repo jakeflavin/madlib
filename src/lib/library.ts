@@ -1,4 +1,4 @@
-import type { SavedTale } from '../types'
+import type { SavedTale } from '@/types'
 
 const KEY = 'fable.library.v1'
 
