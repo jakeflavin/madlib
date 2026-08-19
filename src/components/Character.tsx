@@ -5,9 +5,14 @@ import type { Character as CharacterName } from '../types'
  * activity-book cover: one sturdy silhouette, a few large secondary shapes,
  * and only the details that survive when the art is reduced to 56px.
  */
+/*
+ * The drawing's own ink and paper, not the page's. It is printed on the story's
+ * accent — a pastel that is the same colour in either theme — so repainting it with
+ * the page would put a cream line on a cream-lit pastel and lose the line art.
+ */
 const FILL = 'var(--character-fill, var(--fill))'
-const INK = 'var(--ink)'
-const PAPER = 'var(--paper)'
+const INK = 'var(--art-ink)'
+const PAPER = 'var(--art-paper)'
 
 const DRAWINGS: Record<CharacterName, React.ReactNode> = {
   dragon: (
