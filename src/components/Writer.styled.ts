@@ -57,9 +57,18 @@ export const ActionButtons = styled.div`
   }
 `
 
-/** Clear and "Suggest the rest", at the head of the sheet they act on. */
+/**
+ * Clear and "Suggest the rest", at the head of the sheet they act on.
+ *
+ * They wrap rather than share a fixed split. Both labels are `nowrap`, so `flex: 1`
+ * sized them to equal halves they could not fit inside and they overran the sheet on a
+ * phone. With `auto` bases they sit side by side when the words fit and take a line
+ * each when they don't, which is also what happens when "Clear" becomes the wider
+ * "Undo clear".
+ */
 export const SheetTools = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 10px;
@@ -67,7 +76,8 @@ export const SheetTools = styled.div`
 
   @media (width <= 620px) {
     ${SecondaryButton} {
-      flex: 1;
+      flex: 1 1 auto;
+      padding-inline: 14px;
     }
   }
 `
@@ -153,7 +163,12 @@ export const PickerLabel = styled.span`
 
 export const Sheet = styled.div`
   width: min(940px, 100% - var(--gutter) * 2);
-  margin: 0 auto;
+
+  /*
+   * The bar is fixed, so it sits over the end of the sheet rather than after it. Room
+   * for it below, or the last blank is one you can reach but never see.
+   */
+  margin: 0 auto var(--bar-room);
   padding: 22px clamp(16px, 3vw, 32px) 30px;
   border: 3px solid var(--text);
   border-radius: 10px;
@@ -173,6 +188,16 @@ export const SheetTitle = styled.h2`
   text-align: center;
 `
 
+/*
+ * `minmax(0, 1fr)` rather than `1fr`, and `min-width: 0` on the blank itself.
+ *
+ * A grid item's automatic minimum size is min-content, and a blank's min-content is
+ * its widest unbreakable part — the write-on line plus the Suggest button. On a narrow
+ * phone that came to 315px inside a 262px sheet, so the column was sized to the
+ * content and the rules and buttons ran straight through the sheet's right border.
+ * Both halves are needed: the track has to be allowed to be small, and the item has to
+ * be allowed to shrink into it.
+ */
 export const Blanks = styled.ol`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -182,7 +207,7 @@ export const Blanks = styled.ol`
   list-style: none;
 
   @media (width <= 620px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 `
 
@@ -268,6 +293,7 @@ export const WriteOn = styled.div`
 export const Blank = styled.li`
   display: flex;
   gap: 10px;
+  min-width: 0;
 
   &:hover ${Suggest} {
     opacity: 1;
@@ -320,6 +346,10 @@ export const BlankHint = styled.span`
  * finished. So it steps aside, and comes back the moment you are done typing.
  */
 export const Page = styled.div`
+  /* Roughly the bar's height plus the home indicator, kept in one place so the sheet's
+     bottom margin and the bar cannot drift apart. */
+  --bar-room: calc(86px + env(safe-area-inset-bottom));
+
   @media (width <= 620px) {
     &:has(${Sheet} input:focus) ${ActionBar} {
       transform: translateY(110%);

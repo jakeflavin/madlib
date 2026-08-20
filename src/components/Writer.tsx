@@ -136,8 +136,11 @@ export function Writer({
             and eight. */}
         <SheetTools>
           {cleared ? (
-            <SecondaryButton type="button" onClick={undoClear}>
-              Undo clear
+            /* "Undo", not "Undo clear": the two labels swap in place, and a wider one
+               reflowed the row from one line to two the instant you pressed Clear. The
+               accessible name stays specific. */
+            <SecondaryButton type="button" onClick={undoClear} aria-label="Undo clear">
+              Undo
             </SecondaryButton>
           ) : (
             <SecondaryButton type="button" onClick={clearAll} disabled={filled === 0}>
