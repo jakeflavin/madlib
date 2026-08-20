@@ -7,7 +7,7 @@ export const emberFell: Tale = {
   blurb:
     'Every village needs a dragon slayer. Ember Fell got an apprentice with a bucket, a bad plan and a very large problem in the ravine.',
   minutes: 6,
-  tags: ['dragons', 'friendship', 'adventure'],
+  tags: ['creatures', 'journeys'],
   accent: '#F0813F',
   character: 'dragon',
   slots: [

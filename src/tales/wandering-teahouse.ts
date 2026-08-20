@@ -7,7 +7,7 @@ export const wanderingTeahouse: Tale = {
   blurb:
     'It appears at the crossroads for one night a year. The rule is simple: everyone gets fed, and nobody asks what anybody is.',
   minutes: 7,
-  tags: ['spirits', 'magic', 'friendship'],
+  tags: ['enchantments', 'creatures'],
   accent: '#F2A0BE',
   character: 'fairy',
   slots: [

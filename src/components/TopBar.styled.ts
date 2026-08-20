@@ -36,10 +36,22 @@ export const Inner = styled.div`
   gap: 12px;
   min-height: 60px;
   padding: 8px var(--gutter);
+
+  /*
+   * The page gutter is generous by design, but the reader's bar carries the wordmark,
+   * a labelled button and four 44px targets — at 390px that is the one row in the app
+   * with nothing to spare, and the gutter is the cheapest thing in it.
+   */
+  @media (width <= 620px) {
+    gap: 8px;
+    padding-inline: 12px;
+  }
 `
 
 export const Wordmark = styled.button`
   ${displayType}
+  display: inline-flex;
+  align-items: center;
   padding: 0;
   border: none;
   background: none;
@@ -55,6 +67,11 @@ export const Wordmark = styled.button`
   @media (width <= 620px) {
     font-size: 26px;
   }
+
+  /* It goes home when pressed, so it is a target and not just a logotype. */
+  @media (pointer: coarse) {
+    min-height: 44px;
+  }
 `
 
 export const Actions = styled.div`
@@ -62,4 +79,22 @@ export const Actions = styled.div`
   align-items: center;
   gap: 2px;
   min-width: 0;
+`
+
+/**
+ * Separates what the app does from what this story does. The theme control used to sit
+ * in the same row at the same size as "save this story" and "print", so a setting read
+ * as one more document action.
+ */
+export const Divider = styled.span`
+  width: 1px;
+  height: 22px;
+  margin: 0 6px;
+  flex: none;
+  background: currentColor;
+  opacity: 0.35;
+
+  @media (width <= 620px) {
+    margin: 0 2px;
+  }
 `

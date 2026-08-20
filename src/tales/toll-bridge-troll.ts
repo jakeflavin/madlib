@@ -7,7 +7,7 @@ export const tollBridgeTroll: Tale = {
   blurb:
     'The troll has held the bridge for four hundred years. The village has just formed a committee. Only one of them is enjoying this.',
   minutes: 6,
-  tags: ['friendship', 'adventure', 'family'],
+  tags: ['creatures', 'kingdoms'],
   accent: '#C6D870',
   character: 'troll',
   slots: [

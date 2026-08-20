@@ -1,10 +1,10 @@
 # Fable
 
-Fantasy Mad Libs, set like the printed booklets: cream paper, fat black
-outlines, crayon-box covers, and write-on lines with the part of speech printed
+Fantasy word games, set like a printed fill-in-the-blanks booklet: cream paper, fat
+black outlines, crayon-box covers, and write-on lines with the part of speech printed
 underneath.
 
-Six original tales — dragons, drowned cities, sky islands, a teahouse that only
+Twelve original tales — dragons, drowned cities, sky islands, a teahouse that only
 appears one night a year — each around a five-to-seven minute read, each with
 27–28 blanks woven through it. Answer the blanks, then read the whole ridiculous
 thing aloud.
@@ -14,12 +14,14 @@ thing aloud.
 - **Twelve long stories**, five chapters apiece, written for this app rather than
   padded out of a paragraph. Every tale defines its own prompts, so the blanks
   fit the story instead of a generic noun/verb/adjective list.
-- **Browse by what you fancy** — the contents page filters on tags like dragons,
-  winter, sea or spirits.
-- **Fill in every blank on one page**, each with its own hint and a die to roll a
-  suggestion. **Switch stories from the same page** and your answers come with
-  you, matched across by kind.
-- **Roll the empty ones** fills whatever's left from a hand-written word bank.
+- **Browse by what you fancy** — the contents page filters on four broad themes:
+  creatures, kingdoms, journeys and enchantments. Each takes between three and six
+  of the twelve, so every chip is worth pressing.
+- **Fill in every blank on one page**, each with its own hint and a **Suggest** button
+  for when nothing comes to mind. **Switch stories from the same page** and your
+  answers come with you, matched across by kind.
+- **Suggest the rest** fills whatever's left from a hand-written word bank, and
+  **Clear** can be undone for ten seconds afterwards.
 - **Then read it** as one continuous story — no pagination — with every word you
   supplied set in handwriting on its own ruled line, exactly as a filled-in
   booklet reads. Tap one mid-story to change your mind; it updates everywhere it
@@ -27,6 +29,9 @@ thing aloud.
 - **Read aloud** via the browser's own voice, **print**, **copy**, and a **share
   link** that carries the whole finished tale in the URL — no server involved.
 - **A library** of the tales you've bound, plus drafts that survive a refresh.
+- **Every screen has an address.** The shelf, a fill sheet, a story and the library
+  each have their own URL, so Back goes back, and a story you are part-way through is
+  a link you can send yourself.
 
 ## Running it
 
@@ -35,19 +40,19 @@ npm install
 npm run dev
 ```
 
-| Script              | What it does                          |
-| ------------------- | ------------------------------------- |
-| `npm run dev`       | Vite dev server                       |
-| `npm run build`     | Typecheck and build to `dist/`        |
-| `npm test`          | Vitest — story integrity, share links |
-| `npm run typecheck` | `tsc -b --noEmit`                     |
-| `npm run lint`      | oxlint                                |
-| `npm run icons`     | Regenerate the PNG app icons          |
+| Script              | What it does                                   |
+| ------------------- | ---------------------------------------------- |
+| `npm run dev`       | Vite dev server                                |
+| `npm run build`     | Typecheck and build to `dist/`                 |
+| `npm test`          | Vitest — story integrity, share links, routing |
+| `npm run typecheck` | `tsc -b --noEmit`                              |
+| `npm run lint`      | oxlint                                         |
+| `npm run icons`     | Regenerate the PNG app icons                   |
 
 ## Design
 
 [DESIGN.md](DESIGN.md) is the source of truth for the look: colour, type,
-components, the write-on line, and the six characters. It also records what the
+components, the write-on line, and the twelve characters. It also records what the
 design deliberately does not take from the trademark it is inspired by. Change
 the guide before changing the app.
 
@@ -64,7 +69,7 @@ under 800 words.
 
 ## Deploying
 
-Firebase Hosting, on push to `main` (`.github/workflows/deploy.yml`). The
+Firebase Hosting at `/fable/`, on push to `main` (`.github/workflows/deploy.yml`). The
 workflow needs `FIREBASE_SERVICE_ACCOUNT` as a secret and `FIREBASE_PROJECT_ID`
 as a repository variable.
 

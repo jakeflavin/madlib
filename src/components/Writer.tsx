@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react'
 import { PrimaryButton, QuietButton, SecondaryButton } from './buttons.styled'
 import {
   ActionBar,
@@ -10,6 +11,7 @@ import {
   BlankNumber,
   Blanks,
   Kicker,
+  Page,
   PageTitle,
   Picker,
   PickerLabel,
@@ -18,6 +20,7 @@ import {
   SheetHead,
   SheetHeadBody,
   SheetTitle,
+  SheetTools,
   Suggest,
   Tally,
   WriteOn,
@@ -62,6 +65,29 @@ export function Writer({
   const filled = tale.slots.filter((slot) => words[slot.id]?.trim()).length
   const complete = filled === tale.slots.length
 
+  /*
+   * Clear used to empty twenty-eight answers with no confirmation and no way back,
+   * overwriting the saved draft in the same motion. A confirmation for something this
+   * cheap to undo would be a nag; keeping the answers to hand for a few seconds and
+   * offering them back is the better trade.
+   */
+  const [cleared, setCleared] = useState<Record<string, string> | null>(null)
+  const undoTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+
+  const clearAll = () => {
+    setCleared(words)
+    onReplaceAll({})
+    clearTimeout(undoTimer.current)
+    undoTimer.current = setTimeout(() => setCleared(null), 10000)
+  }
+
+  const undoClear = () => {
+    if (!cleared) return
+    onReplaceAll(cleared)
+    setCleared(null)
+    clearTimeout(undoTimer.current)
+  }
+
   const fillEmpty = () => {
     const filledIn = { ...words }
     for (const slot of tale.slots) {
@@ -71,7 +97,7 @@ export function Writer({
   }
 
   return (
-    <div style={{ '--fill': tale.accent } as React.CSSProperties}>
+    <Page style={{ '--fill': tale.accent } as React.CSSProperties}>
       <TopBar onHome={onBack}>
         <QuietButton type="button" onClick={onBack}>
           All stories
@@ -104,6 +130,25 @@ export function Writer({
 
       <Sheet>
         <SheetTitle>Fill in the blanks</SheetTitle>
+
+        {/* These two act on the sheet, so they sit on it rather than riding along in
+            the bar — which on a phone is the difference between three visible blanks
+            and eight. */}
+        <SheetTools>
+          {cleared ? (
+            <SecondaryButton type="button" onClick={undoClear}>
+              Undo clear
+            </SecondaryButton>
+          ) : (
+            <SecondaryButton type="button" onClick={clearAll} disabled={filled === 0}>
+              Clear
+            </SecondaryButton>
+          )}
+          <SecondaryButton type="button" onClick={fillEmpty} disabled={complete}>
+            Suggest the rest
+          </SecondaryButton>
+        </SheetTools>
+
         <Blanks>
           {tale.slots.map((slot, index) => {
             const { kind, hint } = prompt(slot)
@@ -147,22 +192,15 @@ export function Writer({
           </Tally>
 
           <ActionButtons>
-            <QuietButton
-              type="button"
-              onClick={() => onReplaceAll({})}
-              disabled={filled === 0}
-            >
-              Clear
-            </QuietButton>
-            <SecondaryButton type="button" onClick={fillEmpty} disabled={complete}>
-              Suggest the rest
-            </SecondaryButton>
+            {/* The label says what the button does, not how far off it is — the tally
+                beside it already counts, and a control that only names its purpose once
+                you no longer need telling is no help to a first-time player. */}
             <PrimaryButton type="button" onClick={onRead} disabled={!complete}>
-              {complete ? 'Read it out loud' : `${tale.slots.length - filled} to go`}
+              Read it out loud
             </PrimaryButton>
           </ActionButtons>
         </ActionBarInner>
       </ActionBar>
-    </div>
+    </Page>
   )
 }

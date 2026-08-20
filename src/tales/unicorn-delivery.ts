@@ -7,7 +7,7 @@ export const unicornDelivery: Tale = {
   blurb:
     'Sign here, please. The courier has one week, four hundred miles, and a unicorn foal who will not stop eating the paperwork.',
   minutes: 6,
-  tags: ['adventure', 'magic', 'friendship'],
+  tags: ['creatures', 'journeys'],
   accent: '#DCA9E8',
   character: 'unicorn',
   slots: [

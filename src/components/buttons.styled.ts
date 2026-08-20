@@ -38,11 +38,19 @@ const pressable = css`
     box-shadow: 0 0 0 var(--text);
   }
 
+  /*
+   * One disabled treatment for both buttons. They used to differ — the primary lost
+   * its red and read as clearly inert, while the secondary kept its border and full
+   * opacity and changed only from ink to --dim, so on a finished sheet it still
+   * invited a press that did nothing. Same state, same look.
+   */
   &:disabled {
+    border-color: var(--dim);
     background: var(--surface);
     color: var(--dim);
     box-shadow: none;
     transform: none;
+    opacity: 0.6;
     cursor: default;
   }
 `
@@ -50,7 +58,7 @@ const pressable = css`
 export const PrimaryButton = styled.button`
   ${pressable}
   background: var(--red);
-  color: #fff;
+  color: var(--on-red);
 `
 
 export const SecondaryButton = styled.button`
@@ -83,6 +91,10 @@ export const QuietButton = styled.button`
     opacity: 0.45;
     cursor: default;
   }
+
+  @media (pointer: coarse) {
+    min-height: 44px;
+  }
 `
 
 /**
@@ -104,5 +116,11 @@ export const IconButton = styled.button`
 
   &:hover:not(:disabled) {
     background: rgb(255 255 255 / 18%);
+  }
+
+  /* A finger needs more than a cursor does, and these carry no label to aim at. */
+  @media (pointer: coarse) {
+    width: 44px;
+    height: 44px;
   }
 `

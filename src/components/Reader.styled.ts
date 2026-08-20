@@ -69,9 +69,57 @@ export const Word = styled.button`
     background: var(--yellow);
   }
 
-  /* On paper the highlight is just grey, so it goes. */
+  /*
+   * A finger is not a cursor, and these sit inline in flowing prose with other words
+   * either side — a mis-tap opens the wrong word for editing.
+   */
+  @media (pointer: coarse) {
+    padding: 4px 5px;
+  }
+
+  /*
+   * On paper the highlight is just grey, so it goes. Written against &:hover as well,
+   * because a bare declaration here loses to it on specificity and whichever word the
+   * mouse last rested on printed with a yellow block behind it.
+   */
   @media print {
-    background: none;
+    &,
+    &:hover {
+      background: none;
+    }
+  }
+`
+
+/**
+ * What just happened, in words. Copying used to report itself by swapping an icon to
+ * a tick for a moment — no use unless you were watching that exact button, and
+ * nothing at all to a screen reader. role="status" tells both.
+ */
+export const Flash = styled.p`
+  position: fixed;
+  top: 74px;
+  left: 50%;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 9px 16px;
+  transform: translateX(-50%);
+  border: 3px solid var(--text);
+  border-radius: 6px;
+  background: var(--yellow);
+  box-shadow: var(--shadow-sm);
+  font-family: var(--ui);
+  font-size: 14px;
+  font-weight: 800;
+  white-space: nowrap;
+
+  /* A crayon fill takes ink in both themes. */
+  color: var(--art-ink);
+
+  @media print {
+    display: none;
   }
 `
 
@@ -131,8 +179,18 @@ export const ChapterTitle = styled.h2`
 `
 
 /** Hidden on a phone, where the icon alone has to carry the button. */
+/**
+ * Hides the label on a phone, where there is not room for several of them.
+ *
+ * Used sparingly, and never on the control someone came to the screen to press: a
+ * masthead where every label has collapsed is a row of glyphs to guess at, which is
+ * how this one ended up with seven of them.
+ */
 export const ButtonLabel = styled.span`
   @media (width <= 620px) {
     display: none;
   }
 `
+
+/** Keeps its words at every width. */
+export const AlwaysLabel = styled.span``

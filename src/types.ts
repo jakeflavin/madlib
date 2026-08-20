@@ -19,18 +19,15 @@ export type SlotKind =
   | 'sound'
   | 'magic-word'
 
-/** What a tale is about. Readers filter the contents page by these. */
-export type Tag =
-  | 'dragons'
-  | 'royalty'
-  | 'magic'
-  | 'sea'
-  | 'winter'
-  | 'sky'
-  | 'spirits'
-  | 'friendship'
-  | 'family'
-  | 'adventure'
+/**
+ * What a tale is about. Readers filter the contents page by these.
+ *
+ * Four broad ones rather than the ten narrow ones this started with. Ten tags over
+ * twelve stories meant half of them matched exactly one story — a chip that is
+ * secretly a shortcut — while two matched eight and barely filtered at all. These
+ * four each take between three and six of the twelve, so every chip is worth pressing.
+ */
+export type Tag = 'creatures' | 'kingdoms' | 'journeys' | 'enchantments'
 
 /** One blank in a tale. The same slot may appear many times in the prose. */
 export interface Slot {

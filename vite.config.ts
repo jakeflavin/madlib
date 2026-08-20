@@ -7,8 +7,10 @@ export default defineConfig({
   resolve: {
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
   },
-  // Served from a sub-path of the portfolio's Hosting site.
-  base: '/madlib/',
+  // Served from a sub-path of the portfolio's Hosting site. The path is the app's
+  // name: it used to be /madlib/, which is what this was called before it was Fable,
+  // and the address is the part people paste to each other.
+  base: '/fable/',
   plugins: [react()],
   test: {
     environment: 'jsdom',

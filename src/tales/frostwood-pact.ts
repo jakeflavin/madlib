@@ -7,7 +7,7 @@ export const frostwoodPact: Tale = {
   blurb:
     'The forest has been asleep for nine years. Two sisters go in to wake it, and only one of them wants to.',
   minutes: 6,
-  tags: ['winter', 'family', 'magic'],
+  tags: ['enchantments'],
   accent: '#8FC7E8',
   character: 'tree',
   slots: [
