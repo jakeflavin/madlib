@@ -1,15 +1,5 @@
-import {
-  BookMarked,
-  Check,
-  Copy,
-  LayoutGrid,
-  Pause,
-  PencilLine,
-  Printer,
-  Share2,
-  Volume2,
-} from 'lucide-react'
-import { IconButton, QuietButton } from './buttons.styled'
+import { BookMarked, Check, Copy, LayoutGrid, PencilLine, Printer, Share2 } from 'lucide-react'
+import { QuietButton } from './buttons.styled'
 import { Kicker } from './Writer.styled'
 import { MoreMenu, type MenuAction } from './MoreMenu'
 import {
@@ -29,7 +19,6 @@ import {
 import { useEffect, useRef, useState } from 'react'
 import { TopBar } from './TopBar'
 import { useReadingProgress } from '@/hooks/useReadingProgress'
-import { useSpeech } from '@/hooks/useSpeech'
 import { shareUrl } from '@/lib/share'
 import { renderBody, renderPlainText, slotLabel } from '@/lib/template'
 import type { Tale } from '@/types'
@@ -56,7 +45,6 @@ export function Reader({
   const [editing, setEditing] = useState<string | null>(null)
   const [flash, setFlash] = useState<string | null>(null)
   const flashTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
-  const speech = useSpeech()
   const progress = useReadingProgress()
 
   useEffect(() => () => clearTimeout(flashTimer.current), [])
@@ -88,11 +76,6 @@ export function Reader({
     } catch {
       say("Couldn't copy — your browser blocked it")
     }
-  }
-
-  const readAloud = () => {
-    if (speech.speaking) return speech.stop()
-    speech.speak(renderPlainText(tale, words))
   }
 
   const actions: MenuAction[] = [
@@ -139,21 +122,6 @@ export function Reader({
           <PencilLine size={15} aria-hidden="true" />
           <AlwaysLabel>Edit words</AlwaysLabel>
         </QuietButton>
-
-        {speech.supported && (
-          <IconButton
-            type="button"
-            onClick={readAloud}
-            aria-label={speech.speaking ? 'Stop reading aloud' : 'Read aloud'}
-            title={speech.speaking ? 'Stop reading aloud' : 'Read aloud'}
-          >
-            {speech.speaking ? (
-              <Pause size={17} aria-hidden="true" />
-            ) : (
-              <Volume2 size={17} aria-hidden="true" />
-            )}
-          </IconButton>
-        )}
 
         <MoreMenu actions={actions} label="Share, save and print" />
       </TopBar>

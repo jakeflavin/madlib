@@ -26,8 +26,8 @@ thing aloud.
   supplied set in handwriting on its own ruled line, exactly as a filled-in
   booklet reads. Tap one mid-story to change your mind; it updates everywhere it
   appears. The masthead tracks how far through you are.
-- **Read aloud** via the browser's own voice, **print**, **copy**, and a **share
-  link** that carries the whole finished tale in the URL — no server involved.
+- **Print**, **copy**, and a **share link** that carries the whole finished tale in
+  the URL — no server involved.
 - **A library** of the tales you've bound, plus drafts that survive a refresh.
 - **Every screen has an address.** The shelf, a fill sheet, a story and the library
   each have their own URL, so Back goes back, and a story you are part-way through is

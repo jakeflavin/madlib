@@ -57,7 +57,7 @@ export function renderBody(body: string, words: Record<string, string>, slots: S
   return segments
 }
 
-/** Plain text for copying, sharing and reading aloud. */
+/** Plain text for copying and sharing. */
 export function renderPlainText(tale: Tale, words: Record<string, string>): string {
   const parts = [tale.title, '']
   for (const chapter of tale.chapters) {

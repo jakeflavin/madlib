@@ -93,6 +93,17 @@
   box-sizing: border-box;
 }
 
+/*
+ * The fill sheet's action bar is fixed, so it floats over the end of the page. The
+ * browser scrolls a newly focused field only just into view, and counts a field the
+ * bar is sitting on top of as already visible — so tabbing down a sheet of blanks
+ * walks straight underneath it. This reserves the bar's height for every scroll the
+ * browser performs on our behalf.
+ */
+html {
+  scroll-padding-bottom: 104px;
+}
+
 body {
   margin: 0;
   font-family: var(--ui);

@@ -73,6 +73,7 @@ export function Writer({
    */
   const [cleared, setCleared] = useState<Record<string, string> | null>(null)
   const undoTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+  const barRef = useRef<HTMLDivElement>(null)
 
   const clearAll = () => {
     setCleared(words)
@@ -86,6 +87,22 @@ export function Writer({
     onReplaceAll(cleared)
     setCleared(null)
     clearTimeout(undoTimer.current)
+  }
+
+  /*
+   * Clicking a blank the bar is covering scrolls nothing: as far as the browser is
+   * concerned the field is on screen, and the bar is just painted over it. So when a
+   * field takes focus, check it against where the usable page actually ends and lift
+   * it clear. Below 620px the bar steps aside on focus instead, and there is nothing
+   * to clear.
+   */
+  const keepClearOfBar = (event: React.FocusEvent<HTMLInputElement>) => {
+    if (window.matchMedia('(width <= 620px)').matches) return
+
+    const bar = barRef.current?.getBoundingClientRect()
+    const limit = bar ? Math.min(window.innerHeight, bar.top) : window.innerHeight
+    const overlap = event.target.getBoundingClientRect().bottom + 16 - limit
+    if (overlap > 0) window.scrollBy({ top: overlap, behavior: 'instant' as ScrollBehavior })
   }
 
   const fillEmpty = () => {
@@ -166,6 +183,7 @@ export function Writer({
                     <input
                       value={words[slot.id] ?? ''}
                       onChange={(event) => onChange(slot.id, event.target.value)}
+                      onFocus={keepClearOfBar}
                       autoComplete="off"
                       spellCheck={false}
                     />
@@ -188,7 +206,7 @@ export function Writer({
 
       {/* The action bar rides with you: on a 28-blank sheet the button that
           matters should never be a scroll away. */}
-      <ActionBar>
+      <ActionBar ref={barRef}>
         <ActionBarInner>
           <Tally>
             <strong>{filled}</strong> of {tale.slots.length} filled in
