@@ -14,11 +14,7 @@ interface TileProps {
  */
 export function Tile({ tale, note, onOpen }: TileProps) {
   return (
-    <Cover
-      type="button"
-      onClick={onOpen}
-      style={{ '--fill': tale.accent } as React.CSSProperties}
-    >
+    <Cover type="button" onClick={onOpen} style={{ '--fill': tale.accent } as React.CSSProperties}>
       <Art>
         <CoverCharacter name={tale.character} />
       </Art>

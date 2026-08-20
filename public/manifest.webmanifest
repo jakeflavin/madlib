@@ -1,7 +1,7 @@
 {
   "name": "Fable",
   "short_name": "Fable",
-  "description": "Fantasy mad libs — give a story your words and read the whole ridiculous thing aloud.",
+  "description": "Fantasy word games — give a story your words and read the whole ridiculous thing aloud.",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",

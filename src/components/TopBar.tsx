@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { ThemeButton } from './ThemeButton'
 import { useTheme } from '@/hooks/useTheme'
-import { Actions, Inner, Masthead, Wordmark } from './TopBar.styled'
+import { Actions, Divider, Inner, Masthead, Wordmark } from './TopBar.styled'
 
 interface TopBarProps {
   onHome: () => void
@@ -26,6 +26,7 @@ export function TopBar({ onHome, children, progress }: TopBarProps) {
         </Wordmark>
         <Actions>
           {children}
+          {children ? <Divider aria-hidden="true" /> : null}
           <ThemeButton theme={theme} onChange={setTheme} />
         </Actions>
       </Inner>

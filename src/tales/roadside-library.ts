@@ -7,7 +7,7 @@ export const roadsideLibrary: Tale = {
   blurb:
     'It turns up where somebody needs it, stays until they are finished, and then it is gone. This time it will not leave.',
   minutes: 6,
-  tags: ['magic', 'adventure', 'family'],
+  tags: ['enchantments', 'journeys'],
   accent: '#D7A96B',
   character: 'book',
   slots: [

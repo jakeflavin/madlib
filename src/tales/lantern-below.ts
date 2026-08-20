@@ -7,7 +7,7 @@ export const lanternBelow: Tale = {
   blurb:
     'Down where the light gives up, a drowned city keeps its bargains. One diver goes down to break one.',
   minutes: 6,
-  tags: ['sea', 'family', 'adventure'],
+  tags: ['journeys', 'creatures'],
   accent: '#86C99A',
   character: 'mermaid',
   slots: [

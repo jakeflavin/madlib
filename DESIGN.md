@@ -34,7 +34,9 @@ Mad Libs is a registered trademark of Penguin Random House. This is a personal
 project that borrows a **format and a visual idiom**, not an identity:
 
 - No Mad Libs logotype, no smiley-face "O", no "World's Greatest Word Game", no
-  cover trade dress copied outright.
+  cover trade dress copied outright. This applies to the banner too, which is the
+  largest text on the entry screen: it reads "Fantasy Word Games" over "Twelve tales,
+  and you supply the words", and it is not a paraphrase of anybody's line.
 - Our own wordmark is "Fable", set in a different display face.
 - Every character illustration is drawn for this project.
 
@@ -52,8 +54,10 @@ text on white.
 --ink-soft   #5D564C   labels, meta
 
 --navy       #262A47   the masthead band
---red        #E24B33   primary buttons
+--red        #C93B24   primary buttons
+--on-red     #FFFFFF   the text that sits on --red (ink in the dark theme)
 --yellow     #F7C948   focus wash, highlights
+--focus      #4A63D8   the focus ring, and nothing else
 ```
 
 **Crayon box** — the flat fills a story cover can take, one per story. Each is
@@ -69,6 +73,10 @@ lime    #C6D870     tan         #D7A96B     red         #EE6B5E
 Rules:
 
 - Black text on colour. Never colour text on white — these are fills.
+- The one exception is the primary button, which is white on `--red`. That pairing
+  has to be checked rather than assumed: the original `#E24B33` put it at 4:1, under
+  AA for the 15px caps a button is set in. `--on-red` carries the pairing so the dark
+  theme can flip to ink without every call site restating the rule.
 - No gradients anywhere. No soft shadows. Depth is a **hard offset shadow**:
   `4px 4px 0 var(--ink)`.
 - Outlines are `3px solid var(--ink)`; corners `6px` or square. Nothing is a
@@ -131,9 +139,10 @@ actions right, sitting on a 3px ink rule.
 story's character drawn large, title in Luckiest Guy, meta in Nunito. Pressing
 it moves it into its shadow.
 
-**Buttons** — `--red` fill, white uppercase Nunito 800, 3px ink outline, hard
+**Buttons** — `--red` fill, `--on-red` uppercase Nunito 800, 3px ink outline, hard
 shadow. Secondary is paper fill with the same outline. Both press into the
-shadow.
+shadow, and both wear the same disabled treatment: muted border, sunk fill, 60%.
+A control that looks pressable and does nothing is worse than one that looks spent.
 
 **Fill sheet** — a `--paper-2` panel with an ink outline holding a numbered
 two-column list of write-on lines. Numbered, because the printed books number
@@ -146,6 +155,12 @@ a title block up top with the character and a heavy rule beneath.
 
 Twelve, one per story, drawn as flat cartoons: 3px ink outline, flat crayon
 fill, no gradients, no shading, on a 64×64 grid.
+
+They carry their own ink and paper — `--art-ink` and `--art-paper` — and never the
+page's. A character is drawn on a crayon fill, and a crayon fill is the same colour in
+either theme, so a drawing that followed `--bg` filled black the moment the page went
+dark and collapsed the whole cast into silhouettes. Which is, precisely, the technique
+below that we do not use.
 
 ### What the reference taught us
 
@@ -179,20 +194,20 @@ outline and a crayon fill, because that is what the booklet style is.
 
 ### The cast
 
-| Story                                 | Character | Note                           |
-| ------------------------------------- | --------- | ------------------------------ |
-| The Dragon of Ember Fell              | dragon    | horned face, front on          |
-| The Cinder Crown                      | crown     |                                |
-| The Frostwood Pact                    | tree      | snow-capped                    |
-| The Lantern Below the Sea             | mermaid   | bust and tail                  |
-| The Cartographer of Clouds            | castle    |                                |
-| The Wandering Teahouse                | fairy     | four wings                     |
-| The Knight Who Was Afraid of Anything | knight    | a shield — the helm never read |
-| The Witch of Tumbledown Lane          | witch     | the hat, not a face            |
-| The Last Unicorn Delivery             | unicorn   | front-facing, horn centred     |
-| The Troll Under the Toll Bridge       | troll     | wide skull, tusks up           |
-| The Library at the End of the Road    | book      | open, with a ribbon            |
-| The Phoenix and the Lighthouse Keeper | phoenix   | wings up                       |
+| Story                                   | Character | Note                           |
+| --------------------------------------- | --------- | ------------------------------ |
+| The Dragon of Ember Fell                | dragon    | horned face, front on          |
+| The Cinder Crown                        | crown     |                                |
+| The Frostwood Pact                      | tree      | snow-capped                    |
+| The Lantern Below the Sea               | mermaid   | bust and tail                  |
+| The Cartographer of Clouds              | castle    |                                |
+| The Wandering Teahouse                  | fairy     | four wings                     |
+| The Knight Who Was Afraid of Everything | knight    | a shield — the helm never read |
+| The Witch of Tumbledown Lane            | witch     | the hat, not a face            |
+| The Last Unicorn Delivery               | unicorn   | front-facing, horn centred     |
+| The Troll Under the Toll Bridge         | troll     | wide skull, tusks up           |
+| The Library at the End of the Road      | book      | open, with a ribbon            |
+| The Phoenix and the Lighthouse Keeper   | phoenix   | wings up                       |
 
 They live in one file (`src/components/Character.tsx`) so any of them can be
 redrawn without touching anything else.
@@ -201,7 +216,11 @@ redrawn without touching anything else.
 
 - All text is `--ink` on paper or on a crayon fill; both clear 4.5:1 by a wide
   margin. Crayon colours are never used as text colour.
-- Focus is a 3px `--navy` outline at 2px offset, and is never removed.
+- Focus is a 3px `--focus` outline at 2px offset, and is never removed. `--focus` is
+  its own token rather than the navy, because the ring has to be seen against whatever
+  it lands on — including, on a cover, immediately outside a 3px ink border, where the
+  navy sat at 1.3:1 and read as a slightly thicker edge. `#4A63D8` clears 3:1 against
+  ink, paper, the sunk sheet and both dark grounds, so one value carries everywhere.
 - The part-of-speech label is a real `<label>` tied to its input, so the visual
   convention and the accessible name agree.
 - Handwriting is styling applied to real text, never an image.

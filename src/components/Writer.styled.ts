@@ -20,7 +20,6 @@ export const ActionBar = styled.div`
 
 export const ActionBarInner = styled.div`
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 14px;
@@ -39,26 +38,36 @@ export const Tally = styled.p`
   }
 `
 
+/*
+ * Only the primary rides in the bar now. Three controls would not sit on one
+ * phone-width row, so the bar grew to three effective rows — 170px of a 664px
+ * iPhone viewport, a quarter of the screen permanently gone on a sheet you have to
+ * scroll through twenty-eight times. Clear and "Suggest the rest" act on the sheet,
+ * so they live on the sheet; what has to ride along is the count and the way out.
+ */
 export const ActionButtons = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
 
-  /*
-   * Three controls will not sit on one phone-width row: the two helpers share a line and
-   * the button that matters takes its own. Interpolated rather than written as a class
-   * selector, so the relationship survives the buttons being renamed.
-   */
   @media (width <= 620px) {
-    flex-wrap: wrap;
-    width: 100%;
-
-    ${SecondaryButton} {
+    ${PrimaryButton} {
       flex: 1;
     }
+  }
+`
 
-    ${PrimaryButton} {
-      flex-basis: 100%;
+/** Clear and "Suggest the rest", at the head of the sheet they act on. */
+export const SheetTools = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+
+  @media (width <= 620px) {
+    ${SecondaryButton} {
+      flex: 1;
     }
   }
 `
@@ -177,7 +186,11 @@ export const Blanks = styled.ol`
   }
 `
 
-/** Only shown on hover or focus, so a sheet of thirty blanks is not thirty buttons. */
+/**
+ * Quiet until you approach it, so a sheet of thirty blanks is not thirty buttons —
+ * but no longer invisible. At zero opacity the only way to discover the feature was
+ * to happen to hover a field, which on a pointer device most people never did.
+ */
 export const Suggest = styled.button`
   flex: none;
   padding: 4px 6px 6px;
@@ -188,7 +201,7 @@ export const Suggest = styled.button`
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--dim);
-  opacity: 0;
+  opacity: 0.5;
   transition:
     opacity 120ms ease-out,
     color 120ms ease-out;
@@ -197,13 +210,20 @@ export const Suggest = styled.button`
     color: var(--red);
   }
 
+  &:hover,
   &:focus-visible {
     opacity: 1;
   }
 
-  /* Nothing hovers on a touch screen, so there it is always visible. */
+  /* Nothing hovers on a touch screen, so there it is always visible — and sized for
+     a finger, since 25px of it was not something anyone was going to hit. */
   @media (hover: none) {
     opacity: 1;
+  }
+
+  @media (pointer: coarse) {
+    min-height: 44px;
+    padding-inline: 10px;
   }
 `
 
@@ -288,4 +308,31 @@ export const BlankHint = styled.span`
   font-style: italic;
   line-height: 1.35;
   color: var(--dim);
+`
+
+/*
+ * Wraps the whole screen so the bar can answer to what the sheet is doing.
+ *
+ * On a phone the on-screen keyboard takes roughly half the viewport, and the bar was
+ * taking a quarter of what remained — leaving about one and a half blanks visible
+ * while you type into them. While a blank has focus the bar has nothing to offer:
+ * the count is on screen anyway and the story cannot be read until the sheet is
+ * finished. So it steps aside, and comes back the moment you are done typing.
+ */
+export const Page = styled.div`
+  @media (width <= 620px) {
+    &:has(${Sheet} input:focus) ${ActionBar} {
+      transform: translateY(110%);
+    }
+  }
+
+  ${ActionBar} {
+    transition: transform 160ms ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    ${ActionBar} {
+      transition: none;
+    }
+  }
 `

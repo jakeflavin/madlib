@@ -35,6 +35,38 @@ export const BannerBlurb = styled.p`
   color: var(--dim);
 `
 
+/**
+ * A share link that did not survive the trip. Sits above the banner because it is a
+ * reply to something the reader just did, and they need it before they start browsing.
+ */
+export const Notice = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 1120px;
+  margin: 18px auto 0;
+  padding: 14px 12px 14px 16px;
+  border: 3px solid var(--text);
+  border-radius: 8px;
+  background: var(--yellow);
+  box-shadow: var(--shadow-sm);
+
+  /* The band is a crayon fill, so its text is ink in both themes rather than --text. */
+  color: var(--art-ink);
+
+  @media (width <= 620px) {
+    margin-inline: var(--gutter);
+  }
+`
+
+export const NoticeText = styled.p`
+  flex: 1;
+  margin: 0;
+  font-family: var(--story);
+  font-size: 15px;
+  line-height: 1.55;
+`
+
 export const Rack = styled.section`
   max-width: 1120px;
   margin: 0 auto;
@@ -72,6 +104,7 @@ export const Chips = styled.div`
 
 export const Chip = styled.button`
   padding: 6px 14px;
+  min-height: 34px;
   border: 2px solid var(--text);
   border-radius: 999px;
   background: var(--bg);
@@ -89,6 +122,12 @@ export const Chip = styled.button`
   &[aria-pressed='true'] {
     background: var(--text);
     color: var(--bg);
+  }
+
+  /* Same rule the rest of the app's controls follow on a touch screen. */
+  @media (pointer: coarse) {
+    min-height: 44px;
+    padding-inline: 16px;
   }
 `
 

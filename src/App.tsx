@@ -1,50 +1,116 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Library } from './components/Library'
 import { Reader } from './components/Reader'
 import { Shelf } from './components/Shelf'
 import { Writer } from './components/Writer'
 import { carryWords } from './lib/carry'
 import { loadDrafts, loadLibrary, saveDraft, saveLibrary } from './lib/library'
+import { readRoute, routeUrl, type View } from './lib/route'
 import { fromShareHash } from './lib/share'
 import { TALES, findTale } from './tales'
 import type { SavedTale, Tag, Tale } from './types'
 
-type View = 'contents' | 'writer' | 'reader' | 'library'
+const known = (taleId: string) => Boolean(findTale(taleId))
+
+/** Where the current URL says we are. Read on load and again on every Back/Forward. */
+const routeNow = () => readRoute(window.location, fromShareHash, known)
 
 export default function App() {
-  const [view, setView] = useState<View>('contents')
-  const [tale, setTale] = useState<Tale | null>(null)
-  const [words, setWords] = useState<Record<string, string>>({})
-  const [tag, setTag] = useState<Tag | null>(null)
   const [drafts, setDrafts] = useState(loadDrafts)
   const [library, setLibrary] = useState(loadLibrary)
+  const [tag, setTag] = useState<Tag | null>(null)
   const [savedId, setSavedId] = useState<string | null>(null)
 
-  // A shared link opens straight into the story with somebody else's words.
-  useEffect(() => {
+  // The view, the story and its words all come from the URL on first paint, so a
+  // shared link, a refresh mid-fill and a bookmark all land in the same place.
+  const [state, setState] = useState(() => {
+    const route = routeNow()
     const shared = fromShareHash(window.location.hash)
-    if (!shared) return
+    const tale = route.taleId ? (findTale(route.taleId) ?? null) : null
+    return {
+      view: route.view,
+      tale,
+      words: (route.shared ? shared?.words : tale ? drafts[tale.id] : undefined) ?? {},
+      shared: route.shared,
+    }
+  })
+  const { view, tale, words } = state
 
-    const found = findTale(shared.taleId)
-    if (!found) return
+  const [brokenShare, setBrokenShare] = useState(() => routeNow().brokenShare)
 
-    setTale(found)
-    setWords(shared.words)
-    setSavedId(null)
-    setView('reader')
+  // The current view, readable without closing over it. `go` needs to know where it is
+  // in order to work out where it is going, and it has to do that outside the state
+  // updater: pushing history from inside one would fire twice under StrictMode and put
+  // a duplicate entry between every pair of screens.
+  const stateRef = useRef(state)
+  stateRef.current = state
+
+  /** Moves to a view and gives it an address, so Back comes back here. */
+  const go = useCallback(
+    (
+      next: { view: View; tale?: Tale | null; words?: Record<string, string>; shared?: boolean },
+      replace = false,
+    ) => {
+      const prev = stateRef.current
+      const changingTale = next.tale !== undefined && next.tale?.id !== prev.tale?.id
+      const resolved = {
+        view: next.view,
+        tale: next.tale === undefined ? prev.tale : next.tale,
+        words: next.words ?? (changingTale ? {} : prev.words),
+        shared: next.shared ?? (changingTale ? false : prev.shared),
+      }
+
+      const url = routeUrl(
+        { view: resolved.view, taleId: resolved.tale?.id, shared: resolved.shared },
+        window.location.hash,
+      )
+      const here = window.location.pathname + window.location.search + window.location.hash
+      if (replace) history.replaceState(null, '', url)
+      else if (url !== here) history.pushState(null, '', url)
+
+      stateRef.current = resolved
+      setState(resolved)
+      setBrokenShare(false)
+    },
+    [],
+  )
+
+  // Back and Forward rebuild the view from whatever address they land on. Drafts are
+  // read fresh rather than closed over, so stepping back into a sheet shows the words
+  // that are actually saved for it.
+  const draftsRef = useRef(drafts)
+  draftsRef.current = drafts
+  useEffect(() => {
+    const onPop = () => {
+      const route = routeNow()
+      const sharedTale = fromShareHash(window.location.hash)
+      const found = route.taleId ? (findTale(route.taleId) ?? null) : null
+      const landed = {
+        view: route.view,
+        tale: found,
+        words:
+          (route.shared ? sharedTale?.words : found ? draftsRef.current[found.id] : undefined) ??
+          {},
+        shared: route.shared,
+      }
+      stateRef.current = landed
+      setState(landed)
+      setBrokenShare(route.brokenShare)
+      setSavedId(null)
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
   }, [])
 
   const remember = (taleId: string, next: Record<string, string>) => {
-    setWords(next)
+    setState((prev) => ({ ...prev, words: next }))
     saveDraft(taleId, next)
     setDrafts((all) => ({ ...all, [taleId]: next }))
   }
 
   const openTale = (next: Tale) => {
-    setTale(next)
-    setWords(drafts[next.id] ?? {})
     setSavedId(null)
-    setView('writer')
+    go({ view: 'writer', tale: next, words: drafts[next.id] ?? {}, shared: false })
   }
 
   /** Switching stories mid-fill keeps the answers that fit the new tale. */
@@ -52,9 +118,10 @@ export default function App() {
     if (!tale) return openTale(next)
 
     const carried = { ...(drafts[next.id] ?? {}), ...carryWords(tale, next, words) }
-    setTale(next)
     setSavedId(null)
-    remember(next.id, carried)
+    saveDraft(next.id, carried)
+    setDrafts((all) => ({ ...all, [next.id]: carried }))
+    go({ view: 'writer', tale: next, words: carried, shared: false }, true)
   }
 
   const writeWord = (slotId: string, value: string) => {
@@ -87,10 +154,7 @@ export default function App() {
     setSavedId(entry.id)
   }
 
-  const goContents = () => {
-    if (window.location.hash) history.replaceState(null, '', window.location.pathname)
-    setView('contents')
-  }
+  const goContents = () => go({ view: 'contents', tale: null, words: {}, shared: false })
 
   return (
     <div>
@@ -102,7 +166,9 @@ export default function App() {
           tag={tag}
           onTag={setTag}
           onOpen={openTale}
-          onOpenLibrary={() => setView('library')}
+          onOpenLibrary={() => go({ view: 'library' })}
+          brokenShare={brokenShare}
+          onDismissBrokenShare={() => setBrokenShare(false)}
         />
       )}
 
@@ -116,7 +182,7 @@ export default function App() {
           onSwitchTale={switchTale}
           onRead={() => {
             window.scrollTo({ top: 0 })
-            setView('reader')
+            go({ view: 'reader' })
           }}
           onBack={goContents}
         />
@@ -129,7 +195,7 @@ export default function App() {
           onEditWord={writeWord}
           onEditWords={() => {
             window.scrollTo({ top: 0 })
-            setView('writer')
+            go({ view: 'writer' })
           }}
           onSave={saveToLibrary}
           onHome={goContents}
@@ -143,12 +209,13 @@ export default function App() {
           onRead={(saved) => {
             const found = findTale(saved.taleId)
             if (!found) return
-            setTale(found)
-            setWords(saved.words)
             setSavedId(saved.id)
-            setView('reader')
+            go({ view: 'reader', tale: found, words: saved.words, shared: false })
           }}
           onDelete={(id) => commitLibrary(library.filter((entry) => entry.id !== id))}
+          onRestore={(entry, index) =>
+            commitLibrary([...library.slice(0, index), entry, ...library.slice(index)])
+          }
           onBack={goContents}
         />
       )}

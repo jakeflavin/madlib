@@ -1,4 +1,5 @@
-import { QuietButton } from './buttons.styled'
+import { X } from 'lucide-react'
+import { IconButton, QuietButton } from './buttons.styled'
 import { Tile } from './Tile'
 import {
   Banner,
@@ -10,6 +11,8 @@ import {
   Colophon,
   ColophonCharacter,
   CoverGrid,
+  Notice,
+  NoticeText,
   Rack,
   RackCount,
   RackHead,
@@ -26,22 +29,29 @@ interface ShelfProps {
   onTag: (tag: Tag | null) => void
   onOpen: (tale: Tale) => void
   onOpenLibrary: () => void
+  /** A share link arrived that we could not read. */
+  brokenShare?: boolean
+  onDismissBrokenShare?: () => void
 }
 
 const TAG_LABELS: Record<Tag, string> = {
-  dragons: 'Dragons',
-  royalty: 'Royalty',
-  magic: 'Magic',
-  sea: 'Sea',
-  winter: 'Winter',
-  sky: 'Sky',
-  spirits: 'Spirits',
-  friendship: 'Friendship',
-  family: 'Family',
-  adventure: 'Adventure',
+  creatures: 'Creatures',
+  kingdoms: 'Kingdoms',
+  journeys: 'Journeys',
+  enchantments: 'Enchantments',
 }
 
-export function Shelf({ tales, drafts, library, tag, onTag, onOpen, onOpenLibrary }: ShelfProps) {
+export function Shelf({
+  tales,
+  drafts,
+  library,
+  tag,
+  onTag,
+  onOpen,
+  onOpenLibrary,
+  brokenShare,
+  onDismissBrokenShare,
+}: ShelfProps) {
   const tags = [...new Set(tales.flatMap((tale) => tale.tags))].sort((a, b) =>
     TAG_LABELS[a].localeCompare(TAG_LABELS[b]),
   )
@@ -62,10 +72,29 @@ export function Shelf({ tales, drafts, library, tag, onTag, onOpen, onOpenLibrar
         )}
       </TopBar>
 
+      {/*
+        Somebody followed a link to a story and landed on the shelf instead. Saying so
+        is the difference between a broken link and an app that looks broken: a share
+        link carries the entire finished tale, which makes it long enough that some
+        chat clients cut it in half.
+      */}
+      {brokenShare && (
+        <Notice role="status">
+          <NoticeText>
+            <strong>That story link didn&rsquo;t open.</strong> Links carry the whole tale in them,
+            so they run long and some apps cut them short. Ask for it again, or start your own
+            below.
+          </NoticeText>
+          <IconButton type="button" onClick={onDismissBrokenShare} aria-label="Dismiss">
+            <X size={17} aria-hidden="true" />
+          </IconButton>
+        </Notice>
+      )}
+
       {/* The banner a booklet carries above its logotype. */}
       <Banner>
-        <BannerLine>The world's most ridiculous word game</BannerLine>
-        <BannerTitle>Fantasy Mad Libs</BannerTitle>
+        <BannerLine>Twelve tales, and you supply the words</BannerLine>
+        <BannerTitle>Fantasy Word Games</BannerTitle>
         <BannerBlurb>
           Pick a story. Fill in the blanks without reading it first. Then read the whole ridiculous
           thing out loud.
@@ -81,11 +110,7 @@ export function Shelf({ tales, drafts, library, tag, onTag, onOpen, onOpenLibrar
         </RackHead>
 
         <Chips role="group" aria-label="Filter stories by theme">
-          <Chip
-            type="button"
-            aria-pressed={tag === null}
-            onClick={() => onTag(null)}
-          >
+          <Chip type="button" aria-pressed={tag === null} onClick={() => onTag(null)}>
             All
           </Chip>
           {tags.map((item) => (

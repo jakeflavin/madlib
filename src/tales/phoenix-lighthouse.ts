@@ -7,7 +7,7 @@ export const phoenixLighthouse: Tale = {
   blurb:
     'The light is being switched off for good on Friday. Something enormous and on fire has opinions about that.',
   minutes: 6,
-  tags: ['sea', 'friendship', 'magic'],
+  tags: ['creatures'],
   accent: '#EE6B5E',
   character: 'phoenix',
   slots: [

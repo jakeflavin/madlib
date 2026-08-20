@@ -7,7 +7,7 @@ export const tumbledownWitch: Tale = {
   blurb:
     'Everyone on the lane agrees she is a witch. Nobody on the lane has ever knocked on her door. One kid finally does.',
   minutes: 6,
-  tags: ['magic', 'friendship', 'family'],
+  tags: ['enchantments'],
   accent: '#6FC5C0',
   character: 'witch',
   slots: [

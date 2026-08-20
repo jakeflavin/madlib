@@ -7,7 +7,7 @@ export const cinderCrown: Tale = {
   blurb:
     'A scullery maid, a crown that chooses badly, and a ball that everyone will be talking about for the wrong reasons.',
   minutes: 6,
-  tags: ['royalty', 'magic', 'friendship'],
+  tags: ['kingdoms', 'enchantments'],
   accent: '#F7C948',
   character: 'crown',
   slots: [

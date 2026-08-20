@@ -24,11 +24,25 @@
   --art-paper: #fffdf6;
 
   --navy: #262a47;
-  --red: #e24b33;
+
+  /*
+   * Deepened from the original #e24b33, which put white at 3.97:1 — under AA for
+   * the 15px caps a button is set in, and the primary button was the only text in
+   * the app that missed. --on-red carries the pairing so the dark theme can flip to
+   * ink text rather than restating the rule at every call site.
+   */
+  --red: #c93b24;
+  --on-red: #fff;
   --yellow: #f7c948;
 
-  /* The focus ring is the one colour that has to carry on every ground the app has. */
-  --focus: #262a47;
+  /*
+   * The focus ring is the one colour that has to carry on every ground the app has —
+   * including, on a cover, immediately outside a 3px ink border. The old navy was
+   * 1.33:1 against that border and read as a slightly thicker edge rather than a
+   * ring. This blue clears 3:1 against ink, paper, the sunk sheet and both dark
+   * grounds, so one value works everywhere and the ring is never lost in an outline.
+   */
+  --focus: #4a63d8;
 
   /* Set per story; a background colour only, never text. */
   --fill: #f7c948;
@@ -62,10 +76,12 @@
   /* Deep enough that the knocked-out white wordmark still clears AA on it, light
      enough to read as a band rather than as more page. */
   --navy: #2f3566;
-  --red: #ff7259;
-  --yellow: #ffd45e;
 
-  --focus: #a8b0ee;
+  /* Lifted for the dark ground, so it takes ink rather than white: white on this is
+     2.69:1, ink is 6.94:1 — and black-on-colour is the rule everywhere else anyway. */
+  --red: #ff7259;
+  --on-red: #16130f;
+  --yellow: #ffd45e;
 
   --shadow: 4px 4px 0 var(--text);
   --shadow-sm: 3px 3px 0 var(--text);

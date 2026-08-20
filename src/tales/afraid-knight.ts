@@ -7,7 +7,7 @@ export const afraidKnight: Tale = {
   blurb:
     'Sir Nobody has been frightened of every single thing since birth. The kingdom has run out of other knights.',
   minutes: 6,
-  tags: ['adventure', 'friendship', 'magic'],
+  tags: ['kingdoms', 'journeys'],
   accent: '#9AA9E8',
   character: 'knight',
   slots: [
