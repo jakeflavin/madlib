@@ -72,8 +72,8 @@ export function Library({ tales, onRead, onDelete, onRestore, onBack }: LibraryP
               Finish a story and choose <strong>Save to your library</strong> to keep it here.
             </p>
             {deleted ? (
-              <SecondaryButton type="button" onClick={undo}>
-                Undo delete
+              <SecondaryButton type="button" onClick={undo} aria-label="Undo delete">
+                Undo
               </SecondaryButton>
             ) : (
               <PrimaryButton type="button" onClick={onBack}>
@@ -113,8 +113,8 @@ export function Library({ tales, onRead, onDelete, onRestore, onBack }: LibraryP
                 <p>
                   Deleted <strong>{deleted.entry.title}</strong>.
                 </p>
-                <SecondaryButton type="button" onClick={undo}>
-                  Undo delete
+                <SecondaryButton type="button" onClick={undo} aria-label="Undo delete">
+                  Undo
                 </SecondaryButton>
               </Empty>
             )}

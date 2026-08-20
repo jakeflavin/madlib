@@ -71,6 +71,11 @@ export default function App() {
       stateRef.current = resolved
       setState(resolved)
       setBrokenShare(false)
+
+      // Every screen starts at its top. Without this the new view inherits the old
+      // one's scroll offset, so tapping a cover you had to scroll down to reach opened
+      // its fill sheet already halfway through the blanks.
+      window.scrollTo({ top: 0 })
     },
     [],
   )
@@ -97,6 +102,7 @@ export default function App() {
       setState(landed)
       setBrokenShare(route.brokenShare)
       setSavedId(null)
+      window.scrollTo({ top: 0 })
     }
     window.addEventListener('popstate', onPop)
     return () => window.removeEventListener('popstate', onPop)
@@ -180,10 +186,7 @@ export default function App() {
           onChange={writeWord}
           onReplaceAll={(next) => remember(tale.id, next)}
           onSwitchTale={switchTale}
-          onRead={() => {
-            window.scrollTo({ top: 0 })
-            go({ view: 'reader' })
-          }}
+          onRead={() => go({ view: 'reader' })}
           onBack={goContents}
         />
       )}
@@ -193,10 +196,7 @@ export default function App() {
           tale={tale}
           words={words}
           onEditWord={writeWord}
-          onEditWords={() => {
-            window.scrollTo({ top: 0 })
-            go({ view: 'writer' })
-          }}
+          onEditWords={() => go({ view: 'writer' })}
           onSave={saveToLibrary}
           onHome={goContents}
           saved={savedId !== null}
